@@ -56,7 +56,7 @@ int tcbmrom_probe_1551(void)
 void tcbmrom_setup_image(diskunit_context_t *unit)
 {
     unsigned int loaded = 0;
-    if (rom_loaded) {
+    if (drive_rom_loaded) {
         if (unit->rom_type != unit->type) {
             /* set this here to avoid recursion */
             unit->rom_type = unit->type;
@@ -85,12 +85,12 @@ int tcbmrom_check_loaded(unsigned int type)
         case DRIVE_TYPE_NONE:
             return 0;
         case DRIVE_TYPE_1551:
-            if (rom1551_loaded < 1 && rom_loaded) {
+            if (rom1551_loaded < 1 && drive_rom_loaded) {
                 return -1;
             }
             break;
         case DRIVE_TYPE_ANY:
-            if ((!rom1551_loaded) && rom_loaded) {
+            if ((!rom1551_loaded) && drive_rom_loaded) {
                 return -1;
             }
             break;

@@ -303,7 +303,7 @@ static int set_drive_idling_method(int val, void *param)
 
     unit->idling_method = val;
 
-    if (!rom_loaded) {
+    if (!drive_rom_loaded) {
         return 0;
     }
 

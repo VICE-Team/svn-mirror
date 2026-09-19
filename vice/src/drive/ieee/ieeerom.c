@@ -97,7 +97,7 @@ int ieeerom_load_9000(void)
 void ieeerom_setup_image(diskunit_context_t *unit)
 {
     unsigned int loaded = 0;
-    if (rom_loaded) {
+    if (drive_rom_loaded) {
         if (unit->rom_type != unit->type) {
             /* set this here to avoid recursion */
             unit->rom_type = unit->type;
@@ -170,41 +170,41 @@ int ieeerom_check_loaded(unsigned int type)
         case DRIVE_TYPE_NONE:
             return 0;
         case DRIVE_TYPE_2031:
-            if (rom2031_loaded < 1 && rom_loaded) {
+            if (rom2031_loaded < 1 && drive_rom_loaded) {
                 return -1;
             }
             break;
         case DRIVE_TYPE_2040:
-            if (rom2040_loaded < 1 && rom_loaded) {
+            if (rom2040_loaded < 1 && drive_rom_loaded) {
                 return -1;
             }
             break;
         case DRIVE_TYPE_3040:
-            if (rom3040_loaded < 1 && rom_loaded) {
+            if (rom3040_loaded < 1 && drive_rom_loaded) {
                 return -1;
             }
             break;
         case DRIVE_TYPE_4040:
-            if (rom4040_loaded < 1 && rom_loaded) {
+            if (rom4040_loaded < 1 && drive_rom_loaded) {
                 return -1;
             }
             break;
         case DRIVE_TYPE_1001:
         case DRIVE_TYPE_8050:
         case DRIVE_TYPE_8250:
-            if (rom1001_loaded < 1 && rom_loaded) {
+            if (rom1001_loaded < 1 && drive_rom_loaded) {
                 return -1;
             }
             break;
         case DRIVE_TYPE_9000:
-            if (rom9000_loaded < 1 && rom_loaded) {
+            if (rom9000_loaded < 1 && drive_rom_loaded) {
                 return -1;
             }
             break;
         case DRIVE_TYPE_ANY:
             if ((!rom2031_loaded && !rom2040_loaded && !rom3040_loaded
                  && !rom4040_loaded && !rom1001_loaded && !rom9000_loaded )
-                 && rom_loaded) {
+                 && drive_rom_loaded) {
                 return -1;
             }
             break;

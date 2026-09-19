@@ -37,7 +37,7 @@
 #include "resources.h"
 #include "sysfile.h"
 
-/* #define DEBUG_IECROM */
+#define DEBUG_IECROM
 
 #ifdef DEBUG_IECROM
 #define DBG(x)  log_printf x
@@ -146,12 +146,14 @@ int iecrom_probe_CMDHD(void)
             DRIVE_ROMCMDHD_SIZE, DRIVE_ROMCMDHD_SIZE, "CMDHD", DRIVE_TYPE_CMDHD, NULL);
 }
 
+
 /* setup (=load) the ROM for a given disk unit */
 void iecrom_setup_image(diskunit_context_t *unit)
 {
     unsigned int loaded = 0;
-    DBG(("iecrom_setup_image type %04x rom_loaded:%d rom_type: %04x", unit->type, rom_loaded, unit->rom_type));
-    if (rom_loaded) {
+    DBG(("iecrom_setup_image type %04x drive_rom_loaded:%d rom_type: %04x",
+         unit->type, drive_rom_loaded, unit->rom_type));
+    if (drive_rom_loaded) {
 
         if (unit->rom_type != unit->type) {
             /* set this here to avoid recursion */
@@ -167,6 +169,7 @@ void iecrom_setup_image(diskunit_context_t *unit)
                         memcpy(unit->rom, &unit->rom[DRIVE_ROM1540_SIZE],
                             DRIVE_ROM1540_SIZE);
                     }
+                    DBG(("iecrom_setup_image loaded:%d rom1540_loaded:%d\n", loaded, rom1540_loaded));
                     break;
                 case DRIVE_TYPE_1541:
                     driverom_load("DosName1541", unit->rom, &loaded,
@@ -177,6 +180,7 @@ void iecrom_setup_image(diskunit_context_t *unit)
                         memcpy(unit->rom, &unit->rom[DRIVE_ROM1541_SIZE],
                             DRIVE_ROM1541_SIZE);
                     }
+                    DBG(("iecrom_setup_image loaded:%d rom1541_loaded:%d\n", loaded, rom1541_loaded));
                     break;
                 case DRIVE_TYPE_1541II:
                     driverom_load("DosName1541ii", unit->rom, &loaded,
@@ -187,6 +191,7 @@ void iecrom_setup_image(diskunit_context_t *unit)
                         memcpy(unit->rom, &unit->rom[DRIVE_ROM1541II_SIZE],
                             DRIVE_ROM1541II_SIZE);
                     }
+                    DBG(("iecrom_setup_image loaded:%d rom1541ii_loaded:%d\n", loaded, rom1541ii_loaded));
                     break;
 
                 case DRIVE_TYPE_1570:
@@ -237,65 +242,69 @@ void iecrom_setup_image(diskunit_context_t *unit)
 /* check if the drive ROM is available for a given drive type, returns -1 on error */
 int iecrom_check_loaded(unsigned int type)
 {
+    DBG(("iecrom_check_loaded type:%u drive_rom_loaded:%d\n", type, drive_rom_loaded));
     switch (type) {
         case DRIVE_TYPE_NONE:
             return 0;
         case DRIVE_TYPE_1540:
-            if (rom1540_loaded < 1 && rom_loaded) {
+            if (rom1540_loaded < 1 && drive_rom_loaded) {
+                DBG(("iecrom_check_loaded ERROR\n"));
                 return -1;
             }
             break;
         case DRIVE_TYPE_1541:
-            if (rom1541_loaded < 1 && rom_loaded) {
+            if (rom1541_loaded < 1 && drive_rom_loaded) {
+                DBG(("iecrom_check_loaded ERROR\n"));
                 return -1;
             }
             break;
         case DRIVE_TYPE_1541II:
-            if (rom1541ii_loaded < 1 && rom_loaded) {
+            if (rom1541ii_loaded < 1 && drive_rom_loaded) {
+                DBG(("iecrom_check_loaded ERROR\n"));
                 return -1;
             }
             break;
         case DRIVE_TYPE_1570:
-            if (rom1570_loaded < 1 && rom_loaded) {
+            if (rom1570_loaded < 1 && drive_rom_loaded) {
                 return -1;
             }
             break;
         case DRIVE_TYPE_1571:
-            if (rom1571_loaded < 1 && rom_loaded) {
+            if (rom1571_loaded < 1 && drive_rom_loaded) {
                 return -1;
             }
             break;
         case DRIVE_TYPE_1581:
-            if (rom1581_loaded < 1 && rom_loaded) {
+            if (rom1581_loaded < 1 && drive_rom_loaded) {
                 return -1;
             }
             break;
         case DRIVE_TYPE_2000:
-            if (rom2000_loaded < 1 && rom_loaded) {
+            if (rom2000_loaded < 1 && drive_rom_loaded) {
                 return -1;
             }
             break;
         case DRIVE_TYPE_4000:
-            if (rom4000_loaded < 1 && rom_loaded) {
+            if (rom4000_loaded < 1 && drive_rom_loaded) {
                 return -1;
             }
             break;
         case DRIVE_TYPE_CMDHD:
-            if (romCMDHD_loaded < 1 && rom_loaded) {
+            if (romCMDHD_loaded < 1 && drive_rom_loaded) {
                 return -1;
             }
             break;
         case DRIVE_TYPE_ANY:
             if ((!rom1540_loaded && !rom1541_loaded && !rom1541ii_loaded && !rom1570_loaded
                  && !rom1571_loaded && !rom1581_loaded && !rom2000_loaded)
-                && !rom4000_loaded && !romCMDHD_loaded && rom_loaded) {
+                && !rom4000_loaded && !romCMDHD_loaded && drive_rom_loaded) {
                 return -1;
             }
             break;
         default:
             return -1;
     }
-
+    DBG(("iecrom_check_loaded OK\n"));
     return 0;
 }
 
