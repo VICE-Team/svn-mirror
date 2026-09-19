@@ -57,7 +57,6 @@
 #include "resources.h"
 #include "types.h"
 
-#define DEBUG_PARALLEL  1
 #ifdef DEBUG_PARALLEL
 #define DBG(x) log_printf  x
 #else

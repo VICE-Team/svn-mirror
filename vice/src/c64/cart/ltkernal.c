@@ -60,7 +60,7 @@
 #include "c64memrom.h"
 #include "alarm.h"
 
-#define LTKLOG0
+/* #define LTKLOG0 */
 /* #define LTKLOG1 */
 /* #define LTKLOG2 */
 /* #define LTKDEBUGIO */

@@ -69,9 +69,9 @@
 #include "vicesocket.h"
 #include "vicii-phi1.h"
 
-#define IDE64_DEBUG
+/* #define DEBUG_IDE64 */
 
-#ifdef IDE64_DEBUG
+#ifdef DEBUG_IDE64
 #define debug(x) log_printf x
 #else
 #define debug(x)

@@ -80,9 +80,9 @@
 
 */
 
-#define DEBUGRR
+/* #define DEBUG_RR */
 
-#ifdef DEBUGRR
+#ifdef DEBUG_RR
 #define DBG(x)  log_printf x
 #else
 #define DBG(x)
