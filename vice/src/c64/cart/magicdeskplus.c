@@ -71,9 +71,11 @@
     256 KiB, 512 KiB, and 1024 KiB variants exist
 
     Supported Magic Desk Plus CRT revisions:
-      Revision 0  - ROM + SRAM + EEPROM
-      Revision 1  - ROM + SRAM
-      Revision 2  - ROM + EEPROM
+      Revision 0  - ROM + SRAM + 32K EEPROM
+      Revision 1  - ROM + SRAM + 8k EEPROM
+      Revision 2  - ROM + 32k EEPROM
+      Revision 3  - ROM + 8k EEPROM
+      Revision 4  - ROM + SRAM
 
     Memory map:
       $8000-$9FFF   ROM window (8K game)
