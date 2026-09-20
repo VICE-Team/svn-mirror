@@ -1751,15 +1751,15 @@ The -23 ROM is a revised -19 ROM)
 @file{edit-2-n.901447-24.bin}, the PET3032 editor for graphics keyboards (2 KiB)
 (Commodore ROM image 901447-24)
 @item
-@file{edit-4-40-n-50Hz.901498-01.bi}, the PET4032 editor for graphics keyboards (2 KiB)
+@file{edit-4-40-n-50Hz.901498-01.bin}, the PET4032 editor for graphics keyboards (2 KiB)
 (Commodore ROM image 901498-01)
 @item
 @file{edit-4-40-b-50Hz.ts.bin}, the PET4032 editor for business keyboards (2 KiB)
 (Said to be "901498-01 modified to use a business keyboard on a 50Hz 4032")
 
 @item
-@file{edit-4-80-b-50Hz.901474-04_.bin}, the PET8032 editor for business keyboards (2 KiB)
-(Commodore ROM image 901474-04-?)
+@file{edit-4-80-b-50Hz.901474-04.bin}, the PET8032 editor for business keyboards (2 KiB)
+(Commodore ROM image 901474-04)
 
 @item
 @file{characters-1.901447-08.bin}, the character generator ROM (2KiB)
