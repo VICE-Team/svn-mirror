@@ -397,7 +397,8 @@ void petrom_checksum(void)
         if (petres.kernal_checksum != last_kernal) {
             log_message(petrom_log, "Identified Kernal 4 ROM by checksum.");
         }
-        if (petres.editor_checksum == PET_EDIT4B80_CHECKSUM) {
+        if (petres.editor_checksum == PET_EDIT4B80_CHECKSUM1
+            || petres.editor_checksum == PET_EDIT4B80_CHECKSUM2) {
             if (petres.editor_checksum != last_editor) {
                 log_message(petrom_log, "Identified 80 columns editor by checksum.");
             }
