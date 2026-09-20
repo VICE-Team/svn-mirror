@@ -1372,6 +1372,9 @@ void mem_toggle_watchpoints(int flag, void *context)
 #define FFF0_BANK_C_WP   0x02
 #define FFF0_BANK_8_WP   0x01
 
+#define CHANGE_89AB (FFF0_ENABLED | FFF0_SCREEN_PEEK_THROUGH | FFF0_BANK_8 | FFF0_BANK_8_WP)
+#define CHANGE_CDEF (FFF0_ENABLED | FFF0_IO_PEEK_THROUGH     | FFF0_BANK_C | FFF0_BANK_C_WP)
+
 /* Write to last page of memory in 8x96.  */
 static void store_8x96(uint16_t addr, uint8_t value)
 {
@@ -1389,14 +1392,12 @@ static void store_8x96(uint16_t addr, uint8_t value)
     }
 
     changed = petmem_map_reg ^ value;
+    /* printf("store_8x96: %02x -> %02x changed %02x\n", petmem_map_reg, value, changed); */
 
     if (changed &&
         ((petmem_map_reg | changed) & (FFF0_ENABLED|FFF0_IO_PEEK_THROUGH))) {
-        if (value & FFF0_ENABLED) {     /* exp. RAM enabled */
-            /* A5 = FFF0_ENABLED | FFF0_SCREEN_PEEK_THROUGH |
-             *      FFF0_BANK_8 | FFF0_BANK_8_WP
-             */
-            if (changed & 0xa5) {       /* $8000-$bfff */
+        if (value & FFF0_ENABLED) {             /* exp. RAM enabled */
+            if (changed & CHANGE_89AB) {        /* any change in the region $8000-$bfff */
                 protected = value & FFF0_BANK_8_WP;
                 l = 0x80;
                 if (value & FFF0_SCREEN_PEEK_THROUGH) {
@@ -1419,12 +1420,9 @@ static void store_8x96(uint16_t addr, uint8_t value)
                     _mem_read_base_tab[l] = NULL;
                     mem_read_limit_tab[l] = 0;
                 }
-                maincpu_resync_limits();
             }
-            /* CA = FFF0_ENABLED | FFF0_IO_PEEK_THROUGH |
-             *       FFF0_BANK_C | FFF0_BANK_C_WP
-             */
-            if (changed & 0xca) {       /* $c000-$ffff */
+
+            if (changed & CHANGE_CDEF) {        /* any change in the region $c000-$ffff */
                 protected = value & FFF0_BANK_C_WP;
                 bankCoffset = 0x8000 + ((value & FFF0_BANK_C) ? 0x8000 : 0);
                 for (l = 0xc0; l < 0x100; l++) {
@@ -1454,19 +1452,15 @@ static void store_8x96(uint16_t addr, uint8_t value)
                 }
                 store_ff = _mem_write_tab[0xff];
                 _mem_write_tab[0xff] = store_8x96;
-                petmem_map_reg = value;
-                maincpu_resync_limits();
             }
-        } else {                /* disable exp. RAM */
-            petmem_map_reg = value;
+        } else {                        /* disable exp. RAM */
+            petmem_map_reg = value;     /* is used by set_std_9tof() */
             petmem_set_vidmem();
             set_std_9tof();
-            maincpu_resync_limits();
         }
-    } else {
-        /* A change that doesn't change anything */
-        petmem_map_reg = value;
+        maincpu_resync_limits();
     }
+    petmem_map_reg = value;
 }
 
 static int fff0_dump(void)
