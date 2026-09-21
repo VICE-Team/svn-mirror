@@ -320,6 +320,26 @@ void driverom_initialize_traps(diskunit_context_t *unit)
     unit->trapcont = -1;
 }
 
+/* reload the ROM for all drives of given type */
+int driverom_reload(int type)
+{
+    int dnr;
+    int oldtype = 0;
+    DBG(("driverom_reload type: %d\n", type));
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
+        diskunit_context_t *unit = diskunit_context[dnr];
+        DBG(("driverom_reload unit->type:%u\n", unit->type));
+        if (unit->type == type) {
+            resources_get_int_sprintf("Drive%dType", &oldtype, dnr + 8);
+            DBG(("driverom_reload oldtype:%d\n", oldtype));
+            resources_set_int_sprintf("Drive%dType", 0, dnr + 8);
+            unit->rom_type = 0; /* force reload */
+            resources_set_int_sprintf("Drive%dType", oldtype, dnr + 8);
+        }
+    }
+    return 0; /* no error */
+}
+
 /* -------------------------------------------------------------------- */
 
 /*
