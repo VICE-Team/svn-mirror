@@ -47,8 +47,14 @@ static char *dos_rom_name_9000 = NULL;
 
 static int set_dos_rom_name_2040(const char *val, void *param)
 {
+    int reload = ((val != NULL) && (dos_rom_name_2040 != NULL));
+
     if (util_string_set(&dos_rom_name_2040, val)) {
         return 0;
+    }
+
+    if (reload) {
+        return driverom_reload(DRIVE_TYPE_2040);
     }
 
     return ieeerom_load_2040();
@@ -56,8 +62,14 @@ static int set_dos_rom_name_2040(const char *val, void *param)
 
 static int set_dos_rom_name_3040(const char *val, void *param)
 {
+    int reload = ((val != NULL) && (dos_rom_name_3040 != NULL));
+
     if (util_string_set(&dos_rom_name_3040, val)) {
         return 0;
+    }
+
+    if (reload) {
+        return driverom_reload(DRIVE_TYPE_3040);
     }
 
     return ieeerom_load_3040();
@@ -65,8 +77,14 @@ static int set_dos_rom_name_3040(const char *val, void *param)
 
 static int set_dos_rom_name_4040(const char *val, void *param)
 {
+    int reload = ((val != NULL) && (dos_rom_name_4040 != NULL));
+
     if (util_string_set(&dos_rom_name_4040, val)) {
         return 0;
+    }
+
+    if (reload) {
+        return driverom_reload(DRIVE_TYPE_4040);
     }
 
     return ieeerom_load_4040();
@@ -74,8 +92,14 @@ static int set_dos_rom_name_4040(const char *val, void *param)
 
 static int set_dos_rom_name_1001(const char *val, void *param)
 {
+    int reload = ((val != NULL) && (dos_rom_name_1001 != NULL));
+
     if (util_string_set(&dos_rom_name_1001, val)) {
         return 0;
+    }
+
+    if (reload) {
+        return driverom_reload(DRIVE_TYPE_1001);
     }
 
     return ieeerom_load_1001();
@@ -83,8 +107,14 @@ static int set_dos_rom_name_1001(const char *val, void *param)
 
 static int set_dos_rom_name_9000(const char *val, void *param)
 {
+    int reload = ((val != NULL) && (dos_rom_name_9000 != NULL));
+
     if (util_string_set(&dos_rom_name_9000, val)) {
         return 0;
+    }
+
+    if (reload) {
+        return driverom_reload(DRIVE_TYPE_9000);
     }
 
     return ieeerom_load_9000();
@@ -92,8 +122,14 @@ static int set_dos_rom_name_9000(const char *val, void *param)
 
 static int set_dos_rom_name_2031(const char *val, void *param)
 {
+    int reload = ((val != NULL) && (dos_rom_name_2031 != NULL));
+
     if (util_string_set(&dos_rom_name_2031, val)) {
         return 0;
+    }
+
+    if (reload) {
+        return driverom_reload(DRIVE_TYPE_2031);
     }
 
     return ieeerom_load_2031();
