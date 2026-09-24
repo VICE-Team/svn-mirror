@@ -172,7 +172,8 @@ static const ui_action_map_t machine_actions[] = {
     {   .action  = ACTION_QUIT,
         .handler = quit_action,
         .blocks  = true,
-        .dialog  = true
+        .dialog  = true,
+        .unlocked = true  /* shutdown must let the VICE thread exit */
     },
     {   .action   = ACTION_MONITOR_OPEN,
         .handler  = monitor_open_action,

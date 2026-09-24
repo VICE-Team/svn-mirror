@@ -66,6 +66,7 @@ typedef struct ui_action_map_s {
                                  is allowed at a time), this implies using the
                                  UI thread */
     bool   uithread;        /**< must run on the UI thread */
+    bool   unlocked;        /**< action does not require obtaining the mainlock */
 
     /* state */
     bool   is_busy;         /**< action is busy */

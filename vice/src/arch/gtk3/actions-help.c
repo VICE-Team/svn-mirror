@@ -174,7 +174,8 @@ static const ui_action_map_t help_actions[] = {
     {   .action   = ACTION_HELP_MANUAL,
         .handler  = help_manual_action,
         .blocks   = true,
-        .uithread = true
+        .uithread = true,
+        .unlocked = true  /* the external viewer fallback can block */
     },
     {   .action  = ACTION_HELP_COMMAND_LINE,
         .handler = help_command_line_action,

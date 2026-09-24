@@ -1171,7 +1171,19 @@ static gboolean ui_action_dispatch_impl(gpointer data)
 {
     ui_action_map_t *map = data;
 
+    /* Obtain the mainlock if the action is not unlocked */
+    if (!map->unlocked) {
+        mainlock_obtain();
+    }
+
+    /* Call the action handler */
     map->handler(map);
+
+    /* Release the mainlock if it was obtained */
+    if (!map->unlocked) {
+        mainlock_release();
+    }
+
     return G_SOURCE_REMOVE;
 }
 
