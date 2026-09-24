@@ -906,6 +906,7 @@ void ui_actions_init(void)
         map->blocks       = false;
         map->dialog       = false;
         map->uithread     = false;
+        map->unlocked     = false;
         map->is_busy      = false;
         map->vice_keysym  = 0;
         map->vice_modmask = 0;
@@ -974,6 +975,7 @@ void ui_actions_register(const ui_action_map_t *mappings)
         entry->blocks   = map->blocks;
         entry->dialog   = map->dialog;
         entry->uithread = map->uithread;
+        entry->unlocked = map->unlocked;
         entry->is_busy  = false;
         map++;;
     }
