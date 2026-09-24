@@ -267,9 +267,9 @@ void mainlock_release(void)
     }
 #endif
 
-    pthread_mutex_unlock(&main_lock);
-
-    main_lock_obtain_depth--;
+    if (--main_lock_obtain_depth == 0) {
+        pthread_mutex_unlock(&main_lock);
+    }
 }
 
 #endif /* #ifdef USE_VICE_THREAD */
