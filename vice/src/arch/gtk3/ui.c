@@ -1916,7 +1916,7 @@ void ui_create_main_window(video_canvas_t *canvas)
                                   G_CALLBACK(on_window_state_event), NULL);
     }
     /* This event never returns so must not hold the vice lock */
-    g_signal_connect(new_window, "delete-event",
+    g_signal_connect_unlocked(new_window, "delete-event",
                      G_CALLBACK(on_delete_event), NULL);
     g_signal_connect_unlocked(new_window, "configure-event",
                      G_CALLBACK(on_window_configure_event),
