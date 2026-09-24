@@ -289,7 +289,8 @@ static void settings_save_to_action(ui_action_map_t *self)
 static const ui_action_map_t settings_actions[] = {
     {
         .action  = ACTION_SETTINGS_DEFAULT,
-        .handler = settings_default_action
+        .handler = settings_default_action,
+        .dialog  = true
     },
     {
         .action  = ACTION_SETTINGS_DIALOG,
@@ -300,7 +301,8 @@ static const ui_action_map_t settings_actions[] = {
     {
         .action  = ACTION_SETTINGS_LOAD,
         .handler = settings_load_action,
-        .blocks  = true
+        .blocks  = true,
+        .uithread = true
     },
     {
         .action  = ACTION_SETTINGS_LOAD_FROM,
@@ -319,7 +321,8 @@ static const ui_action_map_t settings_actions[] = {
     {
         .action  = ACTION_SETTINGS_SAVE,
         .handler = settings_save_action,
-        .blocks  = true
+        .blocks  = true,
+        .uithread = true
     },
     {
         .action  = ACTION_SETTINGS_SAVE_TO,
