@@ -97,13 +97,11 @@ static GSList *tune_submenu_group = NULL;
 static const ui_menu_item_t reset_submenu[] = {
     {   .label    = "Reset machine CPU",
         .type     = UI_MENU_TYPE_ITEM_ACTION,
-        .action   = ACTION_MACHINE_RESET_CPU,
-        .unlocked = true
+        .action   = ACTION_MACHINE_RESET_CPU
     },
     {   .label    = "Power cycle machine",
         .type     = UI_MENU_TYPE_ITEM_ACTION,
-        .action   = ACTION_MACHINE_POWER_CYCLE,
-        .unlocked = true
+        .action   = ACTION_MACHINE_POWER_CYCLE
     },
     UI_MENU_TERMINATOR
 };
