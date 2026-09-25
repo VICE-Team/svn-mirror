@@ -1187,11 +1187,15 @@ void ui_media_dialog_show(void)
      * Pause emulation
      */
 
+    mainlock_obtain();
+
     /* remember pause state before entering the widget */
     old_pause_state = ui_pause_active();
 
     /* pause emulation */
     ui_pause_enable();
+
+    mainlock_release();
 
     /* create driver list */
     if (machine_class != VICE_MACHINE_VSID) {
