@@ -2641,7 +2641,7 @@ static void response_callback(GtkWidget *widget,
 
         gtk_widget_destroy(widget);
         settings_window = NULL;
-        
+
         /* This handler is connected unlocked so we need to get the mainlock before calling into the emulator */
         mainlock_obtain();
         resources_get_int("PauseOnSettings", &pause_on_settings);
