@@ -106,6 +106,7 @@ static struct console_private_s {
     GtkWidget *window;  /**< windows */
     GtkWidget *term;    /**< could be a VTE instance? */
     char *input_buffer;
+    guint input_generation; /**< invalidates pending clipboard replies on close */
     char *output_buffer;
     size_t output_buffer_allocated_size;
     size_t output_buffer_used_size;
@@ -581,7 +582,20 @@ static char* append_char_to_input_buffer(char *old_input_buffer, char new_char)
 static char* append_string_to_input_buffer(char *old_input_buffer, GtkWidget *terminal, GdkAtom clipboard_to_use)
 {
     GtkClipboard *clipboard = gtk_widget_get_clipboard(terminal, clipboard_to_use);
-    gchar *new_string = gtk_clipboard_wait_for_text(clipboard);
+    guint input_generation = fixed.input_generation;
+    gchar *new_string;
+
+    /* GTK dispatches nested events while waiting: do not hold the monitor lock. */
+    pthread_mutex_unlock(&fixed.lock);
+    new_string = gtk_clipboard_wait_for_text(clipboard);
+    pthread_mutex_lock(&fixed.lock);
+
+    /* Input may have changed, or the monitor may have closed and reopened. */
+    old_input_buffer = fixed.input_buffer;
+    if (old_input_buffer == NULL || input_generation != fixed.input_generation) {
+        g_free(new_string);
+        return old_input_buffer;
+    }
 
     if (new_string != NULL) {
         char *new_input_buffer = lib_realloc(old_input_buffer, strlen(old_input_buffer) + strlen(new_string) + 1);
@@ -882,6 +896,7 @@ static gboolean on_window_delete_event(GtkWidget *window,
 
     lib_free(fixed.input_buffer);
     fixed.input_buffer = NULL;
+    fixed.input_generation++;
 
     pthread_mutex_unlock(&fixed.lock);
 
