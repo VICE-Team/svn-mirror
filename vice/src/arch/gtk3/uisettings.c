@@ -64,6 +64,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "mainlock.h"
 #include "resources.h"
 #include "ui.h"
 #include "uiactions.h"
@@ -2640,7 +2641,9 @@ static void response_callback(GtkWidget *widget,
 
         gtk_widget_destroy(widget);
         settings_window = NULL;
-
+        
+        /* This handler is connected unlocked so we need to get the mainlock before calling into the emulator */
+        mainlock_obtain();
         resources_get_int("PauseOnSettings", &pause_on_settings);
         if (pause_on_settings) {
             if (settings_old_pause_state) {
@@ -2649,6 +2652,7 @@ static void response_callback(GtkWidget *widget,
                 ui_pause_disable();
             }
         }
+        mainlock_release();
     }
 }
 
@@ -2897,12 +2901,14 @@ void ui_settings_dialog_show(const char *path)
 {
     int pause_on_settings = 0;
 
+    mainlock_obtain();
     settings_old_pause_state = ui_pause_active();
 
     resources_get_int("PauseOnSettings", &pause_on_settings);
     if (pause_on_settings) {
         ui_pause_enable();
     }
+    mainlock_release();
 
     /* call from ui thread without locking - creating the settings dialog is heavy */
     gdk_threads_add_timeout(0, ui_settings_dialog_show_impl, (gpointer)path);

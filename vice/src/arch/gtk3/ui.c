@@ -2674,21 +2674,45 @@ int ui_pause_active(void)
 
 
 /** \brief  Pause emulation
+ *
+ * Obtains the mainlock when called from the UI thread.
  */
 void ui_pause_enable(void)
 {
+    bool obtain_lock = !mainlock_is_vice_thread();
+
+    if (obtain_lock) {
+        mainlock_obtain();
+    }
+
     if (!is_paused) {
         is_paused = 1;
         vsync_on_vsync_do(pause_loop, NULL);
+    }
+
+    if (obtain_lock) {
+        mainlock_release();
     }
 }
 
 
 /** \brief  Unpause emulation
+ *
+ * Obtains the mainlock when called from the UI thread.
  */
 void ui_pause_disable(void)
 {
+    bool obtain_lock = !mainlock_is_vice_thread();
+
+    if (obtain_lock) {
+        mainlock_obtain();
+    }
+
     is_paused = 0;
+
+    if (obtain_lock) {
+        mainlock_release();
+    }
 }
 
 /** \brief  The pause loop should trigger the monitor
