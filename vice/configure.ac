@@ -982,23 +982,12 @@ darwin*)
   dnl disable toolchain checking for macosx
   toolchain_check=no
 
-  dnl The vice build system builds empty libs for things that are configured out,
-  dnl then links all of them together. This causes ranlib to complain like:
-  dnl
-  dnl   file: libarch.a(joy-win32-dinput-handle.o) has no symbols
-  dnl
-  dnl This warning can be disabled by passing -no_warning_for_no_symbols to ranlib.
-  dnl ar also calls ranlib, and there is no way to pass the argument.
-  dnl
-  dnl You can split an 'ar cru' call into separate ar and ranlib calls, but,
-  dnl sometimes ranlib will invoke libtool which has its own warning we can't
-  dnl change without major build system changes.
-  dnl
-  dnl Given all that it's simpler to just grep -v out the warnings we don't want,
-  dnl which these scripts do.
-
-  RANLIB="\$(top_srcdir)/src/arch/shared/macOS-wrap-ranlib.sh"
-  AR="\$(top_srcdir)/src/arch/shared/macOS-wrap-ar.sh"
+  dnl Configured-out sources can produce objects and libraries with no symbols.
+  dnl Defer archive index generation to the explicit ranlib step so that we can
+  dnl pass its warning suppression flag instead of letting ar invoke it.
+  ARFLAGS="$ARFLAGS -S"
+  AR_FLAGS="$AR_FLAGS -S"
+  RANLIB="$RANLIB -no_warning_for_no_symbols"
 
   dnl
   dnl Support targeting a specific macOS version
