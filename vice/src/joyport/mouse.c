@@ -48,6 +48,10 @@
 
 #include "vice.h"
 
+#ifdef USE_VICE_THREAD
+#include <pthread.h>
+#endif
+
 #include "archdep.h"
 #include "cmdline.h"
 #include "joyport.h"
@@ -92,6 +96,15 @@ int mouse_type = MOUSE_TYPE_PADDLE;
 static float mouse_move_x = 0.0f;
 static float mouse_move_y = 0.0f;
 
+#ifdef USE_VICE_THREAD
+static pthread_mutex_t mouse_move_lock = PTHREAD_MUTEX_INITIALIZER;
+#define MOUSE_LOCK() pthread_mutex_lock(&mouse_move_lock)
+#define MOUSE_UNLOCK() pthread_mutex_unlock(&mouse_move_lock)
+#else
+#define MOUSE_LOCK()
+#define MOUSE_UNLOCK()
+#endif
+
 static int last_mouse_x = 0;
 static int last_mouse_y = 0;
 
@@ -135,11 +148,15 @@ int mouse_get_mouse_sy(void)
 /* this is called by the UI to move the mouse position */
 void mouse_move(float dx, float dy)
 {
+    MOUSE_LOCK();
+
     /* Capture the relative mouse movement to be processed later in mouse_poll() */
     mouse_move_x += dx;
     mouse_move_y -= dy;
     mouse_timestamp = tick_now();
     DBG(("mouse_move dx:%f dy:%f x:%f y:%f", dx, dy, mouse_move_x, mouse_move_y));
+
+    MOUSE_UNLOCK();
 }
 
 /* used by the individual devices to get the mouse position */
@@ -206,6 +223,8 @@ void mouse_poll(void)
 
     DBG(("mouse_poll"));
 
+    MOUSE_LOCK();
+
     /* Ensure the mouse hasn't moved too far since the last poll */
     mouse_move_apply_limit();
 
@@ -228,6 +247,7 @@ void mouse_poll(void)
     /* range of new_x and new_y are [0,63] */
     /* fetch now for both emu and os */
     os_now = mouse_timestamp;
+    MOUSE_UNLOCK();
     emu_now = maincpu_clk;
 
     /* update x-wheel until we're ahead */
