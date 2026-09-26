@@ -48,10 +48,6 @@
 
 #include "vice.h"
 
-#ifdef USE_VICE_THREAD
-#include <pthread.h>
-#endif
-
 #include "archdep.h"
 #include "cmdline.h"
 #include "joyport.h"
@@ -97,12 +93,7 @@ static float mouse_move_x = 0.0f;
 static float mouse_move_y = 0.0f;
 
 #ifdef USE_VICE_THREAD
-static pthread_mutex_t mouse_move_lock = PTHREAD_MUTEX_INITIALIZER;
-#define MOUSE_LOCK() pthread_mutex_lock(&mouse_move_lock)
-#define MOUSE_UNLOCK() pthread_mutex_unlock(&mouse_move_lock)
-#else
-#define MOUSE_LOCK()
-#define MOUSE_UNLOCK()
+pthread_mutex_t mouse_lock = PTHREAD_MUTEX_INITIALIZER;
 #endif
 
 static int last_mouse_x = 0;
@@ -392,6 +383,7 @@ void mouse_init(void)
 
 void mouse_shutdown(void)
 {
+    mousedrv_shutdown();
     smart_mouse_shutdown();
 }
 

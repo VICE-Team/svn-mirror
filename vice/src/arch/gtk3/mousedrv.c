@@ -41,6 +41,7 @@
 #include <stdio.h>
 #include <math.h>
 
+#include "lib.h"
 #include "log.h"
 #include "vsyncapi.h"
 #include "maincpu.h"
@@ -50,6 +51,16 @@
 #include "uimachinewindow.h"
 
 static log_t mousedrv_log = LOG_DEFAULT;
+
+typedef struct mouse_button_event_s {
+    int bnumber;
+    int state;
+    struct mouse_button_event_s *next;
+} mouse_button_event_t;
+
+static mouse_button_event_t *mouse_button_head;
+static mouse_button_event_t *mouse_button_tail;
+static int mouse_buttons_enabled;
 
 /** \brief The callbacks registered for mouse buttons being pressed or
  *         released.
@@ -70,6 +81,29 @@ int mousedrv_cmdline_options_init(void)
 }
 
 void mouse_button(int bnumber, int state)
+{
+    mouse_button_event_t *event = lib_malloc(sizeof(*event));
+
+    event->bnumber  = bnumber;
+    event->state    = state;
+    event->next     = NULL;
+
+    MOUSE_LOCK();
+    if (!mouse_buttons_enabled) {
+        MOUSE_UNLOCK();
+        lib_free(event);
+        return;
+    }
+    if (mouse_button_tail != NULL) {
+        mouse_button_tail->next = event;
+    } else {
+        mouse_button_head = event;
+    }
+    mouse_button_tail = event;
+    MOUSE_UNLOCK();
+}
+
+static void mouse_button_dispatch(int bnumber, int state)
 {
     switch(bnumber) {
     case 0:
@@ -102,13 +136,57 @@ void mouse_button(int bnumber, int state)
     }
 }
 
+static mouse_button_event_t *mouse_button_queue_take(int enabled)
+{
+    mouse_button_event_t *event;
+    
+    /* Take entire queue of button events */
+    MOUSE_LOCK();
+    mouse_buttons_enabled   = enabled;
+    event                   = mouse_button_head;
+    mouse_button_head       = NULL;
+    mouse_button_tail       = NULL;
+    MOUSE_UNLOCK();
+
+    return event;
+}
+
+/* Called with mainlock held; never hold the queue lock during device callbacks. */
+void mousedrv_poll(void)
+{
+    mouse_button_event_t *event = mouse_button_queue_take(_mouse_enabled);
+    mouse_button_event_t *next;
+
+    while (event != NULL) {
+        next = event->next;
+        mouse_button_dispatch(event->bnumber, event->state);
+        lib_free(event);
+        event = next;
+    }
+}
+
 void mousedrv_init(void)
 {
     /* This does not require anything special to be done */
 }
 
+void mousedrv_shutdown(void)
+{
+    mouse_button_event_t *event = mouse_button_queue_take(0);
+    mouse_button_event_t *next;
+
+    while (event != NULL) {
+        next = event->next;
+        lib_free(event);
+        event = next;
+    }
+}
+
 void mousedrv_mouse_changed(void)
 {
+    /* Apply pending events before mouse_reset()'s caller changes the device. */
+    mousedrv_poll();
+
     /** \todo Tell UI level to capture mouse cursor if necessary and
      *        permitted */
     log_verbose(mousedrv_log, "Status changed: %d (%s)",

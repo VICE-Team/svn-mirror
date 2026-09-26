@@ -64,6 +64,14 @@ void mousedrv_init(void)
 {
 }
 
+void mousedrv_shutdown(void)
+{
+}
+
+void mousedrv_poll(void)
+{
+}
+
 /* ------------------------------------------------------------------------- */
 
 void mouse_button(int bnumber, int state)

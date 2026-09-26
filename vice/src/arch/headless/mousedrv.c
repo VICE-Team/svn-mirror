@@ -39,6 +39,14 @@ void mousedrv_init(void)
     /* printf("%s\n", __func__); */
 }
 
+void mousedrv_shutdown(void)
+{
+}
+
+void mousedrv_poll(void)
+{
+}
+
 void mousedrv_mouse_changed(void)
 {
     /* printf("%s\n", __func__); */

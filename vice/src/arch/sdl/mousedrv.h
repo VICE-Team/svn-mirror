@@ -33,6 +33,8 @@
 int mousedrv_resources_init(const mouse_func_t *funcs);
 int mousedrv_cmdline_options_init(void);
 void mousedrv_init(void);
+void mousedrv_shutdown(void);
+void mousedrv_poll(void);
 
 void mousedrv_mouse_changed(void);
 
