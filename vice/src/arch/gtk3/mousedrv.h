@@ -42,11 +42,17 @@ int mousedrv_cmdline_options_init(void);
 /** \brief Initialize the mouse-handling subsystem. */
 void mousedrv_init(void);
 
+/** \brief Discard pending mouse input at shutdown. */
+void mousedrv_shutdown(void);
+
+/** \brief Apply pending button events with mainlock held. */
+void mousedrv_poll(void);
+
 /** \brief Called by the emulation core to announce the mouse has been
  *         enabled or disabled. */
 void mousedrv_mouse_changed(void);
 
-/** \brief Called by the UI event handler to announce the user has
+/** \brief Called by the UI event handler to queue that the user has
  *         pressed or released a button.
  *  \param bnumber Which button was pressed or released.
  *  \param state   Nonzero if button was pressed, zero if it was released.

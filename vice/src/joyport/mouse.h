@@ -33,6 +33,17 @@
 #include "types.h"
 #include "snapshot.h"
 
+/* Protect pending host input; release before calling emulated devices. */
+#ifdef USE_VICE_THREAD
+#include <pthread.h>
+extern pthread_mutex_t mouse_lock;
+#define MOUSE_LOCK() pthread_mutex_lock(&mouse_lock)
+#define MOUSE_UNLOCK() pthread_mutex_unlock(&mouse_lock)
+#else
+#define MOUSE_LOCK()
+#define MOUSE_UNLOCK()
+#endif
+
 typedef struct mouse_func_s {
     void (*mbl)(int pressed);
     void (*mbr)(int pressed);

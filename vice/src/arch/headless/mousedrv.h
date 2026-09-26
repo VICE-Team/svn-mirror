@@ -42,6 +42,12 @@ int mousedrv_cmdline_options_init(void);
 /** \brief Initialize the mouse-handling subsystem. */
 void mousedrv_init(void);
 
+/** \brief Shut down the mouse-handling subsystem. */
+void mousedrv_shutdown(void);
+
+/** \brief Poll pending mouse input. */
+void mousedrv_poll(void);
+
 /** \brief Called by the emulation core to announce the mouse has been
  *         enabled or disabled. */
 void mousedrv_mouse_changed(void);

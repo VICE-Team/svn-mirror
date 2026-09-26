@@ -95,6 +95,7 @@
 #include "mainlock.h"
 #include "mixerwidget.h"
 #include "monitor.h"
+#include "mousedrv.h"
 #include "resources.h"
 #include "settings_keyboard.h"
 #include "settings_rom.h"
@@ -2651,6 +2652,10 @@ static void pause_loop(void *param)
     /* poll the joystick input even in pause mode - this allows eg "pause"
        being mapped to a controller button */
     joystick();
+
+    /* Drain mouse events while paused to avoid queue growth and apply button
+       releases. Mouse events do not map to UI actions. */
+    mousedrv_poll();
 
     if (ui_pause_loop_iteration()) {
         /*
