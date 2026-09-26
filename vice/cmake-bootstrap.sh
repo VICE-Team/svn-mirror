@@ -743,6 +743,11 @@ cat <<-HEREDOC >> CMakeLists.txt
 	project(VICE $LANGUAGES)
 	set(CMAKE_STATIC_LIBRARY_PREFIX "")
 
+	if(CMAKE_GENERATOR STREQUAL "Xcode")
+	    # Platform-specific sources can compile to objects with no symbols.
+	    string(APPEND CMAKE_STATIC_LINKER_FLAGS " -no_warning_for_no_symbols")
+	endif()
+
 	add_subdirectory(src)
 
 	set(FIRST_RUN_COMPLETE true CACHE INTERNAL "Used to detect first run")

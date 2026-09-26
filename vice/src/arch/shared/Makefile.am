@@ -265,8 +265,6 @@ EXTRA_DIST = \
 	macOS-launcher.sh \
 	macOS-redirect-launcher.applescript \
 	macOS-util.h \
-	macOS-wrap-ar.sh \
-	macOS-wrap-ranlib.sh \
 	make-bindist_osx.sh \
 	make_bindist_win32.sh \
 	rawnetarch.h \
