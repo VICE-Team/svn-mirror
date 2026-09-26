@@ -541,28 +541,31 @@ static void disk_dir_autostart_callback(const char *image,
                                         unsigned int drive);
 
 
-/** \brief  Trigger redraw of a widget on the UI thread
+/** \brief  Trigger redraw of a joyport on the UI thread
  *
- * \param[in,out]   user_data   widget to redraw
+ * \param[in]   user_data   joyport index
  *
  * \return  FALSE
  */
-static gboolean redraw_widget_on_ui_thread_impl(gpointer user_data)
+static gboolean redraw_joyport_on_ui_thread(gpointer user_data)
 {
-    gtk_widget_queue_draw((GtkWidget *)user_data);
+    int i = GPOINTER_TO_INT(user_data);
+    int j;
+
+    for (j = 0; j < MAX_STATUS_BARS; ++j) {
+        if (allocated_bars[j].joysticks) {
+            GtkWidget *grid;
+            GtkWidget *widget;
+
+            grid = gtk_bin_get_child(GTK_BIN(allocated_bars[j].joysticks));
+            widget = gtk_grid_get_child_at(GTK_GRID(grid), i + 1, 0);
+            if (widget) {
+                gtk_widget_queue_draw(widget);
+            }
+        }
+    }
 
     return FALSE;
-}
-
-/** \brief Queue a redraw of widget on the ui thread.
- *
- * It's not safe to ask a widget to redraw from the vice thread.
- *
- * \param[in,out]   widget  widget to redraw
- */
-static void redraw_widget_on_ui_thread(GtkWidget *widget)
-{
-    gdk_threads_add_timeout(0, redraw_widget_on_ui_thread_impl, (gpointer)widget);
 }
 
 /** \brief Get a locked reference to sb_state */
@@ -3023,20 +3026,8 @@ void ui_display_joyport(uint16_t *joyport)
          * change. And yes, the input joystick ports are 1-indexed. I
          * don't know either. */
         if (sb_state->current_joyports[i] != joyport[i+1]) {
-            int j;
             sb_state->current_joyports[i] = joyport[i+1];
-            for (j = 0; j < MAX_STATUS_BARS; ++j) {
-                if (allocated_bars[j].joysticks) {
-                    GtkWidget *grid;
-                    GtkWidget *widget;
-
-                    grid = gtk_bin_get_child(GTK_BIN(allocated_bars[j].joysticks));
-                    widget = gtk_grid_get_child_at(GTK_GRID(grid), i + 1, 0);
-                    if (widget) {
-                        redraw_widget_on_ui_thread(widget);
-                    }
-                }
-            }
+            gdk_threads_add_timeout(0, redraw_joyport_on_ui_thread, GINT_TO_POINTER(i));
         }
     }
 
@@ -3064,6 +3055,28 @@ static GtkWidget *tape_get_motor_widget(int bar, int port)
 }
 
 
+/** \brief  Trigger redraw of a tape motor widget on the UI thread
+ *
+ * \param[in]   user_data   tape port index
+ *
+ * \return  FALSE
+ */
+static gboolean redraw_tape_motor_on_ui_thread(gpointer user_data)
+{
+    int port = GPOINTER_TO_INT(user_data);
+    int i;
+
+    for (i = 0; i < MAX_STATUS_BARS; ++i) {
+        GtkWidget *motor = tape_get_motor_widget(i, port);
+        if (motor != NULL) {
+            gtk_widget_queue_draw(motor);
+        }
+    }
+
+    return FALSE;
+}
+
+
 /** \brief  Statusbar API function to report changes in tape control status.
  *
  * \param[in]   port    tape port index (0 or 1)
@@ -3080,15 +3093,8 @@ void ui_display_tape_control_status(int port, int control)
     sb_state = lock_sb_state();
 
     if (control != sb_state->tape_control[port]) {
-        int i;
         sb_state->tape_control[port] = control;
-
-        for (i = 0; i < MAX_STATUS_BARS; ++i) {
-            GtkWidget *motor = tape_get_motor_widget(i, port);
-            if (motor != NULL) {
-                redraw_widget_on_ui_thread(motor);
-            }
-        }
+        gdk_threads_add_timeout(0, redraw_tape_motor_on_ui_thread, GINT_TO_POINTER(port));
     }
 
     unlock_sb_state();
@@ -3125,16 +3131,8 @@ void ui_display_tape_motor_status(int port, int motor)
     sb_state = lock_sb_state();
 
     if (motor != sb_state->tape_motor_status[port]) {
-        int i;
         sb_state->tape_motor_status[port] = motor;
-
-        for (i = 0; i < MAX_STATUS_BARS; ++i) {
-            GtkWidget *widget = tape_get_motor_widget(i, port);
-
-            if (widget != NULL) {
-                redraw_widget_on_ui_thread(widget);
-            }
-        }
+        gdk_threads_add_timeout(0, redraw_tape_motor_on_ui_thread, GINT_TO_POINTER(port));
     }
 
     unlock_sb_state();
