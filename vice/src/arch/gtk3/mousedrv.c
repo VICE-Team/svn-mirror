@@ -139,7 +139,7 @@ static void mouse_button_dispatch(int bnumber, int state)
 static mouse_button_event_t *mouse_button_queue_take(int enabled)
 {
     mouse_button_event_t *event;
-    
+
     /* Take entire queue of button events */
     MOUSE_LOCK();
     mouse_buttons_enabled   = enabled;

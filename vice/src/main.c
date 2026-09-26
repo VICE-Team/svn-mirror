@@ -206,6 +206,8 @@ int main_program(int argc, char **argv)
     bool loadconfig = true;
     char *datadir;
 
+    lib_init();
+
 #ifdef USE_VICE_THREAD
     /*
      * The init lock guarantees that all main thread init outcomes are visible
@@ -220,8 +222,6 @@ int main_program(int argc, char **argv)
 #endif
 
     archdep_set_openmp_wait_policy();
-
-    lib_init();
 
     /* create string from the (original) command line, that we can log later. */
     cmdline = lib_strdup(argv[0]);
