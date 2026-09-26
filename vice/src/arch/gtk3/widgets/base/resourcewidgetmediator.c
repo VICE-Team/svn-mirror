@@ -48,6 +48,7 @@
 
 #include "debug_gtk3.h"
 #include "log.h"
+#include "mainlock.h"
 #include "resources.h"
 
 #include "resourcewidgetmediator.h"
@@ -136,11 +137,13 @@ mediator_t *mediator_new(GtkWidget *widget, const char *name, GType type)
     g_value_init(&(mediator->initial), type);
     g_value_init(&(mediator->current), type);
 
-    /* get initial resource value */
+    /* Copy resource values while locked; widget setup stays outside the lock. */
     if (name != NULL) {
+        mainlock_obtain();
         switch (type) {
             case G_TYPE_BOOLEAN:
                 if (resources_get_int(name, &ival) < 0) {
+                    mainlock_release();
                     goto report_error;
                 }
                 g_value_set_boolean(&(mediator->initial), ival ? TRUE : FALSE);
@@ -149,6 +152,7 @@ mediator_t *mediator_new(GtkWidget *widget, const char *name, GType type)
 
             case G_TYPE_INT:
                 if (resources_get_int(name, &ival) < 0) {
+                    mainlock_release();
                     goto report_error;
                 }
                 g_value_set_int(&(mediator->initial), ival);
@@ -157,6 +161,7 @@ mediator_t *mediator_new(GtkWidget *widget, const char *name, GType type)
 
             case G_TYPE_STRING:
                 if (resources_get_string(name, &sval) < 0) {
+                    mainlock_release();
                     goto report_error;
                 }
                 g_value_set_string(&(mediator->initial), sval);
@@ -168,6 +173,7 @@ mediator_t *mediator_new(GtkWidget *widget, const char *name, GType type)
                            name, g_type_name(type));
                 break;
         }
+        mainlock_release();
     } else {
         /* we're using the mediator's wrangling of additional state but not an
          * actual resource, init the value anyway */
@@ -358,7 +364,9 @@ gboolean mediator_get_resource_boolean(mediator_t *mediator)
     int      i = 0;
     gboolean b;
 
+    mainlock_obtain();
     resources_get_int(mediator->name, &i);
+    mainlock_release();
     b = i ? TRUE : FALSE;
     /* also update `current` to be sure */
     mediator_set_current_boolean(mediator, b);
@@ -515,7 +523,9 @@ int mediator_get_resource_int(mediator_t *mediator)
 {
     int i = 0;
 
+    mainlock_obtain();
     resources_get_int(mediator->name, &i);
+    mainlock_release();
     return i;
 
 }
@@ -652,9 +662,11 @@ const char *mediator_get_resource_string(mediator_t *mediator)
 {
     const char *s = NULL;
 
+    mainlock_obtain();
     resources_get_string(mediator->name, &s);
     g_value_set_string(&(mediator->current), s);
-    return s;
+    mainlock_release();
+    return g_value_get_string(&(mediator->current));
 }
 
 
