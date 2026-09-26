@@ -95,7 +95,11 @@ enum {
 static gboolean poll_callback(gpointer joydev)
 {
     mainlock_assert_is_not_vice_thread();
+
+    mainlock_obtain();
     joystick_ui_poll();
+    mainlock_release();
+
     return G_SOURCE_CONTINUE;
 }
 
