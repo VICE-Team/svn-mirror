@@ -55,6 +55,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "mainlock.h"
 #include "resources.h"
 #include "openfiledialog.h"
 #include "savefiledialog.h"
@@ -388,12 +389,14 @@ GtkWidget *vice_gtk3_resource_browser_new(const char         *resource,
     resource_widget_set_resource_name(grid, resource);
 
     /* get current value of resource */
+    mainlock_obtain();
     if (resources_get_string(resource, &orig) < 0) {
         orig = "";
     } else if (orig == NULL) {
         orig = "";
     }
     state->res_orig = lib_strdup(orig);
+    mainlock_release();
 
     /* store optional callback */
     state->callback = callback;
@@ -598,12 +601,14 @@ GtkWidget *vice_gtk3_resource_browser_save_new(const char *resource,
     resource_widget_set_resource_name(grid, resource);
 
     /* get current value, if any */
+    mainlock_obtain();
     if (resources_get_string(resource, &orig) < 0) {
         orig = "";
     } else if (orig == NULL) {
         orig = "";
     }
     state->res_orig = lib_strdup(orig);
+    mainlock_release();
 
     /* copy browser title */
     if (title == NULL || *title == '\0') {
