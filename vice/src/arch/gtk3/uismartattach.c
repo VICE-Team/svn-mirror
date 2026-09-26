@@ -655,7 +655,7 @@ static GtkWidget *create_smart_attach_dialog(void)
     /* connect "reponse" handler: the `user_data` argument gets filled in when
      * the "response" signal is emitted: a response ID */
     g_signal_connect(dialog, "response", G_CALLBACK(on_response), NULL);
-    g_signal_connect_unlocked(dialog, "update-preview",
+    g_signal_connect(dialog, "update-preview",
             G_CALLBACK(on_update_preview), NULL);
     g_signal_connect_unlocked(dialog, "selection-changed",
             G_CALLBACK(on_selection_changed), NULL);
