@@ -648,6 +648,14 @@ static int set_monitor_font(const gchar *font_description, void *param)
     return 0;
 }
 
+/* Apply terminal colours on the UI thread without holding mainlock. */
+static gboolean set_monitor_bg_impl(gpointer color)
+{
+    uimon_set_background_color(color);
+    g_free(color);
+    return G_SOURCE_REMOVE;
+}
+
 /** \brief  Resource handler: set monitor background color for VTE-based monitor
  *
  * \param[in]   color   Gdk RGBA color string
@@ -661,10 +669,17 @@ static int set_monitor_bg(const gchar *color, void *param)
 
     if (gdk_rgba_parse(&rgba, color)) {
         util_string_set(&ui_resources.monitor_bg, color);
-        uimon_set_background_color(color);
+        gdk_threads_add_timeout(0, set_monitor_bg_impl, g_strdup(color));
         return 0;
     }
     return -1;
+}
+
+static gboolean set_monitor_fg_impl(gpointer color)
+{
+    uimon_set_foreground_color(color);
+    g_free(color);
+    return G_SOURCE_REMOVE;
 }
 
 /** \brief  Resource handler: set monitor foreground color for VTE-based monitor
@@ -680,7 +695,7 @@ static int set_monitor_fg(const gchar *color, void *param)
 
     if (gdk_rgba_parse(&rgba, color)) {
         util_string_set(&ui_resources.monitor_fg, color);
-        uimon_set_foreground_color(color);
+        gdk_threads_add_timeout(0, set_monitor_fg_impl, g_strdup(color));
         return 0;
     }
     return -1;
