@@ -62,12 +62,12 @@ static log_t log_lib = LOG_DEFAULT;
 #define LIB_DEBUG_LOCK()
 #define LIB_DEBUG_UNLOCK()
 
-#ifdef USE_VICE_THREAD
+#if defined(USE_VICE_THREAD) && defined(DEBUG)
 #include <pthread.h>
-static pthread_mutex_t lib_debug_lock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t lib_debug_lock;
 #undef LIB_DEBUG_LOCK
 #undef LIB_DEBUG_UNLOCK
-#define LIB_DEBUG_LOCK() { lib_lock_init(); pthread_mutex_lock(&lib_debug_lock); }
+#define LIB_DEBUG_LOCK() { pthread_mutex_lock(&lib_debug_lock); }
 #define LIB_DEBUG_UNLOCK() { pthread_mutex_unlock(&lib_debug_lock); }
 #endif
 
@@ -124,8 +124,6 @@ static unsigned int lib_debug_guard_size[LIB_DEBUG_SIZE];
 static int lib_debug_enable_output = 1;
 #endif
 
-static int lib_debug_lock_initialized = 0;
-
 /*----------------------------------------------------------------------------*/
 
 #ifdef DEBUG
@@ -152,22 +150,20 @@ static void lib_debug_init(void)
 }
 #endif /* DEBUG */
 
-/* triggered early by first use of LOCK() */
+#ifdef DEBUG
+/* Called once by lib_init(), before any allocation wrappers are used. */
 static void lib_lock_init(void)
 {
-    if (lib_debug_lock_initialized == 0) {
-        lib_debug_lock_initialized = 1;
 #ifdef USE_VICE_THREAD
-        pthread_mutexattr_t lock_attributes;
-        pthread_mutexattr_init(&lock_attributes);
-        pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
-        pthread_mutex_init(&lib_debug_lock, &lock_attributes);
+    pthread_mutexattr_t lock_attributes;
+    pthread_mutexattr_init(&lock_attributes);
+    pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
+    pthread_mutex_init(&lib_debug_lock, &lock_attributes);
+    pthread_mutexattr_destroy(&lock_attributes);
 #endif
-#ifdef DEBUG
-        lib_debug_init();
-#endif
-    }
+    lib_debug_init();
 }
+#endif
 
 
 #ifdef LIB_DEBUG
@@ -1051,7 +1047,9 @@ void lib_rand_seed(uint64_t seed)
 
 void lib_init(void)
 {
+#ifdef DEBUG
     lib_lock_init();
+#endif
 
     /*
      * set random seed for all actively-used PRNGs from current time, so things
