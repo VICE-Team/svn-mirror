@@ -38,6 +38,7 @@
 #include "charset.h"
 #include "console.h"
 #include "lib.h"
+#include "mainlock.h"
 #include "mem.h"
 #include "mon_disassemble.h"
 #include "mon_util.h"
@@ -517,7 +518,9 @@ char *uimon_in(const char *prompt)
 
         if (monitor_is_remote() || monitor_is_binary()) {
 
+            mainlock_yield_begin();
             vice_network_select_multiple(sockfd);
+            mainlock_yield_end();
 
             if (monitor_is_binary()) {
                 if (!monitor_binary_get_command_line()) {
