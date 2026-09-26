@@ -279,7 +279,7 @@ static void joy_hidlib_process_element(IOHIDElementRef internal_element,
         log_message(LOG_DEFAULT, "joy-hid: button: usage_page=0x%x usage=0x%x pmin=%ld pmax=%ld lmin=%ld lmax=%ld",
             usage_page, usage, pmin, pmax, lmin, lmax);
 
-        name = lib_msprintf("Button %d", usage);
+        name = lib_msprintf("Button %u", usage);
         joystick_button_t *button = joystick_button_new(name);
         lib_free(name);
         name = NULL;
