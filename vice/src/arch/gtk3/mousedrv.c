@@ -45,6 +45,7 @@
 #include "log.h"
 #include "vsyncapi.h"
 #include "maincpu.h"
+#include "mainlock.h"
 #include "mouse.h"
 #include "mousedrv.h"
 #include "ui.h"
@@ -182,6 +183,20 @@ void mousedrv_shutdown(void)
     }
 }
 
+/* Update pointer capture on the UI thread using the current mouse state. */
+static gboolean mousedrv_mouse_changed_impl(gpointer unused)
+{
+    mainlock_obtain();
+    if (_mouse_enabled) {
+        ui_mouse_grab_pointer();
+    } else {
+        ui_mouse_ungrab_pointer();
+    }
+    mainlock_release();
+
+    return G_SOURCE_REMOVE;
+}
+
 void mousedrv_mouse_changed(void)
 {
     /* Apply pending events before mouse_reset()'s caller changes the device. */
@@ -191,10 +206,10 @@ void mousedrv_mouse_changed(void)
      *        permitted */
     log_verbose(mousedrv_log, "Status changed: %d (%s)",
             _mouse_enabled, _mouse_enabled ? "enabled" : "disabled");
-    if (_mouse_enabled) {
-        ui_mouse_grab_pointer();
+    if (mainlock_is_vice_thread()) {
+        gdk_threads_add_timeout(0, mousedrv_mouse_changed_impl, NULL);
     } else {
-        ui_mouse_ungrab_pointer();
+        mousedrv_mouse_changed_impl(NULL);
     }
 }
 
