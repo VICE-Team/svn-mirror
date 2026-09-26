@@ -1378,6 +1378,7 @@ static clock_t cmdmode_dispatch_command(void)
         case CMD_LED_OFF:
         case CMD_LED_ON:
             /* no parameters, ignore */
+            cmdmode_receive_command();
             break;
 
         case CMD_READ_DEBUGFLAGS:
