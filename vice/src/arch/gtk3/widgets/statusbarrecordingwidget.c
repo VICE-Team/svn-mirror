@@ -31,6 +31,7 @@
 #include "basedialogs.h"
 #include "vice-event.h"
 #include "machine.h"
+#include "mainlock.h"
 #include "resources.h"
 #include "screenshot.h"
 #include "sound.h"
@@ -340,6 +341,7 @@ void statusbar_recording_widget_set_time(GtkWidget *widget,
     gchar buffer[256];
     const char *dev = NULL;
 
+    mainlock_obtain();
     resources_get_string("SoundRecordDeviceName", &dev);
     time = gtk_grid_get_child_at(GTK_GRID(widget), RW_COL_TIME, RW_ROW_TIME);
     if (total > 0) {
@@ -367,6 +369,7 @@ void statusbar_recording_widget_set_time(GtkWidget *widget,
     } else {
         type = UI_RECORDING_STATUS_VIDEO;
     }
+    mainlock_release();
     g_snprintf(buffer, sizeof(buffer), "Recording %s ...", rec_types[type]);
     gtk_label_set_text(GTK_LABEL(status), buffer);
 }

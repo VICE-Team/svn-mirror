@@ -2850,6 +2850,16 @@ GtkWidget *ui_statusbar_create(int window_identity)
 }
 
 
+/** \brief Update elapsed time on the UI thread. */
+static gboolean ui_display_event_time_impl(gpointer user_data)
+{
+    unsigned int *times = user_data;
+
+    ui_display_event_time(times[0], times[1]);
+    lib_free(times);
+    return FALSE;
+}
+
 /** \brief Statusbar API function to register an elapsed time.
  *
  *  \param current The current time value in seconds
@@ -2860,11 +2870,31 @@ void ui_display_event_time(unsigned int current, unsigned int total)
 {
     GtkWidget *widget;
 
-    /* Ok to call from VICE thread */
+    if (mainlock_is_vice_thread()) {
+        unsigned int *times = lib_malloc(2 * sizeof(*times));
+
+        times[0] = current;
+        times[1] = total;
+        gdk_threads_add_timeout(0, ui_display_event_time_impl, times);
+        return;
+    }
+
     widget = allocated_bars[0].record;
-    statusbar_recording_widget_set_time(widget, current, total);
+    if (widget != NULL) {
+        statusbar_recording_widget_set_time(widget, current, total);
+    }
 }
 
+
+/** \brief Update playback status on the UI thread. */
+static gboolean ui_display_playback_impl(gpointer user_data)
+{
+    char *version = user_data;
+
+    ui_display_playback(0, version);
+    lib_free(version);
+    return FALSE;
+}
 
 /** \brief Statusbar API function to display playback status.
  *
@@ -2881,10 +2911,25 @@ void ui_display_event_time(unsigned int current, unsigned int total)
  */
 void ui_display_playback(int playback_status, char *version)
 {
-    GtkWidget *widget = allocated_bars[0].record;
+    GtkWidget *widget;
 
-    /* Ok to call from VICE thread */
-    statusbar_recording_widget_set_event_playback(widget, version);
+    if (mainlock_is_vice_thread()) {
+        gdk_threads_add_timeout(0, ui_display_playback_impl,
+                               version != NULL ? lib_strdup(version) : NULL);
+        return;
+    }
+
+    widget = allocated_bars[0].record;
+    if (widget != NULL) {
+        statusbar_recording_widget_set_event_playback(widget, version);
+    }
+}
+
+/** \brief Update recording status on the UI thread. */
+static gboolean ui_display_recording_impl(gpointer user_data)
+{
+    ui_display_recording(GPOINTER_TO_INT(user_data));
+    return FALSE;
 }
 
 /** \brief  Statusbar API function to display recording status.
@@ -2902,9 +2947,17 @@ void ui_display_recording(int recording_status)
 {
     GtkWidget *widget;
     DBG(("ui_display_recording: %d", recording_status));
-    /* Ok to call from VICE thread */
+
+    if (mainlock_is_vice_thread()) {
+        gdk_threads_add_timeout(0, ui_display_recording_impl,
+                               GINT_TO_POINTER(recording_status));
+        return;
+    }
+
     widget = allocated_bars[0].record;
-    statusbar_recording_widget_set_recording_status(widget, recording_status);
+    if (widget != NULL) {
+        statusbar_recording_widget_set_recording_status(widget, recording_status);
+    }
 }
 
 
