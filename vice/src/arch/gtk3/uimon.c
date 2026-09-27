@@ -1181,14 +1181,18 @@ bool uimon_set_font(void)
     const char *fg;
     GdkRGBA color;
 
+    mainlock_obtain();
+
     font_type = FONT_TYPE_ASCII;
 
     if (resources_get_string("MonitorFont", &monitor_font) < 0) {
+        mainlock_release();
         log_error(monui_log, "Failed to read 'MonitorFont' resource.");
         return false;
     }
 
     if (fixed.term == NULL) {
+        mainlock_release();
         log_error(monui_log, "No monitor instance found.");
         return false;
     }
@@ -1246,6 +1250,7 @@ bool uimon_set_font(void)
     printfontinfo(desc_tmp, using_font);
 
     if (resources_set_string("MonitorFont", using_font) < 0) {
+        mainlock_release();
         log_error(monui_log, "Failed to set 'MonitorFont' resource.");
         return false;
     }
@@ -1278,6 +1283,7 @@ bool uimon_set_font(void)
     box = g_list_first(widgets);
 
     gtk_widget_set_size_request(GTK_WIDGET(box->data), -1 , -1);
+    mainlock_release();
     return true;
 }
 
@@ -1362,7 +1368,7 @@ static gboolean uimon_window_open_impl(gpointer user_data)
     int height = 0;
     int width = 0;
 
-    pthread_mutex_lock(&fixed.lock);
+    mainlock_obtain();
 
     resources_get_int("MonitorScrollbackLines", &sblines);
 
@@ -1472,14 +1478,13 @@ static gboolean uimon_window_open_impl(gpointer user_data)
         vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), sblines);
     }
 
-    pthread_mutex_unlock(&fixed.lock);
-
     if (display_now) {
         uimon_window_resume_impl(NULL);
     }
 
     /* Ensure any queued monitor output is displayed */
     gdk_threads_add_timeout(0, write_to_terminal, NULL);
+    mainlock_release();
     return FALSE;
 }
 
