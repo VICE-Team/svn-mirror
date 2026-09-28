@@ -890,13 +890,13 @@ void keyboard_key_clear(void)
     memset(kbd_queue, 0, sizeof(kbd_queue));
     kbd_queue_read              = 0;
     kbd_queue_write             = 0;
-    
+
     last_key                    = -1;
     last_mod                    = -1;
     last_pressed                = -1;
-    
+
     keyboard_latch_timestamp    = maincpu_clk;
-    
+
     if (keyboard_alarm != NULL) {
         alarm_unset(keyboard_alarm);
     }
