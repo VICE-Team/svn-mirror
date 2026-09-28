@@ -296,18 +296,18 @@ int init_main(void)
     machine_bus_init();
     machine_maincpu_init();
 
-    /* Machine-specific initialization.  */
-    if (machine_init() < 0) {
-        log_error(LOG_DEFAULT, "Machine initialization failed.");
-        return -1;
-    }
-
     /* FIXME: what's about uimon_init??? */
-    /* the monitor console MUST be available, because of for example cpujam,
-       or -initbreak from cmdline.
+    /* the monitor console MUST be available before machine initialization can
+       notify it, and for example cpujam or -initbreak from cmdline.
     */
     if (console_init() < 0) {
         log_error(LOG_DEFAULT, "Console initialization failed.");
+        return -1;
+    }
+
+    /* Machine-specific initialization.  */
+    if (machine_init() < 0) {
+        log_error(LOG_DEFAULT, "Machine initialization failed.");
         return -1;
     }
 

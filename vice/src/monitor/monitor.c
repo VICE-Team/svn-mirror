@@ -3319,6 +3319,8 @@ static void monitor_close(bool check_exit)
 #endif
     inside_monitor = false;
 
+    uimon_notify_change();
+
     if (check_exit && exit_mon == exit_mon_quit_vice) {
         if (!monitor_is_remote()) {
             uimon_window_close();
