@@ -572,8 +572,15 @@ int uimon_get_columns(struct console_private_s *t)
 
 static char* append_char_to_input_buffer(char *old_input_buffer, char new_char)
 {
-    char* new_input_buffer = lib_msprintf("%s%c",
-        old_input_buffer ? old_input_buffer : "",
+    char* new_input_buffer;
+
+    /* A NULL buffer means monitor input is inactive. */
+    if (old_input_buffer == NULL) {
+        return NULL;
+    }
+
+    new_input_buffer = lib_msprintf("%s%c",
+        old_input_buffer,
         new_char);
     lib_free(old_input_buffer);
     return new_input_buffer;
@@ -584,6 +591,10 @@ static char* append_string_to_input_buffer(char *old_input_buffer, GtkWidget *te
     GtkClipboard *clipboard = gtk_widget_get_clipboard(terminal, clipboard_to_use);
     guint input_generation = fixed.input_generation;
     gchar *new_string;
+
+    if (old_input_buffer == NULL) {
+        return NULL;
+    }
 
     /* GTK dispatches nested events while waiting: do not hold the monitor lock. */
     pthread_mutex_unlock(&fixed.lock);
@@ -1606,10 +1617,36 @@ void uimon_window_close(void)
 
 void uimon_notify_change(void)
 {
+    int mem;
+
     if (native_monitor()) {
         uimonfb_notify_change();
         return;
     }
+
+    /* Keep queued input while the monitor is still processing commands. */
+    if (monitor_is_inside_monitor()) {
+        return;
+    }
+
+    /* Step/next/return temporarily leave the monitor: keep their queued input. */
+    for (mem = FIRST_SPACE; mem <= LAST_SPACE; mem++) {
+        if (monitor_mask[mem] & MI_STEP) {
+            return;
+        }
+    }
+
+    /* Execution is resuming. Discard input and reject pending clipboard replies.
+     * NULL also prevents new input until uimon_get_in() opens the next prompt. */
+    pthread_mutex_lock(&fixed.lock);
+    if (fixed.input_buffer != NULL) {
+        lib_free(fixed.input_buffer);
+        fixed.input_buffer = NULL;
+        fixed.input_generation++;
+        /* Hide the cursor while the monitor is not accepting input. */
+        uimon_write_to_terminal(&fixed, "\033[?25l", 6);
+    }
+    pthread_mutex_unlock(&fixed.lock);
 }
 
 void uimon_set_interface(struct monitor_interface_s **interf, int i)
@@ -1746,6 +1783,8 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
     pthread_mutex_lock(&fixed.lock);
     if (!fixed.input_buffer) {
         fixed.input_buffer = lib_strdup("");
+        /* Show the cursor again now that the monitor accepts input. */
+        uimon_write_to_terminal(&fixed, "\033[?25h", 6);
     }
     pthread_mutex_unlock(&fixed.lock);
 
