@@ -101,10 +101,15 @@ static gboolean uimon_window_resume_impl(gpointer user_data);
  * Again, guess work. Someone, not me, should have documented this.
  */
 static struct console_private_s {
+    /* Widgets belong to the GTK thread, no lock needed for access. */
+    GtkWidget *window;
+    GtkWidget *term;
+    
+    /* This lock protects all members below - both UI and VICE threads access. */
     pthread_mutex_t lock;
-
-    GtkWidget *window;  /**< windows */
-    GtkWidget *term;    /**< could be a VTE instance? */
+    
+    unsigned int columns;
+    unsigned int rows;
     char *input_buffer;
     guint input_generation; /**< invalidates pending clipboard replies on close */
     char *output_buffer;
@@ -564,10 +569,13 @@ int uimon_scrcode_upper_out(const char *buffer, int len)
 
 int uimon_get_columns(struct console_private_s *t)
 {
-    if(t->term) {
-        return (int)vte_terminal_get_column_count(VTE_TERMINAL(t->term));
-    }
-    return DEFAULT_COLUMNS;
+    int columns;
+
+    pthread_mutex_lock(&t->lock);
+    columns = (int)t->columns;
+    pthread_mutex_unlock(&t->lock);
+
+    return columns;
 }
 
 static char* append_char_to_input_buffer(char *old_input_buffer, char new_char)
@@ -811,7 +819,7 @@ static gboolean cmd_plus_key_pressed(char **input_buffer, guint keyval, GtkWidge
             return TRUE;
         case GDK_KEY_w:
         case GDK_KEY_W:
-            on_window_delete_event(terminal, NULL, NULL);
+            on_window_delete_event(fixed.window, NULL, NULL);
             return TRUE;
     }
 }
@@ -891,6 +899,82 @@ static gboolean on_term_button_press_event(GtkWidget *widget,
     return TRUE;
 }
 
+static void uimon_focus_main_window(void)
+{
+    GtkWidget *window;
+
+    /* There is no monitor window to return focus from. */
+    if (fixed.window == NULL) {
+        return;
+    }
+
+    /* Leave focus on another window or application alone. Check before hiding
+     * the monitor, while GTK can still tell us that it is active. */
+    if (!gtk_window_is_active(GTK_WINDOW(fixed.window))) {
+        return;
+    }
+
+    /* A modal dialog or popup must retain its input grab. */
+    if (gtk_grab_get_current() != NULL) {
+        return;
+    }
+
+    window = ui_get_main_window_by_index(ui_get_main_window_index());
+
+    /* There is no emulation window to return to. */
+    if (window == NULL) {
+        return;
+    }
+
+    /* Do not show a hidden emulation window just to restore focus. */
+    if (!gtk_widget_get_mapped(window)) {
+        return;
+    }
+
+    /* Do not present a window that is being destroyed. */
+    if (gtk_widget_in_destruction(window)) {
+        return;
+    }
+
+    gtk_window_present(GTK_WINDOW(window));
+}
+
+static gboolean uimon_restore_focus(gpointer data)
+{
+    bool inactive;
+    bool inside_monitor;
+    bool same_generation;
+
+    mainlock_obtain();
+    inside_monitor = monitor_is_inside_monitor();
+    
+    pthread_mutex_lock(&fixed.lock);
+    inactive        = (fixed.input_buffer     == NULL);
+    same_generation = (fixed.input_generation == GPOINTER_TO_UINT(data));
+    pthread_mutex_unlock(&fixed.lock);
+    
+    mainlock_release();
+
+    /* A new prompt is already accepting input. */
+    if (!inactive) {
+        return G_SOURCE_REMOVE;
+    }
+
+    /* Ignore requests queued for an earlier monitor session. */
+    if (!same_generation) {
+        return G_SOURCE_REMOVE;
+    }
+
+    /* The monitor may have reopened before uimon_get_in() creates its buffer. */
+    if (inside_monitor) {
+        return G_SOURCE_REMOVE;
+    }
+
+    uimon_focus_main_window();
+
+    return G_SOURCE_REMOVE;
+}
+
 /** \brief  Handler for the 'delete-event' event of monitor window
  *
  * \param[in]   window      monitor window
@@ -911,6 +995,7 @@ static gboolean on_window_delete_event(GtkWidget *window,
 
     pthread_mutex_unlock(&fixed.lock);
 
+    uimon_focus_main_window();
     gtk_widget_hide(window);
     return TRUE;
 }
@@ -1062,9 +1147,45 @@ static void on_term_text_modified(VteTerminal *terminal,
                                  gpointer      user_data)
 {
     glong width, height;
+    bool size_changed = false;
+
     get_terminal_size_in_chars(terminal, &width, &height);
-    vte_console.console_xres = (unsigned int)width;
-    vte_console.console_yres = (unsigned int)height;
+
+    pthread_mutex_lock(&fixed.lock);
+
+    /* A width change affects both line editing and command output. */
+    if (fixed.columns != (unsigned int)width) {
+        size_changed = true;
+    }
+
+    /* A height change affects how many lines monitor commands display. */
+    if (fixed.rows != (unsigned int)height) {
+        size_changed = true;
+    }
+
+    fixed.columns = (unsigned int)width;
+    fixed.rows    = (unsigned int)height;
+    pthread_mutex_unlock(&fixed.lock);
+
+    /* Ordinary text output does not need another geometry update. */
+    if (size_changed) {
+        /* Ensure fixed.lock is not held ^^^ while attempting to obtain mainlock */
+        mainlock_obtain();
+        vte_console.console_xres = (unsigned int)width;
+        vte_console.console_yres = (unsigned int)height;
+        mainlock_release();
+    }
+}
+
+/*
+ * Track allocated dimensions even when NoVTE's accessibility-only
+ * text-modified signal is disabled.
+ */
+static void on_term_size_allocate(GtkWidget *terminal,
+                                 GtkAllocation *allocation,
+                                 gpointer user_data)
+{
+    on_term_text_modified(VTE_TERMINAL(terminal), NULL);
 }
 
 /** \brief  Handler for the 'configure-event' event of the monitor window
@@ -1109,6 +1230,7 @@ static void on_window_configure_event(GtkWidget *window,
         newheight = 1;
     }
 
+    mainlock_obtain();
     if (xpos >= 0 && ypos >= 0) {
         resources_set_int("MonitorXPos", xpos);
         resources_set_int("MonitorYPos", ypos);
@@ -1117,12 +1239,12 @@ static void on_window_configure_event(GtkWidget *window,
         resources_set_int("MonitorWidth", width);
         resources_set_int("MonitorHeight", height);
     }
+    mainlock_release();
 
     vte_terminal_set_size(VTE_TERMINAL(fixed.term), newwidth, newheight);
     /* printf("on_window_configure_event %lix%li\n", newwidth, newheight); */
     /* update the console size */
-    vte_console.console_xres = (unsigned int)newwidth;
-    vte_console.console_yres = (unsigned int)newheight;
+    on_term_text_modified(VTE_TERMINAL(fixed.term), NULL);
 }
 
 /** \brief  Create an icon by loading it from the vice.gresource file
@@ -1450,10 +1572,10 @@ static gboolean uimon_window_open_impl(gpointer user_data)
         gtk_box_pack_end(GTK_BOX(horizontal_container), scrollbar,
                 FALSE, FALSE, 0);
 
-        g_signal_connect(G_OBJECT(fixed.window),
-                        "delete-event",
-                        G_CALLBACK(on_window_delete_event),
-                        NULL);
+        g_signal_connect_unlocked(G_OBJECT(fixed.window),
+                                  "delete-event",
+                                  G_CALLBACK(on_window_delete_event),
+                                  NULL);
 
         g_signal_connect_unlocked(G_OBJECT(fixed.term),
                                   "key-press-event",
@@ -1470,12 +1592,17 @@ static gboolean uimon_window_open_impl(gpointer user_data)
                                   G_CALLBACK(on_term_text_modified),
                                   NULL);
 
+        /* Run after NoVTE updates its dimensions */
+        g_signal_connect_after(   G_OBJECT(fixed.term),
+                                  "size-allocate",
+                                  G_CALLBACK(on_term_size_allocate),
+                                  NULL);
+
         g_signal_connect_unlocked(G_OBJECT(fixed.term),
                                   "scroll-event",
                                   G_CALLBACK(on_term_scrolled),
                                   NULL);
 
-        /* can this actually be connected unlocked, we're setting resources here? */
         g_signal_connect_unlocked(G_OBJECT(fixed.window),
                                   "configure-event",
                                   G_CALLBACK(on_window_configure_event),
@@ -1540,6 +1667,7 @@ static gboolean uimon_window_suspend_impl(gpointer user_data)
         /* do need to keep the monitor window open? */
         resources_get_int("KeepMonitorOpen", &keep_open);
         if (!keep_open) {
+            uimon_focus_main_window();
             gtk_widget_hide(fixed.window);
         } else {
             /* move monitor window behind the emu window */
@@ -1559,6 +1687,7 @@ static gboolean uimon_window_close_impl(gpointer user_data)
     /* only close window if there is one: this avoids a GTK_CRITICAL warning
      * when using a remote monitor */
     if (fixed.window != NULL) {
+        uimon_focus_main_window();
         gtk_widget_hide(fixed.window);
     }
 
@@ -1645,6 +1774,7 @@ void uimon_notify_change(void)
         fixed.input_generation++;
         /* Hide the cursor while the monitor is not accepting input. */
         uimon_write_to_terminal(&fixed, "\033[?25l", 6);
+        gdk_threads_add_idle(uimon_restore_focus, GUINT_TO_POINTER(fixed.input_generation));
     }
     pthread_mutex_unlock(&fixed.lock);
 }
@@ -1815,6 +1945,10 @@ int console_init(void)
     pthread_mutexattr_init(&lock_attributes);
     pthread_mutexattr_settype(&lock_attributes, PTHREAD_MUTEX_RECURSIVE);
     pthread_mutex_init(&fixed.lock, &lock_attributes);
+
+    /* Supply dimensions before the GTK thread creates the terminal. */
+    fixed.columns = DEFAULT_COLUMNS;
+    fixed.rows    = DEFAULT_ROWS;
 
     if (native_monitor()) {
         return consolefb_init();
