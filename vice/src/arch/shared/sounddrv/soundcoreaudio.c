@@ -533,7 +533,13 @@ static int audio_open(AudioStreamBasicDescription *in)
         return -1;
     }
 
-    size = range.mMinimum > frames_in_fragment ? range.mMinimum : frames_in_fragment;
+    /* Limit the buffer size to the supported range */
+    size = frames_in_fragment;
+    if (size < (UInt32)range.mMinimum) {
+        size = (UInt32)range.mMinimum;
+    } else if (size > (UInt32)range.mMaximum) {
+        size = (UInt32)range.mMaximum;
+    }
 
     log_message(LOG_DEFAULT, "sound (coreaudio_init): audio frame buffer size in samples min: %f max: %f fragment size: %u, chosen: %u", range.mMinimum, range.mMaximum, frames_in_fragment, (unsigned int)size);
 
@@ -677,9 +683,8 @@ static int coreaudio_init(const char *param, int *speed,
         return result;
     }
 
-    coreaudio_resume();
-
-    return 0;
+    /* Report initialization or startup failures to the sound system. */
+    return coreaudio_resume();
 }
 
 static int coreaudio_write(int16_t *pbuf, size_t nr)
