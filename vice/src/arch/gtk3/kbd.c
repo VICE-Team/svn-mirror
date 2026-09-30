@@ -326,6 +326,25 @@ static int pressedkeyshw[KEYS_PRESSED_MAX];
 static int pressedkeysstate[KEYS_PRESSED_MAX];
 
 
+/** \brief  Keys held in the monitor, accessed only by the GTK thread.
+ *
+ * GdkEventKey.hardware_keycode is guint16. Keep each key marked until its
+ * release so repeats cannot reach emulation when focus leaves the monitor.
+ */
+static guint8 monitor_keys[G_MAXUINT16 + 1];
+
+
+/** \brief  Track monitor key presses and releases on the GTK thread.
+ *
+ * The monitor still processes presses normally, including autorepeat.
+ * Releases may arrive here or in the emulation window's key handler.
+ */
+void kbd_monitor_key_event(GdkEventKey *event)
+{
+    monitor_keys[event->hardware_keycode] = (event->type == GDK_KEY_PRESS);
+}
+
+
 /** \brief  Look up key buffer index for \a report by hardware scancode
  *
  * \param[in]   report  GDK key-press event
@@ -618,6 +637,10 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 
     switch (report->type) {
         case GDK_KEY_PRESS:
+            /* Swallow repeats of keys still held from the monitor. */
+            if (monitor_keys[report->key.hardware_keycode]) {
+                return TRUE;
+            }
             /* fprintf(stderr, "GDK_KEY_PRESS: %u %04x.\n",
                        report->key.keyval,  report->key.state); */
             kbd_fix_shift_press(report);
@@ -700,6 +723,11 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 #endif
             return TRUE;
         case GDK_KEY_RELEASE:
+            /* Consume the monitor's release without clearing other keys. */
+            if (monitor_keys[report->key.hardware_keycode]) {
+                monitor_keys[report->key.hardware_keycode] = FALSE;
+                return TRUE;
+            }
             /* fprintf(stderr, "GDK_KEY_RELEASE: %u %04x.\n",
                        report->key.keyval,  report->key.state); */
             kbd_fix_shift_release(report);
