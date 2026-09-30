@@ -65,6 +65,7 @@
 #include "charset.h"
 #include "console.h"
 #include "debug_gtk3.h"
+#include "kbd.h"
 #include "machine.h"
 #include "monitor.h"
 #include "mainlock.h"
@@ -825,7 +826,7 @@ static gboolean cmd_plus_key_pressed(char **input_buffer, guint keyval, GtkWidge
 }
 #endif
 
-/** \brief  Handler for the 'key-press-event' event of the the VTE terminal
+/** \brief  Handler for key press and release events of the VTE terminal
  *
  * \param[in]   widget      VTE terminal
  * \param[in]   event       event information
@@ -833,12 +834,15 @@ static gboolean cmd_plus_key_pressed(char **input_buffer, guint keyval, GtkWidge
  *
  * \return  \c TRUE to stop propagation of event, or \c FALSE to propagate further
  */
-static gboolean on_term_key_press_event(GtkWidget   *widget,
-                                        GdkEventKey *event,
-                                        gpointer     user_data)
+static gboolean on_term_key_event(GtkWidget   *widget,
+                                  GdkEventKey *event,
+                                  gpointer     user_data)
 {
     GdkModifierType state = 0;
     gboolean retval = FALSE;
+
+    /* Track held keys before a command can return focus to emulation. */
+    kbd_monitor_key_event(event);
 
     gdk_event_get_state((GdkEvent*)event, &state);
 
@@ -1579,7 +1583,13 @@ static gboolean uimon_window_open_impl(gpointer user_data)
 
         g_signal_connect_unlocked(G_OBJECT(fixed.term),
                                   "key-press-event",
-                                  G_CALLBACK(on_term_key_press_event),
+                                  G_CALLBACK(on_term_key_event),
+                                  NULL);
+
+        /* Releases may arrive before focus returns to the emulation window. */
+        g_signal_connect_unlocked(G_OBJECT(fixed.term),
+                                  "key-release-event",
+                                  G_CALLBACK(on_term_key_event),
                                   NULL);
 
         g_signal_connect_unlocked(G_OBJECT(fixed.term),
