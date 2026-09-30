@@ -105,10 +105,10 @@ static struct console_private_s {
     /* Widgets belong to the GTK thread, no lock needed for access. */
     GtkWidget *window;
     GtkWidget *term;
-    
+
     /* This lock protects all members below - both UI and VICE threads access. */
     pthread_mutex_t lock;
-    
+
     unsigned int columns;
     unsigned int rows;
     char *input_buffer;
@@ -951,12 +951,12 @@ static gboolean uimon_restore_focus(gpointer data)
 
     mainlock_obtain();
     inside_monitor = monitor_is_inside_monitor();
-    
+
     pthread_mutex_lock(&fixed.lock);
     inactive        = (fixed.input_buffer     == NULL);
     same_generation = (fixed.input_generation == GPOINTER_TO_UINT(data));
     pthread_mutex_unlock(&fixed.lock);
-    
+
     mainlock_release();
 
     /* A new prompt is already accepting input. */
