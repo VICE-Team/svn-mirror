@@ -20,22 +20,28 @@ USBSIDDRIVER=
 
 USBSIDDRIVER += \
   USBSID.o \
-  USBSIDInterface.o
+  USBSIDInterface.o \
+  USBSID_Manager.o \
+  USBSIDManagerInterface.o
 
 # Built depending on configure options:
 EXTRA_libusbsiddrv_a_SOURCES = \
   USBSIDInterface.cpp \
-  USBSID.cpp
+  USBSID.cpp \
+  USBSID_Manager.cpp \
+  USBSIDManagerInterface.cpp
 
 EXTRA_DIST = \
   USBSID.h \
-  USBSIDInterface.h
+  USBSIDInterface.h \
+  USBSID_Manager.h \
+  USBSIDManagerInterface.h
 
 # Always built:
 # (needs to be declared empty to avoid `make` to try to build libusbsiddrv.o
 # from libusbsiddrv.c)
 libusbsiddrv_a_SOURCES =
-noinst_HEADERS = USBSID.h USBSIDInterface.h
+noinst_HEADERS = USBSID.h USBSIDInterface.h USBSID_Manager.h USBSIDManagerInterface.h
 
 # Make sure we actually link the generated object files into the library:
 libusbsiddrv_a_LIBADD = $(USBSIDDRIVER)
