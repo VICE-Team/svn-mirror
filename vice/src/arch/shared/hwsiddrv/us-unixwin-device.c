@@ -53,6 +53,42 @@
 
 #include "USBSIDInterface.h"
 
+/* Read mode 1 timing probe: 1 = log read/write timing every US_TIMING_EVERY reads */
+#define US_READ_TIMING 1
+
+#if US_READ_TIMING
+#include "archdep_tick.h"
+
+#define US_TIMING_EVERY 20000
+
+/* Timing accumulators, microseconds */
+static uint64_t ust_reads, ust_in_sum, ust_gap_sum, ust_in_max, ust_gap_max;
+static uint64_t ust_writes, ust_w_sum;
+static uint64_t ust_block_reads;
+static tick_t ust_last_end, ust_block_start;
+static int ust_have_last;
+
+/**
+ * @brief: Log accumulated read mode 1 timing and reset the block counters.
+ */
+static void us_timing_report(void)
+{
+    uint64_t wall = tick_now_delta(ust_block_start);
+    log_message(LOG_DEFAULT,
+        "USBSID timing: reads %lu (block %lu in %lu us = %.1f us/read) | in-driver avg %.1f max %lu us"
+        " | gap avg %.1f max %lu us | writes %lu avg %.1f us",
+        (unsigned long)ust_reads, (unsigned long)ust_block_reads, (unsigned long)wall,
+        ust_block_reads ? (double)wall / ust_block_reads : 0.0,
+        ust_block_reads ? (double)ust_in_sum / ust_block_reads : 0.0, (unsigned long)ust_in_max,
+        ust_block_reads ? (double)ust_gap_sum / ust_block_reads : 0.0, (unsigned long)ust_gap_max,
+        (unsigned long)ust_writes, ust_writes ? (double)ust_w_sum / ust_writes : 0.0);
+    ust_in_sum = ust_gap_sum = ust_in_max = ust_gap_max = 0;
+    ust_writes = ust_w_sum = 0;
+    ust_block_reads = 0;
+    ust_block_start = tick_now();
+}
+#endif
+
 static int rc = -1, sids_found = -1, no_sids = -1;
 static int r_audiomode = -1, audiomode = -1;
 static int r_readmode = -1, readmode = -1;
@@ -188,7 +224,28 @@ int us_device_read(uint16_t addr, int chipno)
     if (chipno < US_MAXSID) {
         addr = ((addr & 0x1F) + (chipno * 0x20));
         if (readmode == 1) {
+#if US_READ_TIMING
+            tick_t t0 = tick_now();
+            uint64_t gap = ust_have_last ? tick_now_delta(ust_last_end) : 0;
+            if (!ust_have_last) {
+                ust_block_start = t0;
+            }
+#endif
             sid_registers[addr] = read_USBSID(usbsid, addr);
+#if US_READ_TIMING
+            uint64_t in = tick_now_delta(t0);
+            ust_last_end = tick_now();
+            ust_have_last = 1;
+            ust_reads++;
+            ust_block_reads++;
+            ust_in_sum += in;
+            ust_gap_sum += gap;
+            if (in > ust_in_max) ust_in_max = in;
+            if (gap > ust_gap_max) ust_gap_max = gap;
+            if ((ust_reads % US_TIMING_EVERY) == 0) {
+                us_timing_report();
+            }
+#endif
         }
         usid_chipno = chipno;
         return sid_registers[addr];
@@ -224,7 +281,14 @@ void us_device_store(uint16_t addr, uint8_t val, int chipno) /* max chipno = 1 *
             CLOCK cycles = us_delay();
             writeringcycled_USBSID(usbsid, addr, val, (uint16_t)cycles);
         } else if (readmode == 1) {
+#if US_READ_TIMING
+            tick_t tw = tick_now();
+#endif
             write_USBSID(usbsid, addr, val);
+#if US_READ_TIMING
+            ust_w_sum += tick_now_delta(tw);
+            ust_writes++;
+#endif
         }
         usid_chipno = chipno;
         sid_registers[addr] = val;
