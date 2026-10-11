@@ -2779,7 +2779,7 @@ static int joystick_snapshot_read_module(snapshot_t *s, int port)
         return -1;
     }
 
-    if (SMR_W(m, &joystick_value[port + 1]) < 0) {
+    if (SMR_W(m, &joystick_value[port]) < 0) {
         snapshot_module_close(m);
         return -1;
     }
