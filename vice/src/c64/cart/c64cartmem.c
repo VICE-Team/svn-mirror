@@ -2176,7 +2176,7 @@ int ultimax_2000_2fff_phi2_read(uint16_t addr, uint8_t *value)
     must provide their own functions.
 */
 
-/* VICII phi1 ROMH $3000-$3fff */
+/* VICII cycle ROMH $3000-$3fff */
 static int ultimax_romh_phi1_read_slotmain(uint16_t addr, uint8_t *value)
 {
     int res = CART_READ_THROUGH;
@@ -2184,7 +2184,7 @@ static int ultimax_romh_phi1_read_slotmain(uint16_t addr, uint8_t *value)
     switch (mem_cartridge_type) {
         case CARTRIDGE_GENERIC_8KB:
         case CARTRIDGE_GENERIC_16KB:
-            return 0;
+            return CART_READ_THROUGH;   /* FIXME */
         case CARTRIDGE_ULTIMAX:
             res = generic_romh_phi1_read(addr, value);
             break;
@@ -2224,25 +2224,27 @@ static int ultimax_romh_phi1_read_slotmain(uint16_t addr, uint8_t *value)
         default:
             /* generic fallback */
             *value = ultimax_romh_read_hirom(addr);
-            return 1;
+            return CART_READ_VALID; /* FIXME */
     }
-
+#if 0
     switch (res) {
         case CART_READ_VALID:
-            return 1;
+            return CART_READ_VALID;
         case CART_READ_C64MEM:
             /* fake ultimax hack, c64 basic, ram */
-            return 0;
+            return CART_READ_THROUGH;   /* FIXME */
         case CART_READ_THROUGH_NO_ULTIMAX:
             break;
     }
 
     /* default; no cart, open bus */
     *value = vicii_read_phi1();
-    return 1;
+    return CART_READ_VALID;    /* FIXME */
+#endif
+    return res;
 }
 
-/* VICII phi1 ROMH $3000-$3fff */
+/* VICII cycle ROMH $3000-$3fff */
 static int ultimax_romh_phi1_read_slot1(uint16_t addr, uint8_t *value)
 {
     int res = CART_READ_THROUGH;
@@ -2251,18 +2253,18 @@ static int ultimax_romh_phi1_read_slot1(uint16_t addr, uint8_t *value)
 
     if (expert_cart_enabled()) {
         if ((res = expert_romh_phi1_read(addr, value)) == CART_READ_VALID) {
-            return 1;
+            return CART_READ_VALID;
         }
     } else if (isepic_cart_enabled()) {
         if ((res = isepic_romh_phi1_read(addr, value)) == CART_READ_VALID) {
-            return 1;
+            return CART_READ_VALID;
         }
     }
 
     switch (res) {
         case CART_READ_C64MEM:
             /* fake ultimax hack, c64 basic, ram */
-            return 0;
+            return CART_READ_THROUGH;   /* FIXME */
         case CART_READ_THROUGH_NO_ULTIMAX:
             break;
     }
@@ -2280,23 +2282,23 @@ int ultimax_romh_phi1_read(uint16_t addr, uint8_t *value)
 
     if (magicvoice_cart_enabled()) {
         if ((res = magicvoice_romh_phi1_read(addr, value)) == CART_READ_VALID) {
-            return 1;
+            return CART_READ_VALID;
         }
     }
     if (ieeeflash64_cart_enabled()) {
         if ((res = ieeeflash64_romh_phi1_read(addr, value)) == CART_READ_VALID) {
-            return 1;
+            return CART_READ_VALID;
         }
     }
     if (ramlink_cart_enabled()) {
         if ((res = ramlink_romh_phi1_read(addr, value)) == CART_READ_VALID) {
-            return 1;
+            return CART_READ_VALID;
         }
     }
 
     switch (res) {
         case CART_READ_C64MEM:
-            return 0;
+            return CART_READ_THROUGH;   /* FIXME */
         case CART_READ_THROUGH_NO_ULTIMAX:
             break;
     }
@@ -2313,7 +2315,7 @@ static int ultimax_romh_phi2_read_slotmain(uint16_t addr, uint8_t *value)
     switch (mem_cartridge_type) {
         case CARTRIDGE_GENERIC_8KB:
         case CARTRIDGE_GENERIC_16KB:
-            return 0;
+            return CART_READ_THROUGH;   /* FIXME */
         case CARTRIDGE_ULTIMAX:
             res = generic_romh_phi2_read(addr, value);
             break;
@@ -2353,22 +2355,24 @@ static int ultimax_romh_phi2_read_slotmain(uint16_t addr, uint8_t *value)
         default:
             /* generic fallback */
             *value = ultimax_romh_read_hirom(addr);
-            return 1;
+            return CART_READ_VALID;   /* FIXME */
     }
-
+#if 0
     switch (res) {
         case CART_READ_VALID:
-            return 1;
+            return CART_READ_VALID;
         case CART_READ_C64MEM:
             /* fake ultimax hack, c64 basic, ram */
-            return 0;
+            return CART_READ_THROUGH;   /* FIXME */
         case CART_READ_THROUGH_NO_ULTIMAX:
             break;
     }
 
     /* default; no cart, open bus */
     *value = vicii_read_phi1();
-    return 1;
+    return CART_READ_VALID;   /* FIXME */
+#endif
+    return res;
 }
 
 static int ultimax_romh_phi2_read_slot1(uint16_t addr, uint8_t *value)
@@ -2379,18 +2383,18 @@ static int ultimax_romh_phi2_read_slot1(uint16_t addr, uint8_t *value)
 
     if (expert_cart_enabled()) {
         if ((res = expert_romh_phi2_read(addr, value)) == CART_READ_VALID) {
-            return 1;
+            return CART_READ_VALID;
         }
     } else if (isepic_cart_enabled()) {
         if ((res = isepic_romh_phi2_read(addr, value)) == CART_READ_VALID) {
-            return 1;
+            return CART_READ_VALID;
         }
     }
 
     switch (res) {
         case CART_READ_C64MEM:
             /* fake ultimax hack, c64 basic, ram */
-            return 0;
+            return CART_READ_THROUGH;   /* FIXME */
         case CART_READ_THROUGH_NO_ULTIMAX:
             break;
     }
@@ -2407,24 +2411,24 @@ int ultimax_romh_phi2_read(uint16_t addr, uint8_t *value)
 
     if (magicvoice_cart_enabled()) {
         if ((res = magicvoice_romh_phi2_read(addr, value)) == CART_READ_VALID) {
-            return 1;
+            return CART_READ_VALID;
         }
     }
     if (ieeeflash64_cart_enabled()) {
         if ((res = ieeeflash64_romh_phi2_read(addr, value)) == CART_READ_VALID) {
-            return 1;
+            return CART_READ_VALID;
         }
     }
     if (ramlink_cart_enabled()) {
         if ((res = ramlink_romh_phi2_read(addr, value)) == CART_READ_VALID) {
-            return 1;
+            return CART_READ_VALID;
         }
     }
 
     switch (res) {
         case CART_READ_C64MEM:
             /* fake ultimax hack, c64 basic, ram */
-            return 0;
+            return CART_READ_THROUGH;   /* FIXME */
         case CART_READ_THROUGH_NO_ULTIMAX:
             break;
     }
