@@ -2049,6 +2049,32 @@ void ultimax_d000_dfff_store(uint16_t addr, uint8_t value)
 
 extern int board_type;
 
+/* VICII cycle $0000 - $07ff */
+int ultimax_0000_07ff_phi1_read(uint16_t addr, uint8_t *value)
+{
+    int res = CART_READ_THROUGH;
+
+    switch (mem_cartridge_type) {
+        default:
+            break;
+    }
+
+    return res;
+}
+
+/* CPU cycle $0000 - $07ff */
+int ultimax_0000_07ff_phi2_read(uint16_t addr, uint8_t *value)
+{
+    int res = CART_READ_THROUGH;
+
+    switch (mem_cartridge_type) {
+        default:
+            break;
+    }
+
+    return res;
+}
+
 /* VICII phi1 RAM $0800-$0fff (?) */
 int ultimax_ram_phi1_read(uint16_t addr, uint8_t *value)
 {
@@ -2091,6 +2117,57 @@ int ultimax_ram_phi2_read(uint16_t addr, uint8_t *value)
     }
 
     return 0;
+}
+
+/* 1000 - 1fff */
+int ultimax_chargen_phi1_read(uint16_t addr, uint8_t *value)
+{
+    int res = CART_READ_THROUGH;
+
+    switch (mem_cartridge_type) {
+        default:
+            break;
+    }
+
+    return res;
+}
+
+int ultimax_chargen_phi2_read(uint16_t addr, uint8_t *value)
+{
+    int res = CART_READ_THROUGH;
+
+    switch (mem_cartridge_type) {
+        default:
+            break;
+    }
+
+    return res;
+}
+
+/* VICII cycle $2000 - $2fff */
+int ultimax_2000_2fff_phi1_read(uint16_t addr, uint8_t *value)
+{
+    int res = CART_READ_THROUGH;
+
+    switch (mem_cartridge_type) {
+        default:
+            break;
+    }
+
+    return res;
+}
+
+/* CPU cycle $2000 - $2fff */
+int ultimax_2000_2fff_phi2_read(uint16_t addr, uint8_t *value)
+{
+    int res = CART_READ_THROUGH;
+
+    switch (mem_cartridge_type) {
+        default:
+            break;
+    }
+
+    return res;
 }
 
 /*
