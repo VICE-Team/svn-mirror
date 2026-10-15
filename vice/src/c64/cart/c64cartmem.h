@@ -64,4 +64,13 @@ int ultimax_romh_phi2_read(uint16_t addr, uint8_t *value);
 int ultimax_ram_phi1_read(uint16_t addr, uint8_t *value);
 int ultimax_ram_phi2_read(uint16_t addr, uint8_t *value);
 
+int ultimax_chargen_phi1_read(uint16_t addr, uint8_t *value);
+int ultimax_chargen_phi2_read(uint16_t addr, uint8_t *value);
+
+int ultimax_0000_07ff_phi1_read(uint16_t addr, uint8_t *value);
+int ultimax_0000_07ff_phi2_read(uint16_t addr, uint8_t *value);
+
+int ultimax_2000_2fff_phi1_read(uint16_t addr, uint8_t *value);
+int ultimax_2000_2fff_phi2_read(uint16_t addr, uint8_t *value);
+
 #endif
