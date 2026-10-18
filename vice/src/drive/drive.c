@@ -1019,11 +1019,37 @@ void drive_cpu_execute_one(diskunit_context_t *drv, CLOCK clk_value)
     }
 }
 
-/* execute the CPU of all (enabled) drives */
-void drive_cpu_execute_all(CLOCK clk_value)
+/* With more than one drive enabled, run the drives forward together, one main CPU clock at a
+   time, instead of one after the other up to clk_value. Drives see each other's serial bus
+   lines (CLK, DATA are wired-AND between all devices), so a drive must not run ahead of another
+   one by more than a clock or so, or drive to drive signalling breaks. With one drive it is the
+   same as drive_cpu_execute_one(). */
+static void drive_cpu_execute_in_step(CLOCK clk_value)
 {
-    unsigned int dnr;
+    unsigned int dnr, enabled = 0;
+    CLOCK t = clk_value;
 
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
+        diskunit_context_t *unit = diskunit_context[dnr];
+
+        if (unit->enable) {
+            enabled++;
+            if (unit->cpu->last_clk < t) {
+                t = unit->cpu->last_clk;
+            }
+        }
+    }
+    if (enabled > 1) {
+        while (++t < clk_value) {
+            for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
+                diskunit_context_t *unit = diskunit_context[dnr];
+
+                if (unit->enable) {
+                    drive_cpu_execute_one(unit, t);
+                }
+            }
+        }
+    }
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         diskunit_context_t *unit = diskunit_context[dnr];
 
@@ -1033,6 +1059,11 @@ void drive_cpu_execute_all(CLOCK clk_value)
     }
 }
 
+/* execute the CPU of all (enabled) drives */
+void drive_cpu_execute_all(CLOCK clk_value)
+{
+    drive_cpu_execute_in_step(clk_value);
+}
 
 void drive_cpu_set_overflow(diskunit_context_t *drv)
 {
@@ -1068,10 +1099,7 @@ void drive_catch_up_one_hook(diskunit_context_t *unit, CLOCK clk_value)
 */
 void drive_catch_up_hook(CLOCK clk_value)
 {
-    unsigned int dnr;
-    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
-        drive_catch_up_one_hook(diskunit_context[dnr], clk_value);
-    }
+    drive_cpu_execute_in_step(clk_value);
 }
 
 
@@ -1082,7 +1110,17 @@ void drive_catch_up_hook(CLOCK clk_value)
 */
 void drive_cycle_hook(void)
 {
-    unsigned int dnr;
+    unsigned int dnr, noidle = 0;
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
+        diskunit_context_t *unit = diskunit_context[dnr];
+
+        if (unit->enable && unit->idling_method == DRIVE_IDLE_NO_IDLE) {
+            noidle++;
+        }
+    }
+    if (noidle > 1) {
+        drive_cpu_execute_in_step(maincpu_clk);
+    }
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         diskunit_context_t *unit = diskunit_context[dnr];
         drive_t *drive = unit->drives[0];
