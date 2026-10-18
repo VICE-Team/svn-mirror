@@ -411,7 +411,6 @@ echo -ne "\n"
 #src/c64/cart/mmcreplay.c
 #src/c64/cart/rrnetmk3.c
 #src/c64/cart/ethernetcart.c
-#src/tapeport/tapecart.c
 #src/vic20/cart/vic20-ieee488.c
 #src/core/cs8900.c
 #src/core/ser-eeprom.c
