@@ -55,6 +55,7 @@
 #include "mon_memmap.h"
 #include "mon_breakpoint.h"
 #include "mon_file.h"
+#include "mon_input.h"
 #include "mon_register.h"
 
 #include "version.h"
@@ -105,6 +106,7 @@ enum t_binary_command {
     e_MON_CMD_ADVANCE_INSTRUCTIONS = 0x71,
     e_MON_CMD_KEYBOARD_FEED = 0x72,
     e_MON_CMD_EXECUTE_UNTIL_RETURN = 0x73,
+    e_MON_CMD_KEYMATRIX_SET = 0x74,
 
     e_MON_CMD_PING = 0x81,
     e_MON_CMD_BANKS_AVAILABLE = 0x82,
@@ -116,6 +118,7 @@ enum t_binary_command {
     e_MON_CMD_PALETTE_GET = 0x91,
 
     e_MON_CMD_JOYPORT_SET = 0xa2,
+    e_MON_CMD_JOYSTICK_SET = 0xa3,
 
     e_MON_CMD_USERPORT_SET = 0xb2,
 
@@ -154,6 +157,7 @@ enum t_binary_response {
     e_MON_RESPONSE_ADVANCE_INSTRUCTIONS = 0x71,
     e_MON_RESPONSE_KEYBOARD_FEED = 0x72,
     e_MON_RESPONSE_EXECUTE_UNTIL_RETURN = 0x73,
+    e_MON_RESPONSE_KEYMATRIX_SET = 0x74,
 
     e_MON_RESPONSE_PING = 0x81,
     e_MON_RESPONSE_BANKS_AVAILABLE = 0x82,
@@ -165,6 +169,7 @@ enum t_binary_response {
     e_MON_RESPONSE_PALETTE_GET = 0x91,
 
     e_MON_RESPONSE_JOYPORT_SET = 0xa2,
+    e_MON_RESPONSE_JOYSTICK_SET = 0xa3,
 
     e_MON_RESPONSE_USERPORT_SET = 0xb2,
 
@@ -761,6 +766,46 @@ static void monitor_binary_process_keyboard_feed(binary_command_t *command)
     kbdbuf_feed((char *)&body[1]);
 
     monitor_binary_response(0, e_MON_RESPONSE_KEYBOARD_FEED, e_MON_ERR_OK, command->request_id, NULL);
+}
+
+/* row value selecting the RESTORE key instead of a matrix position */
+#define BINARY_KEYMATRIX_ROW_RESTORE 0xff
+
+static void monitor_binary_process_keymatrix_set(binary_command_t *command)
+{
+    unsigned char *body = command->body;
+    int ret;
+    uint8_t row;
+    uint8_t col;
+    uint8_t state;
+    uint16_t frames;
+
+    if (command->length < 5) {
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
+        return;
+    }
+
+    row = body[0];
+    col = body[1];
+    state = body[2];
+    frames = little_endian_to_uint16(&body[3]);
+
+    if (state > 1) {
+        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        return;
+    }
+
+    if (row == BINARY_KEYMATRIX_ROW_RESTORE) {
+        ret = mon_keymatrix_restore(state ? e_ON : e_OFF, (int)frames);
+    } else {
+        ret = mon_keymatrix_set((int)row, (int)col, state ? e_ON : e_OFF, (int)frames);
+    }
+    if (ret < 0) {
+        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        return;
+    }
+
+    monitor_binary_response(0, e_MON_RESPONSE_KEYMATRIX_SET, e_MON_ERR_OK, command->request_id, NULL);
 }
 
 static void monitor_binary_process_execute_until_return(binary_command_t *command)
@@ -1411,6 +1456,30 @@ static void monitor_binary_process_joyport_set(binary_command_t *command)
     monitor_binary_response(0, e_MON_RESPONSE_JOYPORT_SET, e_MON_ERR_OK, command->request_id, NULL);
 }
 
+static void monitor_binary_process_joystick_set(binary_command_t *command)
+{
+    unsigned char *body = command->body;
+    uint8_t port;
+    uint16_t value;
+    uint16_t frames;
+
+    if (command->length < 5) {
+        monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
+        return;
+    }
+
+    port = body[0];
+    value = little_endian_to_uint16(&body[1]);
+    frames = little_endian_to_uint16(&body[3]);
+
+    if (mon_joystick_set((int)port, (int)value, (int)frames) < 0) {
+        monitor_binary_error(e_MON_ERR_INVALID_PARAMETER, command->request_id);
+        return;
+    }
+
+    monitor_binary_response(0, e_MON_RESPONSE_JOYSTICK_SET, e_MON_ERR_OK, command->request_id, NULL);
+}
+
 static void monitor_binary_process_userport_set(binary_command_t *command)
 {
     IO_SIM_RESULT ret;
@@ -1827,12 +1896,16 @@ static void monitor_binary_process_command(unsigned char * pbuffer)
         monitor_binary_process_keyboard_feed(&command);
     } else if (command_type == e_MON_CMD_EXECUTE_UNTIL_RETURN) {
         monitor_binary_process_execute_until_return(&command);
+    } else if (command_type == e_MON_CMD_KEYMATRIX_SET) {
+        monitor_binary_process_keymatrix_set(&command);
 
     } else if (command_type == e_MON_CMD_PALETTE_GET) {
         monitor_binary_process_palette_get(&command);
 
     } else if (command_type == e_MON_CMD_JOYPORT_SET) {
         monitor_binary_process_joyport_set(&command);
+    } else if (command_type == e_MON_CMD_JOYSTICK_SET) {
+        monitor_binary_process_joystick_set(&command);
 
     } else if (command_type == e_MON_CMD_USERPORT_SET) {
         monitor_binary_process_userport_set(&command);

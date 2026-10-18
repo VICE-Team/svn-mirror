@@ -64,6 +64,7 @@
 #include "mem.h"
 #include "mon_breakpoint.h"
 #include "mon_disassemble.h"
+#include "mon_input.h"
 #include "mon_memmap.h"
 #include "mon_memory.h"
 #include "asm.h"
@@ -389,6 +390,8 @@ void monitor_reset_hook(void)
 
 void monitor_vsync_hook(void)
 {
+    mon_input_vsync_hook();
+
     if (init_break_mode == ON_READY) {
         /*
          * Check if READY has been printed on the screen ..

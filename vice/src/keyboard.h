@@ -110,6 +110,13 @@ void keyboard_set_keyarr_any(int row, int col, int value);
 
 void keyboard_clear_keymatrix(void);
 
+/* keys pressed from the monitor, independent of the host keyboard */
+int keyboard_inject_key(int row, int col, int pressed);
+int keyboard_inject_key_get(int row, int col);
+int keyboard_inject_restore(int pressed);
+int keyboard_inject_restore_get(void);
+void keyboard_inject_clear(void);
+
 void keyboard_event_playback(CLOCK offset, void *data);
 void keyboard_restore_event_playback(CLOCK offset, void *data);
 void keyboard_event_delayed_playback(void *data);

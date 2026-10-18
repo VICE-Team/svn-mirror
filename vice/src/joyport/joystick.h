@@ -457,6 +457,10 @@ void joystick_set_value_and(unsigned int joyport, uint16_t value);
 void joystick_clear(unsigned int joyport);
 void joystick_clear_all(void);
 
+/* joystick bits set from the monitor, independent of the host joystick */
+void joystick_inject_set(unsigned int joyport, uint16_t value);
+uint16_t joystick_inject_get(unsigned int joyport);
+
 void joystick_event_playback(CLOCK offset, void *data);
 void joystick_event_delayed_playback(void *data);
 void joystick_register_delay(unsigned int delay);
