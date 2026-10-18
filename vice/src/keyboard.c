@@ -106,6 +106,13 @@ static int latch_rev_keyarr[KBD_COLS];
 static int network_keyarr[KBD_ROWS];
 static int network_rev_keyarr[KBD_COLS];
 
+/* Keys pressed from the monitor. Kept apart from the host keyboard state, so
+   host events (and the UI clearing the matrix on focus changes) don't release
+   them, and merged into keyarr whenever it is latched. */
+static int inject_keyarr[KBD_ROWS];
+static int inject_rev_keyarr[KBD_COLS];
+static int inject_restore = 0;
+
 /* Shift lock state. (emulated keyboard) */
 static int keyboard_shiftlock = 0;
 
@@ -183,11 +190,25 @@ static void keyboard_alarm_handler(CLOCK offset, void *data);
 
 /******************************************************************************/
 
+/* merge the keys pressed from the monitor into the real keyarr */
+static void keyboard_apply_injected(void)
+{
+    int i;
+
+    for (i = 0; i < KBD_ROWS; i++) {
+        keyarr[i] |= inject_keyarr[i];
+    }
+    for (i = 0; i < KBD_COLS; i++) {
+        rev_keyarr[i] |= inject_rev_keyarr[i];
+    }
+}
+
 /* FIXME: the SDL port uses this directly */
 void keyboard_clear_keymatrix(void)
 {
     memset(keyarr, 0, sizeof(keyarr));
     memset(rev_keyarr, 0, sizeof(rev_keyarr));
+    keyboard_apply_injected();
     memset(latch_keyarr, 0, sizeof(latch_keyarr));
     memset(latch_rev_keyarr, 0, sizeof(latch_rev_keyarr));
     keyboard_shiftlock = 0;
@@ -330,6 +351,7 @@ static void keyboard_latch_matrix(CLOCK offset)
         memcpy(keyarr, latch_keyarr, sizeof(keyarr));
         memcpy(rev_keyarr, latch_rev_keyarr, sizeof(rev_keyarr));
     }
+    keyboard_apply_injected();
     if (keyboard_machine_func != NULL) {
         keyboard_machine_func(keyarr);
     }
@@ -940,6 +962,104 @@ void keyboard_set_keyarr_any(int row, int col, int value)
         }
     } else {
         keyboard_set_keyarr(row, col, value);
+    }
+}
+
+/*-----------------------------------------------------------------------*/
+
+/** \brief  Press or release a key in the matrix on behalf of the monitor
+ *
+ * The key is kept in a separate matrix that is merged into the emulated one
+ * whenever that is latched, so the host keyboard can neither press nor
+ * release it. The change takes effect immediately, without the random delay
+ * applied to host key events.
+ *
+ * \param[in]   row     matrix row
+ * \param[in]   col     matrix column
+ * \param[in]   pressed press (1) or release (0) the key
+ *
+ * \return  0 on success, -1 if row or column are out of range
+ */
+int keyboard_inject_key(int row, int col, int pressed)
+{
+    if (row < 0 || row >= KBD_ROWS || col < 0 || col >= KBD_COLS) {
+        return -1;
+    }
+
+    if (pressed) {
+        inject_keyarr[row] |= 1 << col;
+        inject_rev_keyarr[col] |= 1 << row;
+    } else {
+        inject_keyarr[row] &= ~(1 << col);
+        inject_rev_keyarr[col] &= ~(1 << row);
+    }
+
+    keyboard_latch_matrix(maincpu_clk);
+    keyboard_event_record();
+    return 0;
+}
+
+/** \brief  Check if a key was pressed by keyboard_inject_key()
+ *
+ * \param[in]   row     matrix row
+ * \param[in]   col     matrix column
+ *
+ * \return  1 if the key is pressed, 0 otherwise
+ */
+int keyboard_inject_key_get(int row, int col)
+{
+    if (row < 0 || row >= KBD_ROWS || col < 0 || col >= KBD_COLS) {
+        return 0;
+    }
+    return (inject_keyarr[row] & (1 << col)) ? 1 : 0;
+}
+
+/** \brief  Press or release RESTORE on behalf of the monitor
+ *
+ * Unlike a host key press this is not delayed.
+ *
+ * \param[in]   pressed press (1) or release (0) the key
+ *
+ * \return  0 on success, -1 if the machine has no RESTORE key
+ */
+int keyboard_inject_restore(int pressed)
+{
+    static uint32_t event_data;
+
+    if (!machine_has_restore_key()) {
+        return -1;
+    }
+
+    pressed = pressed ? 1 : 0;
+    if (pressed != inject_restore) {
+        inject_restore = pressed;
+        machine_set_restore_key(pressed);
+        event_data = (uint32_t)pressed;
+        event_record(EVENT_KEYBOARD_RESTORE, (void*)&event_data, sizeof(uint32_t));
+    }
+    return 0;
+}
+
+/** \brief  Check if RESTORE was pressed by keyboard_inject_restore()
+ *
+ * \return  1 if RESTORE is pressed, 0 otherwise
+ */
+int keyboard_inject_restore_get(void)
+{
+    return inject_restore;
+}
+
+/** \brief  Release all keys pressed on behalf of the monitor
+ */
+void keyboard_inject_clear(void)
+{
+    memset(inject_keyarr, 0, sizeof(inject_keyarr));
+    memset(inject_rev_keyarr, 0, sizeof(inject_rev_keyarr));
+    keyboard_latch_matrix(maincpu_clk);
+    keyboard_event_record();
+
+    if (inject_restore) {
+        keyboard_inject_restore(0);
     }
 }
 

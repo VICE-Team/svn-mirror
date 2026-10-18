@@ -20967,6 +20967,48 @@ Print out list of attached expansion port devices.
 Put the specified string into the keyboard buffer. Note that you can specify
 specific keycodes by using C-style escaped hexcodes ("\x0a").
 
+@item keymatrix [<row> <col> [<frames>|on|off|toggle]]
+@itemx keymatrix restore [<frames>|on|off|toggle]
+@itemx keymatrix clear
+@itemx km ...
+Press or release a key directly in the emulated keyboard matrix. Unlike
+@code{keybuf} this also works for programs that scan the keyboard themselves
+instead of using the KERNAL. @code{<row>} and @code{<col>} select the
+position in the matrix as used by the keyboard map files (see @ref{Keymap
+files}); on the C128 rows 8-10 are the extra keys scanned through the
+VIC-IIe (K0-K2).
+
+The key stays pressed until it is released with @code{off} or
+@code{clear}. If @code{<frames>} is given it is released again
+automatically after that many frames, counted at the end of each frame.
+@code{toggle} inverts the current state of the key. @code{restore} does the
+same for the RESTORE key (on machines that have one). @code{clear} releases
+all keys pressed with this command.
+
+Keys pressed this way are kept apart from the host keyboard: they are
+pressed immediately, without the small random delay applied to host key
+presses, and are neither pressed nor released by host key events. Without
+arguments the current matrix is shown, with @code{#} marking keys pressed
+by this command and @code{*} keys pressed on the host keyboard.
+
+Note that like all numbers in the monitor, @code{<frames>} uses the current
+radix, so @code{keymatrix 1 4 +50} presses the key for 50 frames, while
+@code{keymatrix 1 4 50} presses it for 80 frames when the radix is
+hexadecimal (the default).
+
+@item joystick [<port> <value> [<frames>]]
+@itemx joystick clear
+@itemx joy ...
+Set the value of a joystick port. The value is ORed into the value of the
+host joystick and uses the bits 1 = up, 2 = down, 4 = left, 8 = right,
+$10 = fire and $20-$800 = fire 2-8. Port 1 is control port 1; the
+additional ports (for example of userport joystick adapters) are numbered
+as in the joystick settings. The value is kept until it is changed or
+cleared with @code{joystick clear}, or for @code{<frames>} frames if
+given. Like @code{keymatrix}, this works without delay and independently
+of the host joystick. Note that the port must have a joystick device
+attached. Without arguments the current values of all ports are shown.
+
 
 @end table
 
@@ -21823,6 +21865,7 @@ mentioned above.
 * MON_CMD_ADVANCE_INSTRUCTIONS::
 * MON_CMD_KEYBOARD_FEED::
 * MON_CMD_EXECUTE_UNTIL_RETURN::
+* MON_CMD_KEYMATRIX_SET::
 * MON_CMD_PING::
 * MON_CMD_BANKS_AVAILABLE::
 * MON_CMD_REGISTERS_AVAILABLE::
@@ -21831,6 +21874,7 @@ mentioned above.
 * MON_CMD_CPUHISTORY_GET::
 * MON_CMD_PALETTE_GET::
 * MON_CMD_JOYPORT_SET::
+* MON_CMD_JOYSTICK_SET::
 * MON_CMD_USERPORT_SET::
 * MON_CMD_EXIT::
 * MON_CMD_QUIT::
@@ -22484,6 +22528,45 @@ Currently empty.
 @end example
 @*
 
+@node MON_CMD_KEYMATRIX_SET
+@subsection Keymatrix set (0x74)
+
+Press or release a key in the keyboard matrix.
+
+This command is the same as "keymatrix" in the text monitor.
+
+Minimum VICE version: 3.11
+
+Command body:
+
+@example
+RW | CL | ST | FR FR
+@end example
+@*
+
+@table @strong
+@item RW: 1 byte: Row in the keyboard matrix, or 0xff for the RESTORE key
+
+@item CL: 1 byte: Column in the keyboard matrix (ignored for RESTORE)
+
+@item ST: 1 byte: State
+0x00: released, 0x01: pressed
+
+@item FR: 2 bytes: Release the key again after this many frames, 0 keeps it pressed
+
+@end table
+
+Response type:
+
+0x74: MON_RESPONSE_KEYMATRIX_SET
+
+Response body:
+
+@example
+Currently empty.
+@end example
+@*
+
 @node MON_CMD_PING
 @subsection Ping (0x81)
 
@@ -22913,6 +22996,45 @@ PN PN | PV PV
 Response type:
 
 0xa2: MON_RESPONSE_JOYPORT_SET
+
+Response body:
+
+@example
+Currently empty.
+@end example
+@*
+
+@node MON_CMD_JOYSTICK_SET
+@subsection Joystick set (0xa3)
+
+Set the joystick value of a port, which is ORed into the value of the host
+joystick. Unlike the joyport set command, this works with the regular
+joystick device.
+
+This command is the same as "joystick" in the text monitor.
+
+Minimum VICE version: 3.11
+
+Command body:
+
+@example
+PN | PV PV | FR FR
+@end example
+@*
+
+@table @strong
+@item PN: 1 byte: The port, starting at 1 for control port 1
+
+@item PV: 2 bytes: Joystick bits
+1 = up, 2 = down, 4 = left, 8 = right, 0x10 = fire, 0x20-0x800 = fire 2-8
+
+@item FR: 2 bytes: Clear the value again after this many frames, 0 keeps it
+
+@end table
+
+Response type:
+
+0xa3: MON_RESPONSE_JOYSTICK_SET
 
 Response body:
 

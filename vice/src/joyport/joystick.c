@@ -133,6 +133,10 @@ static joystick_values_t network_joystick_value = { .last_used_joyport = JOYPORT
 /* Latched joystick status.  */
 static joystick_values_t latch_joystick_value = { .last_used_joyport = JOYPORT_MAX_PORTS };
 
+/* Joystick bits set from the monitor, merged into joystick_value whenever it
+   is latched so host joystick events and clears don't affect them. */
+static uint16_t inject_joystick_value[JOYPORT_MAX_PORTS] = { 0 };
+
 /* mapping of the joystick ports */
 int joystick_port_map[JOYPORT_MAX_PORTS] = { 0 };
 
@@ -213,6 +217,10 @@ static void joystick_latch_matrix(CLOCK offset)
         }
     } else {
         memcpy(joystick_value, latch_joystick_value.values, sizeof(joystick_value));
+    }
+
+    for (port = 0; port < JOYPORT_MAX_PORTS; port++) {
+        joystick_value[port] |= inject_joystick_value[port];
     }
 
     if (joystick_machine_func != NULL) {
@@ -357,6 +365,39 @@ void joystick_set_value_and(unsigned int joyport, uint16_t value)
     latch_joystick_value.last_used_joyport = joyport;
     joystick_process_latch();
     joystick_handle_hooks(joyport);
+}
+
+/** \brief  Set joystick bits on behalf of the monitor
+ *
+ * The bits are ORed into the value from the host joystick, which can't
+ * release them. The change takes effect immediately, without the random
+ * delay applied to host joystick events.
+ *
+ * \param[in]   joyport port index (JOYPORT_1 etc.)
+ * \param[in]   value   joystick bits (JOYPORT_UP, JOYPORT_FIRE etc.)
+ */
+void joystick_inject_set(unsigned int joyport, uint16_t value)
+{
+    if (joyport >= JOYPORT_MAX_PORTS) {
+        return;
+    }
+    inject_joystick_value[joyport] = value;
+    joystick_latch_matrix(maincpu_clk);
+    joystick_event_record();
+}
+
+/** \brief  Get the joystick bits set by joystick_inject_set()
+ *
+ * \param[in]   joyport port index (JOYPORT_1 etc.)
+ *
+ * \return  joystick bits
+ */
+uint16_t joystick_inject_get(unsigned int joyport)
+{
+    if (joyport >= JOYPORT_MAX_PORTS) {
+        return 0;
+    }
+    return inject_joystick_value[joyport];
 }
 
 void joystick_clear(unsigned int joyport)

@@ -301,6 +301,29 @@ static const mon_cmds_t mon_cmd_array[] = {
       NO_FILENAME_ARG
     },
 
+    { "keymatrix", "km",
+      "[<row> <col> [<frames>|on|off|toggle]] | [restore [<frames>|on|off|toggle]] | [clear]",
+      "Press or release a key directly in the keyboard matrix, which also works"
+      " for programs that scan the keyboard themselves. The key stays pressed"
+      " until it is released with 'off' or 'clear', or for <frames> frames if"
+      " given. Keys pressed this way are not affected by the host keyboard."
+      " 'restore' presses the RESTORE key, 'clear' releases all keys pressed"
+      " with this command. Without arguments the current matrix is shown,"
+      " with '#' marking keys pressed by this command and '*' keys pressed"
+      " on the host keyboard.",
+      NO_FILENAME_ARG
+    },
+
+    { "joystick", "joy",
+      "[<port> <value> [<frames>]] | [clear]",
+      "Set the joystick value of a port, which is ORed into the value of the"
+      " host joystick: 1 = up, 2 = down, 4 = left, 8 = right, $10 = fire,"
+      " $20-$800 = fire 2-8. Port 1 is control port 1. The value is kept"
+      " until it is changed or cleared with 'clear', or for <frames> frames if"
+      " given. Without arguments the current values are shown.",
+      NO_FILENAME_ARG
+    },
+
     { "warp", "",
       "[on|off|toggle]",
       "Turn warp mode on or off. If the argument is 'toggle' then the current mode"

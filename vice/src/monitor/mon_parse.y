@@ -58,6 +58,7 @@ char *alloca();
 #include "mon_disassemble.h"
 #include "mon_drive.h"
 #include "mon_file.h"
+#include "mon_input.h"
 #include "mon_memmap.h"
 #include "mon_memory.h"
 #include "mon_register.h"
@@ -153,6 +154,7 @@ void set_yydebug(int val);
 %token CMD_ATTACH CMD_DETACH CMD_MON_RESET CMD_TAPECTRL CMD_TAPEOFFS CMD_CARTFREEZE CMD_UPDB CMD_JPDB
 %token CMD_CPUHISTORY CMD_MEMMAPZAP CMD_MEMMAPSHOW CMD_MEMMAPSAVE
 %token CMD_COMMENT CMD_LIST CMD_STOPWATCH RESET
+%token CMD_KEYMATRIX CMD_JOYSTICK KEY_RESTORE
 %token CMD_EXPORT CMD_AUTOSTART CMD_AUTOLOAD CMD_MAINCPU_TRACE
 %token CMD_WARP
 %token CMD_PROFILE FLAT GRAPH FUNC DEPTH DISASS PROFILE_CONTEXT CLEAR
@@ -601,6 +603,30 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                     { mon_joyport_set_output($2, $3); }
                   | CMD_JPDB number end_cmd
                     { mon_joyport_get_output($2); }
+                  | CMD_KEYMATRIX end_cmd
+                    { mon_keymatrix_show(); }
+                  | CMD_KEYMATRIX CLEAR end_cmd
+                    { mon_keymatrix_clear(); }
+                  | CMD_KEYMATRIX number number end_cmd
+                    { mon_keymatrix_set($2, $3, e_ON, 0); }
+                  | CMD_KEYMATRIX number number number end_cmd
+                    { mon_keymatrix_set($2, $3, e_ON, $4); }
+                  | CMD_KEYMATRIX number number TOGGLE end_cmd
+                    { mon_keymatrix_set($2, $3, $4, 0); }
+                  | CMD_KEYMATRIX KEY_RESTORE end_cmd
+                    { mon_keymatrix_restore(e_ON, 0); }
+                  | CMD_KEYMATRIX KEY_RESTORE number end_cmd
+                    { mon_keymatrix_restore(e_ON, $3); }
+                  | CMD_KEYMATRIX KEY_RESTORE TOGGLE end_cmd
+                    { mon_keymatrix_restore($3, 0); }
+                  | CMD_JOYSTICK end_cmd
+                    { mon_joystick_show(); }
+                  | CMD_JOYSTICK CLEAR end_cmd
+                    { mon_joystick_clear(); }
+                  | CMD_JOYSTICK number number end_cmd
+                    { mon_joystick_set($2, $3, 0); }
+                  | CMD_JOYSTICK number number number end_cmd
+                    { mon_joystick_set($2, $3, $4); }
                   | CMD_COMMENT opt_rest_of_line end_cmd
                      { }
                   | CMD_STOPWATCH RESET end_cmd
