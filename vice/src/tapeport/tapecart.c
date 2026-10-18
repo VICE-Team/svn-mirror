@@ -89,7 +89,48 @@ typedef enum {
     MODE_REINIT
 } tapecart_mode_t;
 
-typedef clock_t (*wait_handler_t)(void);
+/* things to wait for */
+typedef enum {
+    WH_INVALID = 0,
+    WH_FASTTX_NIBBLE_ADVANCE,
+    WH_RX1BIT,
+    WH_TX1BIT,
+    WH_CMDMODE_RX_COMMAND,
+    WH_CMDMODE_SEND_PULSES,
+} wait_handler_t;
+
+/* next action after completing a transfer */
+typedef enum {
+    TC_INVALID = 0,
+    TC_FASTLOAD_POSTDELAY,
+    TC_CMDMODE_RECEIVE_COMMAND,
+    TC_CMDMODE_DISPATCH_COMMAND,
+    TC_CMDMODE_WRITE_FLASH_PAGE,
+    TC_CMD_READ_FLASH,
+    TC_CMD_READ_FLASH_FAST,
+    TC_CMD_WRITE_FLASH,
+    TC_CMD_ERASE_FLASH_64K,
+    TC_CMD_ERASE_FLASH_BLOCK,
+    TC_CMD_CRC32_FLASH,
+    TC_CMD_WRITE_LOADINFO,
+    TC_CMD_DIR_SETPARAMS,
+    TC_CMD_DIR_LOOKUP,
+} transfer_complete_t;
+
+/* destinations for the logic alarm */
+typedef enum {
+    LOGIC_INVALID = 0,
+    LOGIC_FASTTX_NIBBLE_ADVANCE,
+    LOGIC_FASTTX_BYTE_ADVANCE,
+    LOGIC_FASTLOAD_COMPLETE,
+    LOGIC_RECEIVE_1BIT_CALLBACK,
+    LOGIC_RECEIVE_1BIT_DELAYED,
+    LOGIC_TRANSMIT_1BIT_CALLBACK,
+    LOGIC_TRANSMIT_1BIT_DELAYED,
+    LOGIC_CMDMODE_RECEIVE_COMMAND,
+    LOGIC_CMDMODE_SEND_PULSES,
+    LOGIC_COMMAND_MODE_INIT,
+} logic_next_t;
 
 /* a few forward declarations */
 static void    tapecart_shutdown(void);
@@ -110,6 +151,10 @@ static clock_t cmdmode_receive_command(void);
 
 static int     load_tcrt(const char *filename, tapecart_memory_t *tcmem);
 static void    update_tcrt(void);
+
+static clock_t dispatch_wait_handler(void);
+static clock_t dispatch_transfer_complete(transfer_complete_t tc);
+static clock_t dispatch_logic_next(void);
 
 #define VICE_MACHINE_MASK (VICE_MACHINE_C64|VICE_MACHINE_C64SC|VICE_MACHINE_C128)
 
@@ -204,10 +249,11 @@ typedef enum { /* order matters! */
     FASTTX_BUSY_DELAY
 } fasttx_state_t;
 
-static fasttx_state_t      fasttx_state;
+static fasttx_state_t fasttx_state;
 
 /** shared between fastload mode and command mode */
-static wait_handler_t  transfer_complete;
+static transfer_complete_t transfer_complete;
+
 /* 256 bytes needed for dir_lookup */
 static uint8_t         transfer_buffer[max(256, FLASH_PAGE_SIZE)];
 static uint8_t        *transfer_ptr;
@@ -297,7 +343,7 @@ static tapecart_memory_t  *tapecart_memory;
 static tapecart_mode_t     tapecart_mode  = MODE_UNINITIALIZED;
 static tapecart_mode_t     requested_mode = MODE_STREAM;
 
-static wait_handler_t      alarm_trigger_callback;
+static logic_next_t logic_next;
 
 
 /* ------------------------------------------------------------------------- */
@@ -711,7 +757,7 @@ static clock_t fasttx_nibble_advance(void)
 
     switch (fasttx_state) {
     case FASTTX_WAIT_WRITE_HIGH:
-        wait_handler    = fasttx_nibble_advance;
+        wait_handler    = WH_FASTTX_NIBBLE_ADVANCE;
         wait_for_signal = WAIT_WRITE_HIGH;
         transfer_byte   = *transfer_ptr++;
         transfer_remaining--;
@@ -727,7 +773,7 @@ static clock_t fasttx_nibble_advance(void)
     case FASTTX_BITS_54:
         set_sense(transfer_byte & 0x20);
         set_write(transfer_byte & 0x10);
-        alarm_trigger_callback = fasttx_nibble_advance;
+        logic_next = LOGIC_FASTTX_NIBBLE_ADVANCE;
         return 9;
 
     case FASTTX_BITS_76:
@@ -751,7 +797,7 @@ static clock_t fasttx_nibble_advance(void)
         return 1;
 
     case FASTTX_WAIT_WRITE_LOW:
-        wait_handler    = fasttx_nibble_advance;
+        wait_handler    = WH_FASTTX_NIBBLE_ADVANCE;
         wait_for_signal = WAIT_WRITE_LOW;
         return 0;
 
@@ -763,7 +809,7 @@ static clock_t fasttx_nibble_advance(void)
             set_sense(0);
         }
 
-        alarm_trigger_callback = fasttx_byte_advance;
+        logic_next = LOGIC_FASTTX_BYTE_ADVANCE;
         return 1; /* random guess, not sure how much time it takes in reality */
 
     default:
@@ -780,7 +826,7 @@ static clock_t fasttx_byte_advance(void)
         return fasttx_nibble_advance();
     } else {
         /* at end of buffer */
-        return transfer_complete();
+        return dispatch_transfer_complete(transfer_complete);
     }
 }
 
@@ -793,19 +839,19 @@ static clock_t fastload_complete(void)
 static clock_t fastload_postdelay(void)
 {
     /* 200ms delay after fastload */
-    alarm_trigger_callback = fastload_complete;
+    logic_next = LOGIC_FASTLOAD_COMPLETE;
     return machine_get_cycles_per_second() / 5;
 }
 
 static clock_t transmit_fast(clock_t delay,
                              uint8_t *buffer, unsigned int length,
-                             wait_handler_t complete_callback)
+                             transfer_complete_t complete_callback)
 {
-    transfer_remaining     = length;
-    transfer_ptr           = buffer;
-    fasttx_state           = FASTTX_INIT;
-    alarm_trigger_callback = fasttx_nibble_advance;
-    transfer_complete      = complete_callback;
+    transfer_remaining = length;
+    transfer_ptr       = buffer;
+    fasttx_state       = FASTTX_INIT;
+    logic_next         = LOGIC_FASTTX_NIBBLE_ADVANCE;
+    transfer_complete  = complete_callback;
     return delay;
 }
 
@@ -832,7 +878,7 @@ static clock_t fastload_mode_init(void)
     return transmit_fast(machine_get_cycles_per_second() / 10,
                          tapecart_buffers->data,
                          6 + tapecart_memory->data_length - 2,
-                         fastload_postdelay);
+                         TC_FASTLOAD_POSTDELAY);
 }
 
 
@@ -880,7 +926,7 @@ static clock_t receive_1bit_callback(void)
 
         case RX1BIT_WAIT_SENSE_LOW:
             rx1bit_state = RX1BIT_DELAY;
-            alarm_trigger_callback = receive_1bit_callback;
+            logic_next = LOGIC_RECEIVE_1BIT_CALLBACK;
             return machine_get_cycles_per_second() / 100000; /* 10 microseconds */
 
         case RX1BIT_DELAY:
@@ -894,7 +940,7 @@ static clock_t receive_1bit_callback(void)
                 rx1bit_state    = RX1BIT_RECEIVE;
                 set_sense(1);
             } else {
-                return transfer_complete();
+                return dispatch_transfer_complete(transfer_complete);
             }
             break;
     }
@@ -911,12 +957,12 @@ static clock_t receive_1bit_delayed(void)
 
 static clock_t receive_1bit(clock_t delay,
                             uint8_t *buffer, unsigned int length,
-                            wait_handler_t complete_callback)
+                            transfer_complete_t complete_callback)
 {
     if (length == 0) {
         log_warning(tapecart_log,
                     "WARNING: attempted to do 1-bit-receive with length 0");
-        return complete_callback();
+        return dispatch_transfer_complete(complete_callback);
     }
 
     transfer_ptr       = buffer;
@@ -924,11 +970,11 @@ static clock_t receive_1bit(clock_t delay,
     transfer_bit       = 0;
     transfer_complete  = complete_callback;
 
-    wait_handler = receive_1bit_callback;
+    wait_handler = WH_RX1BIT;
     rx1bit_state = RX1BIT_RECEIVE;
 
     if (delay > 0) {
-        alarm_trigger_callback = receive_1bit_delayed;
+        logic_next = LOGIC_RECEIVE_1BIT_DELAYED;
         return delay;
     } else {
         set_sense(1);
@@ -969,7 +1015,7 @@ static clock_t transmit_1bit_callback(void)
         case TX1BIT_WAIT_WRITE_LOW:
             set_sense(0);
             tx1bit_state = TX1BIT_PROCESSING;
-            alarm_trigger_callback = transmit_1bit_callback;
+            logic_next = LOGIC_TRANSMIT_1BIT_CALLBACK;
             return 5; /* simulate a bit of processing delay */
 
         case TX1BIT_PROCESSING:
@@ -978,7 +1024,7 @@ static clock_t transmit_1bit_callback(void)
                 tx1bit_state    = TX1BIT_PREPARE_SEND;
                 set_sense(1);
             } else {
-                return transfer_complete();
+                return dispatch_transfer_complete(transfer_complete);
             }
             break;
     }
@@ -995,18 +1041,18 @@ static clock_t transmit_1bit_delayed(void)
 
 static clock_t transmit_1bit(clock_t delay,
                              uint8_t *buffer, unsigned int length,
-                             wait_handler_t complete_callback)
+                             transfer_complete_t complete_callback)
 {
     transfer_ptr       = buffer;
     transfer_remaining = length;
     transfer_bit       = 0;
     transfer_complete  = complete_callback;
 
-    wait_handler    = transmit_1bit_callback;
+    wait_handler    = WH_TX1BIT;
     tx1bit_state    = TX1BIT_PREPARE_SEND;
 
     if (delay > 0) {
-        alarm_trigger_callback = transmit_1bit_delayed;
+        logic_next = LOGIC_TRANSMIT_1BIT_DELAYED;
         return delay;
     } else {
         set_sense(1);
@@ -1038,7 +1084,7 @@ static clock_t cmd_read_flash(void)
     }
 
     /* pre-transmit delay is pretty much handwaved */
-    return transmit_1bit(4, tapecart_memory->flash + address, length, cmdmode_receive_command);
+    return transmit_1bit(4, tapecart_memory->flash + address, length, TC_CMDMODE_RECEIVE_COMMAND);
 }
 
 static clock_t cmd_read_flash_fast(void)
@@ -1060,7 +1106,7 @@ static clock_t cmd_read_flash_fast(void)
 
     /* note: 1 cycle delay before start is probably inaccurate */
     return transmit_fast(1, tapecart_memory->flash + address, length,
-                         cmdmode_receive_command);
+                         TC_CMDMODE_RECEIVE_COMMAND);
 }
 
 static clock_t cmdmode_write_flash_page(void)
@@ -1088,10 +1134,10 @@ static clock_t cmdmode_write_flash_page(void)
     if (total_length > 0) {
         block_length = min(FLASH_PAGE_SIZE, total_length);
         return receive_1bit(flash_page_write_time, transfer_buffer,
-                            block_length, cmdmode_write_flash_page);
+                            block_length, TC_CMDMODE_WRITE_FLASH_PAGE);
 
     } else {
-        alarm_trigger_callback = cmdmode_receive_command;
+        logic_next = LOGIC_CMDMODE_RECEIVE_COMMAND;
         return flash_page_write_time;
     }
 }
@@ -1122,7 +1168,7 @@ static clock_t cmd_write_flash(void)
     block_length = min(block_length, total_length);
 
     return receive_1bit(flash_page_write_time, transfer_buffer, block_length,
-                        cmdmode_write_flash_page);
+                        TC_CMDMODE_WRITE_FLASH_PAGE);
 }
 
 static clock_t cmd_erase_flash_64k(void)
@@ -1146,7 +1192,7 @@ static clock_t cmd_erase_flash_64k(void)
     }
 
     /* simulate typical erase time of SPI flash */
-    alarm_trigger_callback = cmdmode_receive_command;
+    logic_next = LOGIC_CMDMODE_RECEIVE_COMMAND;
     return flash_erase_64k_time;
 }
 
@@ -1172,7 +1218,7 @@ static clock_t cmd_erase_flash_block(void)
     }
 
     /* simulate typical erase time of SPI flash */
-    alarm_trigger_callback = cmdmode_receive_command;
+    logic_next = LOGIC_CMDMODE_RECEIVE_COMMAND;
     return flash_erase_page_time;
 }
 
@@ -1201,7 +1247,7 @@ static clock_t cmd_crc32_flash(void)
 
     /* very handwaved processing time estimate */
     return transmit_1bit(4 * length, transfer_buffer, 4,
-                         cmdmode_receive_command);
+                         TC_CMDMODE_RECEIVE_COMMAND);
 }
 
 static clock_t cmd_write_loadinfo(void)
@@ -1273,7 +1319,7 @@ static clock_t cmd_dir_lookup(void)
 
             processing_delay = (dir_name_len + dir_data_len) * (i+1);
             return transmit_1bit(processing_delay, transfer_buffer,
-                                 1 + dir_data_len, cmdmode_receive_command);
+                                 1 + dir_data_len, TC_CMDMODE_RECEIVE_COMMAND);
         }
 
         ptr += dir_name_len + dir_data_len;
@@ -1287,7 +1333,7 @@ static clock_t cmd_dir_lookup(void)
     transfer_buffer[0] = 1;
     processing_delay = (dir_name_len + dir_data_len) * dir_entries;
     return transmit_1bit(processing_delay, transfer_buffer,
-                         1, cmdmode_receive_command);
+                         1, TC_CMDMODE_RECEIVE_COMMAND);
 }
 
 /*
@@ -1310,49 +1356,49 @@ static clock_t cmdmode_dispatch_command(void)
         case CMD_READ_DEVICEINFO:
             transmit_1bit(0, (uint8_t *)idstring,
                           (unsigned int)(sizeof(idstring)),
-                          cmdmode_receive_command);
+                          TC_CMDMODE_RECEIVE_COMMAND);
             break;
 
         case CMD_READ_DEVICESIZES:
             ptr = put_u24_le(transfer_buffer, TAPECART_FLASH_SIZE);
             ptr = put_u16_le(ptr, FLASH_PAGE_SIZE);
             ptr = put_u16_le(ptr, FLASH_ERASE_SIZE / FLASH_PAGE_SIZE);
-            transmit_1bit(0, transfer_buffer, 7, cmdmode_receive_command);
+            transmit_1bit(0, transfer_buffer, 7, TC_CMDMODE_RECEIVE_COMMAND);
             break;
 
         case CMD_READ_CAPABILITIES:
             /* no extended capabilities currently exist, so none are supported */
             memset(transfer_buffer, 0, 4);
-            transmit_1bit(0, transfer_buffer, 4, cmdmode_receive_command);
+            transmit_1bit(0, transfer_buffer, 4, TC_CMDMODE_RECEIVE_COMMAND);
             break;
 
         case CMD_READ_FLASH:
-            receive_1bit(0, transfer_buffer, 5, cmd_read_flash);
+            receive_1bit(0, transfer_buffer, 5, TC_CMD_READ_FLASH);
             break;
 
         case CMD_READ_FLASH_FAST:
-            receive_1bit(0, transfer_buffer, 5, cmd_read_flash_fast);
+            receive_1bit(0, transfer_buffer, 5, TC_CMD_READ_FLASH_FAST);
             break;
 
         case CMD_WRITE_FLASH:
-            receive_1bit(0, transfer_buffer, 5, cmd_write_flash);
+            receive_1bit(0, transfer_buffer, 5, TC_CMD_WRITE_FLASH);
             break;
 
         case CMD_ERASE_FLASH_64K:
-            receive_1bit(0, transfer_buffer, 3, cmd_erase_flash_64k);
+            receive_1bit(0, transfer_buffer, 3, TC_CMD_ERASE_FLASH_64K);
             break;
 
         case CMD_ERASE_FLASH_BLOCK:
-            receive_1bit(0, transfer_buffer, 3, cmd_erase_flash_block);
+            receive_1bit(0, transfer_buffer, 3, TC_CMD_ERASE_FLASH_BLOCK);
             break;
 
         case CMD_CRC32_FLASH:
-            receive_1bit(0, transfer_buffer, 6, cmd_crc32_flash);
+            receive_1bit(0, transfer_buffer, 6, TC_CMD_CRC32_FLASH);
             break;
 
         case CMD_READ_LOADER:
             transmit_1bit(0, tapecart_memory->loader, TAPECART_LOADER_SIZE,
-                          cmdmode_receive_command);
+                          TC_CMDMODE_RECEIVE_COMMAND);
             break;
 
         case CMD_READ_LOADINFO:
@@ -1361,18 +1407,18 @@ static clock_t cmdmode_dispatch_command(void)
             ptr = put_u16_le(ptr, tapecart_memory->call_address);
             memcpy(ptr, tapecart_memory->filename, TAPECART_FILENAME_SIZE);
             transmit_1bit(0, transfer_buffer, 6 + TAPECART_FILENAME_SIZE,
-                          cmdmode_receive_command);
+                          TC_CMDMODE_RECEIVE_COMMAND);
             break;
 
         case CMD_WRITE_LOADER:
             receive_1bit(0, tapecart_memory->loader, TAPECART_LOADER_SIZE,
-                         cmdmode_receive_command);
+                         TC_CMDMODE_RECEIVE_COMMAND);
             tapecart_memory->changed = 1;
             break;
 
         case CMD_WRITE_LOADINFO:
             receive_1bit(0, transfer_buffer, 6 + TAPECART_FILENAME_SIZE,
-                         cmd_write_loadinfo);
+                         TC_CMD_WRITE_LOADINFO);
             break;
 
         case CMD_LED_OFF:
@@ -1385,20 +1431,20 @@ static clock_t cmdmode_dispatch_command(void)
             /* debugflags are stored, but ignored */
             /* technically this is incorrect for bit 0, */
             /* but I suspect nobody will ever use that over the tapeport */
-            transmit_1bit(0, tapecart_debugflags, 2, cmdmode_receive_command);
+            transmit_1bit(0, tapecart_debugflags, 2, TC_CMDMODE_RECEIVE_COMMAND);
             break;
 
         case CMD_WRITE_DEBUGFLAGS:
-            receive_1bit(0, tapecart_debugflags, 2, cmdmode_receive_command);
+            receive_1bit(0, tapecart_debugflags, 2, TC_CMDMODE_RECEIVE_COMMAND);
             break;
 
         case CMD_DIR_SETPARAMS:
-            receive_1bit(0, transfer_buffer, 7, cmd_dir_setparams);
+            receive_1bit(0, transfer_buffer, 7, TC_CMD_DIR_SETPARAMS);
             break;
 
         case CMD_DIR_LOOKUP:
             if (dir_name_len > 0) {
-                receive_1bit(0, transfer_buffer, dir_name_len, cmd_dir_lookup);
+                receive_1bit(0, transfer_buffer, dir_name_len, TC_CMD_DIR_LOOKUP);
             } else {
                 cmd_dir_lookup();
             }
@@ -1419,15 +1465,15 @@ static clock_t cmdmode_dispatch_command(void)
 static clock_t cmdmode_receive_command(void)
 {
     alarm_unset(tapecart_logic_alarm);
-    return receive_1bit(0, transfer_buffer, 1, cmdmode_dispatch_command);
+    return receive_1bit(0, transfer_buffer, 1, TC_CMDMODE_DISPATCH_COMMAND);
 }
 
 static clock_t cmdmode_send_pulses(void)
 {
-    wait_handler    = cmdmode_receive_command;
+    wait_handler    = WH_CMDMODE_RX_COMMAND;
     wait_for_signal = WAIT_WRITE_LOW;
 
-    alarm_trigger_callback = cmdmode_send_pulses;
+    logic_next = LOGIC_CMDMODE_SEND_PULSES;
     tapeport_trigger_flux_change(1, TAPEPORT_PORT_1);
 
     return CBMPULSE_SHORT * PULSE_CYCLES;
@@ -1436,7 +1482,7 @@ static clock_t cmdmode_send_pulses(void)
 static clock_t command_mode_init(void)
 {
     set_sense(1);
-    wait_handler    = cmdmode_send_pulses;
+    wait_handler    = WH_CMDMODE_SEND_PULSES;
     wait_for_signal = WAIT_WRITE_HIGH;
 
     return 0;
@@ -1478,7 +1524,7 @@ static void tapecart_set_mode(tapecart_mode_t mode)
 
         case MODE_COMMAND:
             /* just one ms delay here */
-            alarm_trigger_callback = command_mode_init;
+            logic_next = LOGIC_COMMAND_MODE_INIT;
             delay = machine_get_cycles_per_second() / 1000;
             break;
 
@@ -1559,11 +1605,7 @@ static void tapecart_logic_alarm_handler(CLOCK offset, void *data)
 
         case MODE_FASTLOAD:
         case MODE_COMMAND:
-            if (alarm_trigger_callback == NULL) {
-                log_error(tapecart_log,
-                          "ERROR: alarm_trigger_callback is NULL, will segfault now");
-            }
-            next_alarm = alarm_trigger_callback();
+            next_alarm = dispatch_logic_next();
 
             if (next_alarm != 0) {
                 alarm_set(tapecart_logic_alarm,
@@ -1578,6 +1620,119 @@ static void tapecart_logic_alarm_handler(CLOCK offset, void *data)
     }
 }
 
+static clock_t dispatch_wait_handler(void)
+{
+    switch (wait_handler) {
+        case WH_FASTTX_NIBBLE_ADVANCE:
+            return fasttx_nibble_advance();
+
+        case WH_RX1BIT:
+            return receive_1bit_callback();
+
+        case WH_TX1BIT:
+            return transmit_1bit_callback();
+
+        case WH_CMDMODE_RX_COMMAND:
+            return cmdmode_receive_command();
+
+        case WH_CMDMODE_SEND_PULSES:
+            return cmdmode_send_pulses();
+
+        default:
+            log_error(tapecart_log, "internal error: invalid wait handler state %d",
+                      (int)wait_handler);
+            abort();
+    }
+}
+
+static clock_t dispatch_transfer_complete(transfer_complete_t tc)
+{
+    switch (tc) {
+        case TC_FASTLOAD_POSTDELAY:
+            return fastload_postdelay();
+
+        case TC_CMDMODE_RECEIVE_COMMAND:
+            return cmdmode_receive_command();
+
+        case TC_CMDMODE_DISPATCH_COMMAND:
+            return cmdmode_dispatch_command();
+
+        case TC_CMDMODE_WRITE_FLASH_PAGE:
+            return cmdmode_write_flash_page();
+
+        case TC_CMD_READ_FLASH:
+            return cmd_read_flash();
+
+        case TC_CMD_READ_FLASH_FAST:
+            return cmd_read_flash_fast();
+
+        case TC_CMD_WRITE_FLASH:
+            return cmd_write_flash();
+
+        case TC_CMD_ERASE_FLASH_64K:
+            return cmd_erase_flash_64k();
+
+        case TC_CMD_ERASE_FLASH_BLOCK:
+            return cmd_erase_flash_block();
+
+        case TC_CMD_CRC32_FLASH:
+            return cmd_crc32_flash();
+
+        case TC_CMD_WRITE_LOADINFO:
+            return cmd_write_loadinfo();
+
+        case TC_CMD_DIR_SETPARAMS:
+            return cmd_dir_setparams();
+
+        case TC_CMD_DIR_LOOKUP:
+            return cmd_dir_lookup();
+
+        default:
+            log_error(tapecart_log, "internal error: invalid transfer complete state %d",
+                      (int)tc);
+            abort();
+    }
+}
+
+static clock_t dispatch_logic_next(void)
+{
+    switch (logic_next) {
+        case LOGIC_FASTTX_NIBBLE_ADVANCE:
+            return fasttx_nibble_advance();
+
+        case LOGIC_FASTTX_BYTE_ADVANCE:
+            return fasttx_byte_advance();
+
+        case LOGIC_FASTLOAD_COMPLETE:
+            return fastload_complete();
+
+        case LOGIC_RECEIVE_1BIT_CALLBACK:
+            return receive_1bit_callback();
+
+        case LOGIC_RECEIVE_1BIT_DELAYED:
+            return receive_1bit_delayed();
+
+        case LOGIC_TRANSMIT_1BIT_CALLBACK:
+            return transmit_1bit_callback();
+
+        case LOGIC_TRANSMIT_1BIT_DELAYED:
+            return transmit_1bit_delayed();
+
+        case LOGIC_CMDMODE_RECEIVE_COMMAND:
+            return cmdmode_receive_command();
+
+        case LOGIC_CMDMODE_SEND_PULSES:
+            return cmdmode_send_pulses();
+
+        case LOGIC_COMMAND_MODE_INIT:
+            return command_mode_init();
+
+        default:
+            log_error(tapecart_log, "internal error: invalid logic_next state %d",
+                      (int)logic_next);
+            abort();
+    }
+}
 
 /* ---------------------------------------------------------------------*/
 
@@ -1648,7 +1803,7 @@ static void tapecart_store_write(int port, int state)
     if ((state == 0 && wait_for_signal == WAIT_WRITE_LOW) ||
         (state != 0 && wait_for_signal == WAIT_WRITE_HIGH)) {
         wait_for_signal = WAIT_NONE;
-        delta_ticks = wait_handler();
+        delta_ticks = dispatch_wait_handler();
 
         if (delta_ticks > 0) {
             alarm_set(tapecart_logic_alarm, (CLOCK)(maincpu_clk + delta_ticks));
@@ -1667,7 +1822,7 @@ static void tapecart_store_sense(int port, int inv_state)
     if ((state == 0 && wait_for_signal == WAIT_SENSE_LOW) ||
         (state != 0 && wait_for_signal == WAIT_SENSE_HIGH)) {
         wait_for_signal = WAIT_NONE;
-        delta_ticks = wait_handler();
+        delta_ticks = dispatch_wait_handler();
 
         if (delta_ticks > 0) {
             alarm_set(tapecart_logic_alarm, (CLOCK)(maincpu_clk + delta_ticks));
