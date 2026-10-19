@@ -6,7 +6,7 @@ roms = \
 	basic-901235+6-02.bin \
 	chargen-901225-01.bin \
 	chargen-901237-01.bin \
-	chargen-901232-01.bin \
+	chargen-901232-02.bin \
 	kernal-901244-04a.bin \
 	kernal-901234-02.bin
 

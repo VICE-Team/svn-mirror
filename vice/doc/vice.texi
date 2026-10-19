@@ -1855,7 +1855,7 @@ full (256 char) character set is computed by inverting.
 @file{chargen-901237-01.bin}, character generator ROM for the C6x0 (4KiB)
 
 @item
-@file{chargen-901232-01.bin}, character generator ROM for the C7x0 (4KiB)
+@file{chargen-901232-02.bin}, character generator ROM for the C7x0 (4KiB)
 
 @end itemize
 
