@@ -36,7 +36,7 @@ int cbm2rom_checksum(void);
 
 #define CBM2_CHARGEN500_NAME "chargen-901225-01.bin"
 #define CBM2_CHARGEN600_NAME "chargen-901237-01.bin"
-#define CBM2_CHARGEN700_NAME "chargen-901232-01.bin"
+#define CBM2_CHARGEN700_NAME "chargen-901232-02.bin"
 
 #define CBM2_BASIC128_NAME   "basic-901242+3-04a.bin"
 #define CBM2_BASIC256_NAME   "basic-901240+1-03.bin"
