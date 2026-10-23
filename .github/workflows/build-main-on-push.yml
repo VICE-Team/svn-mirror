@@ -541,8 +541,8 @@ jobs:
                       runner: 'macos-15-intel',
                       conf: '--enable-macos-minimum-version=15.0' },
                     { name: 'Apple Silicon',
-                      runner: 'macos-14',
-                      conf: '--enable-macos-minimum-version=14.0' },
+                      runner: 'macos-15',
+                      conf: '--enable-macos-minimum-version=15.0' }
                   ]
         ui: [ { name: 'GTK3',
                 conf: '--enable-gtk3ui',
