@@ -1023,28 +1023,46 @@ void drive_cpu_execute_one(diskunit_context_t *drv, CLOCK clk_value)
    time, instead of one after the other up to clk_value. Drives see each other's serial bus
    lines (CLK, DATA are wired-AND between all devices), so a drive must not run ahead of another
    one by more than a clock or so, or drive to drive signalling breaks. With one drive it is the
-   same as drive_cpu_execute_one(). */
+   same as drive_cpu_execute_one().
+
+   The drives' clocks can differ a lot: a drive in "no idle" mode runs after every main CPU
+   instruction (drive_cycle_hook()), the others only when the bus is accessed, and a drive in
+   "skip cycles" mode may have been left behind for seconds. So the oldest drive first catches up
+   alone, in one call, to the next oldest one's clock (no other drive moves meanwhile), and a
+   drive is only ever run forward: running a drive to a clock older than its own would set its
+   last_clk back, and it would then emulate the same time again and run ahead of the computer. */
 static void drive_cpu_execute_in_step(CLOCK clk_value)
 {
-    unsigned int dnr, enabled = 0;
-    CLOCK t = clk_value;
+    unsigned int dnr, enabled = 0, oldest = 0;
+    CLOCK t1 = clk_value, t2 = clk_value; /* the oldest and the next oldest drive clock */
+    CLOCK t;
 
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         diskunit_context_t *unit = diskunit_context[dnr];
 
         if (unit->enable) {
+            CLOCK c = unit->cpu->last_clk;
+
             enabled++;
-            if (unit->cpu->last_clk < t) {
-                t = unit->cpu->last_clk;
+            if (c < t1) {
+                t2 = t1;
+                t1 = c;
+                oldest = dnr;
+            } else if (c < t2) {
+                t2 = c;
             }
         }
     }
     if (enabled > 1) {
+        if (t1 < t2) {
+            drive_cpu_execute_one(diskunit_context[oldest], t2);
+        }
+        t = t2;
         while (++t < clk_value) {
             for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
                 diskunit_context_t *unit = diskunit_context[dnr];
 
-                if (unit->enable) {
+                if (unit->enable && unit->cpu->last_clk < t) {
                     drive_cpu_execute_one(unit, t);
                 }
             }
@@ -1053,7 +1071,7 @@ static void drive_cpu_execute_in_step(CLOCK clk_value)
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         diskunit_context_t *unit = diskunit_context[dnr];
 
-        if (unit->enable) {
+        if (unit->enable && unit->cpu->last_clk < clk_value) {
             drive_cpu_execute_one(unit, clk_value);
         }
     }
