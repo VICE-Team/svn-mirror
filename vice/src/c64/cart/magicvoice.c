@@ -502,7 +502,15 @@ static void ga_memconfig_changed(int mode)
         mv_gameE000_enabled = 0;
     }
 
-    cart_config_changed_slot0((uint8_t)((mv_mapped_game) | ((mv_mapped_exrom) << 1)), (uint8_t)((mv_mapped_game) | ((mv_mapped_exrom) << 1)), mode);
+/* FIXME: we don't really know how exactly the mapping works, and the current
+          implementation breaks when using ultimax in the VICII cycle, so we just
+          map the cartridge out in that case */
+#if 0
+    cart_config_changed_slot0((uint8_t)((mv_mapped_game) | ((mv_mapped_exrom) << 1)),
+                              (uint8_t)((mv_mapped_game) | ((mv_mapped_exrom) << 1)), mode);
+#else
+    cart_config_changed_slot0(CMODE_RAM, (uint8_t)((mv_mapped_game) | ((mv_mapped_exrom) << 1)), mode);
+#endif
 
 #ifdef CFGDEBUG
     this = (ga_pb6 << 0) | (ga_pb5 << 1) | (ga_pc6 << 2) | (mv_exrom << 3);
