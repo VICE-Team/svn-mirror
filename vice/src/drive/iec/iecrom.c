@@ -37,7 +37,7 @@
 #include "resources.h"
 #include "sysfile.h"
 
-#define DEBUG_IECROM
+/* #define DEBUG_IECROM */
 
 #ifdef DEBUG_IECROM
 #define DBG(x)  log_printf x
