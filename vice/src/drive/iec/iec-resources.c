@@ -44,7 +44,7 @@
 #include "util.h"
 #include "cmdhd.h"
 
-#define DEBUG_IECRESOURCES
+/* #define DEBUG_IECRESOURCES */
 
 #ifdef DEBUG_IECRESOURCES
 #define DBG(x)  log_printf x
