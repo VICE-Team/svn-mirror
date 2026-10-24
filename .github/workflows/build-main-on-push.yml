@@ -537,10 +537,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        silicon:  [ { name: 'Intel Silicon',
-                      runner: 'macos-15-intel',
-                      conf: '--enable-macos-minimum-version=15.0' },
-                    { name: 'Apple Silicon',
+        silicon:  [ { name: 'Apple Silicon',
                       runner: 'macos-15',
                       conf: '--enable-macos-minimum-version=15.0' }
                   ]
