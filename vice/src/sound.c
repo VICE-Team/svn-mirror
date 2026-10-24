@@ -1061,10 +1061,16 @@ static int sid_init(void)
     /* "No limit" doesn't make sense for cycle based sound engines,
        which have a fixed sampling rate. */
     speed_factor = speed_percent ? speed_percent : 100;
+
+    /* Keep sample generation at a safe rate while low-speed playback is muted. */
+    if (sound_is_silent()) {
+        speed_factor = 100;
+    }
+
     speed = sample_rate * 100 / speed_factor;
 
     /* Sample based sound engines rely on clkstep for timing */
-    snddata.clkstep = SOUNDCLK_CONSTANT(speed_percent / 100 * cycles_per_sec) / sample_rate;
+    snddata.clkstep = SOUNDCLK_CONSTANT(speed_factor / 100 * cycles_per_sec) / sample_rate;
 
     snddata.origclkstep = snddata.clkstep;
     snddata.clkfactor = SOUNDCLK_CONSTANT(1.0);
@@ -1529,6 +1535,14 @@ bool sound_flush(void)
         snddata.bufptr = 0;
         goto done;
     }
+
+    /* Discard audio while low-speed playback is suspended. */
+    if (sound_is_silent()) {
+        sound_suspend();
+        snddata.bufptr = 0;
+        goto done;
+    }
+
     sound_resume();
 
 #if 0
@@ -1631,6 +1645,11 @@ bool sound_flush(void)
 
 done:
 
+    /* Use the host clock to pace emulation while low-speed playback is muted. */
+    if (sound_is_silent()) {
+        return true;
+    }
+
     /*
      * If the sound device is not a timing source, then we need
      * the host to sleep to sync time with the emulator.
@@ -1673,6 +1692,11 @@ void sound_suspend(void)
 void sound_resume(void)
 {
     if (!snddata.playdev) {
+        return;
+    }
+
+    /* Keep playback suspended when other callers resume sound at low speed. */
+    if (sound_is_silent()) {
         return;
     }
 
@@ -1795,6 +1819,14 @@ void sound_store(uint16_t addr, uint8_t val, int chipno)
     }
 }
 
+
+/*
+ * Report when low emulation speed requires silent sound emulation.
+ */
+bool sound_is_silent(void)
+{
+    return speed_percent > 0 && speed_percent < 50;
+}
 
 void sound_set_relative_speed(int value)
 {
