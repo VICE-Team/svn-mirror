@@ -169,8 +169,7 @@ jobs:
       fail-fast: false
       matrix:
         arch:
-        - { msystem: MINGW64, arch: x86_64, prefix: mingw64 }
-          # - { msystem: MINGW32, arch: i686,   prefix: mingw32 }
+        - { msystem: UCRT64, arch: ucrt-x86_64, prefix: ucrt64 }
         ui: [ GTK3, SDL2 ]
     steps:
       - run: git config --global core.autocrlf input
