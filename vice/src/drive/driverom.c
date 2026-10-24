@@ -24,7 +24,7 @@
  *
  */
 
-#define DBGDRIVEROM
+/* #define DEBUG_DRIVEROM */
 
 #include "vice.h"
 
@@ -43,7 +43,7 @@
 #include "types.h"
 #include "snapshot.h"
 
-#ifdef DBGDRIVEROM
+#ifdef DEBUG_DRIVEROM
 #define DBG(x)  log_printf x
 #else
 #define DBG(x)
