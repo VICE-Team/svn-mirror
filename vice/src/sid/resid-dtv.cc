@@ -66,7 +66,7 @@ struct sound_s
 
 typedef struct sound_s sound_t;
 
-static sound_t *resid_open(uint8_t *sidstate)
+static sound_t *resid_open(uint8_t *sidstate, int chipno)
 {
     sound_t *psid;
     int i;

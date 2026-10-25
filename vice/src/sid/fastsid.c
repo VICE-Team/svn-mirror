@@ -110,9 +110,11 @@ static uint16_t wavetable10[4096];
 static uint16_t wavetable20[4096];
 static uint16_t wavetable30[4096];
 static uint16_t wavetable40[8192];
-static uint16_t wavetable50[8192];
-static uint16_t wavetable60[8192];
-static uint16_t wavetable70[8192];
+/* the combined waveforms differ between the models: [0] for the 6581,
+   [1] for the 8580, indexed by newsid */
+static uint16_t wavetable50[2][8192];
+static uint16_t wavetable60[2][8192];
+static uint16_t wavetable70[2][8192];
 
 #endif
 
@@ -200,6 +202,9 @@ typedef struct voice_s {
 struct sound_s {
     /* speed factor */
     int factor;
+
+    /* number of the SID, 0 for the first */
+    int chipno;
 
     /* number of voices */
     voice_t v[3];
@@ -597,7 +602,7 @@ inline static void setup_voice(voice_t *pv)
             }
             break;
         case 5:
-            pv->wt = &wavetable50[pv->wtpf = 4096 - (pv->d[2]
+            pv->wt = &wavetable50[pv->s->newsid][pv->wtpf = 4096 - (pv->d[2]
                                                      + (pv->d[3] & 0x0f) * 0x100)];
             pv->wtpf <<= 20;
             if (pv->d[4] & 0x04) {
@@ -605,12 +610,12 @@ inline static void setup_voice(voice_t *pv)
             }
             break;
         case 6:
-            pv->wt = &wavetable60[pv->wtpf = 4096 - (pv->d[2]
+            pv->wt = &wavetable60[pv->s->newsid][pv->wtpf = 4096 - (pv->d[2]
                                                      + (pv->d[3] & 0x0f) * 0x100)];
             pv->wtpf <<= 20;
             break;
         case 7:
-            pv->wt = &wavetable70[pv->wtpf = 4096 - (pv->d[2]
+            pv->wt = &wavetable70[pv->s->newsid][pv->wtpf = 4096 - (pv->d[2]
                                                      + (pv->d[3] & 0x0f) * 0x100)];
             pv->wtpf <<= 20;
             if (pv->d[4] & 0x04 && pv->s->newsid) {
@@ -983,11 +988,12 @@ static void init_filter(sound_t *psid, int freq)
 }
 
 /* SID initialization routine */
-static sound_t *fastsid_open(uint8_t *sidstate)
+static sound_t *fastsid_open(uint8_t *sidstate, int chipno)
 {
     sound_t *psid;
     DBG(("fastsid_open"));
     psid = lib_calloc(1, sizeof(sound_t));
+    psid->chipno = chipno;
 
     memcpy(psid->d, sidstate, 32);
 
@@ -1030,9 +1036,7 @@ static int fastsid_init(sound_t *psid, int speed, int cycles_per_sec, int factor
         setup_voice(&psid->v[i]);
     }
 #ifdef WAVETABLES
-    if (resources_get_int("SidModel", &sid_model) < 0) {
-        return 0;
-    }
+    sid_model = sid_get_chip_model(psid->chipno);
     DBG(("fastsid_init: sid_model: %d", sid_model));
 
     psid->newsid = 0;
@@ -1053,15 +1057,12 @@ static int fastsid_init(sound_t *psid, int speed, int cycles_per_sec, int factor
         wavetable20[i] = (uint16_t)(i << 3);
         wavetable30[i] = waveform30_8580[i] << 7;
         wavetable40[i + 4096] = 0x7fff;
-        if (psid->newsid) {
-            wavetable50[i + 4096] = waveform50_8580[i] << 7;
-            wavetable60[i + 4096] = waveform60_8580[i] << 7;
-            wavetable70[i + 4096] = waveform70_8580[i] << 7;
-        } else {
-            wavetable50[i + 4096] = waveform50_6581[i >> 3] << 7;
-            wavetable60[i + 4096] = 0;
-            wavetable70[i + 4096] = 0;
-        }
+        wavetable50[0][i + 4096] = waveform50_6581[i >> 3] << 7;
+        wavetable60[0][i + 4096] = 0;
+        wavetable70[0][i + 4096] = 0;
+        wavetable50[1][i + 4096] = waveform50_8580[i] << 7;
+        wavetable60[1][i + 4096] = waveform60_8580[i] << 7;
+        wavetable70[1][i + 4096] = waveform70_8580[i] << 7;
     }
 #endif
     for (i = 0; i < NOISETABLESIZE; i++) {
@@ -1293,15 +1294,15 @@ void fastsid_state_read(struct sound_s *psid, struct sid_fastsid_snapshot_state_
         } else if (psid->v[i].wt >= &wavetable40[0] && psid->v[i].wt <= &wavetable40[8191]) {
             sid_state->v_wt[i] = 4;
             sid_state->v_wt_offset[i] = psid->v[i].wt - &wavetable40[0];
-        } else if (psid->v[i].wt >= &wavetable50[0] && psid->v[i].wt <= &wavetable50[8191]) {
+        } else if (psid->v[i].wt >= &wavetable50[psid->newsid][0] && psid->v[i].wt <= &wavetable50[psid->newsid][8191]) {
             sid_state->v_wt[i] = 5;
-            sid_state->v_wt_offset[i] = psid->v[i].wt - &wavetable50[0];
-        } else if (psid->v[i].wt >= &wavetable60[0] && psid->v[i].wt <= &wavetable60[8191]) {
+            sid_state->v_wt_offset[i] = psid->v[i].wt - &wavetable50[psid->newsid][0];
+        } else if (psid->v[i].wt >= &wavetable60[psid->newsid][0] && psid->v[i].wt <= &wavetable60[psid->newsid][8191]) {
             sid_state->v_wt[i] = 6;
-            sid_state->v_wt_offset[i] = psid->v[i].wt - &wavetable60[0];
-        } else if (psid->v[i].wt >= &wavetable70[0] && psid->v[i].wt <= &wavetable70[8191]) {
+            sid_state->v_wt_offset[i] = psid->v[i].wt - &wavetable60[psid->newsid][0];
+        } else if (psid->v[i].wt >= &wavetable70[psid->newsid][0] && psid->v[i].wt <= &wavetable70[psid->newsid][8191]) {
             sid_state->v_wt[i] = 7;
-            sid_state->v_wt_offset[i] = psid->v[i].wt - &wavetable70[0];
+            sid_state->v_wt_offset[i] = psid->v[i].wt - &wavetable70[psid->newsid][0];
         } else {
             sid_state->v_wt[i] = 0;
             sid_state->v_wt_offset[i] = 0;
@@ -1384,13 +1385,13 @@ void fastsid_state_write(struct sound_s *psid, struct sid_fastsid_snapshot_state
                 psid->v[i].wt = &wavetable40[sid_state->v_wt_offset[i]];
                 break;
             case 5:
-                psid->v[i].wt = &wavetable50[sid_state->v_wt_offset[i]];
+                psid->v[i].wt = &wavetable50[psid->newsid][sid_state->v_wt_offset[i]];
                 break;
             case 6:
-                psid->v[i].wt = &wavetable60[sid_state->v_wt_offset[i]];
+                psid->v[i].wt = &wavetable60[psid->newsid][sid_state->v_wt_offset[i]];
                 break;
             case 7:
-                psid->v[i].wt = &wavetable70[sid_state->v_wt_offset[i]];
+                psid->v[i].wt = &wavetable70[psid->newsid][sid_state->v_wt_offset[i]];
                 break;
         }
 

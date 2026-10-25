@@ -12768,8 +12768,32 @@ Boolean specifying whether the built-in SID filters must be emulated.
 
 @vindex SidModel
 @item SidModel
-Integer specifying what model of the SID must be emulated.
+Integer specifying what model of the SID must be emulated; with more than
+one SID, the model of the first.
 (0: 6581, 1: 8580, 2: 8580D, 3: DTVSID)
+
+@vindex Sid2Model
+@vindex Sid3Model
+@vindex Sid4Model
+@vindex Sid5Model
+@vindex Sid6Model
+@vindex Sid7Model
+@vindex Sid8Model
+@vindex Sid9Model
+@vindex Sid10Model
+@item Sid2Model
+@itemx Sid3Model
+@itemx Sid4Model
+@itemx Sid5Model
+@itemx Sid6Model
+@itemx Sid7Model
+@itemx Sid8Model
+@itemx Sid9Model
+@itemx Sid10Model
+Integer specifying the model of the second to tenth SID, for each SID the
+machine is set up with. Used by the software SID engines
+(x64, x64sc, xscpu64, x128 and vsid only).
+(-1: same as the first SID, 0: 6581, 1: 8580, 2: 8580D)
 
 @vindex SidEngine
 @item SidEngine
@@ -13066,9 +13090,32 @@ Specify engine for the emulated SID chip
 
 @findex -sidmodel
 @item -sidmodel <model>
-Specify model for the emulated SID chip
+Specify model for the emulated SID chip, or the first of several
 (@code{SidModel}).
 (6581: 0, 8580: 1, ReSID 8580 + digiboost: 2, DTVSID: 3)
+
+@findex -sid2model
+@findex -sid3model
+@findex -sid4model
+@findex -sid5model
+@findex -sid6model
+@findex -sid7model
+@findex -sid8model
+@findex -sid9model
+@findex -sid10model
+@item -sid2model <model>
+@itemx -sid3model <model>
+@itemx -sid4model <model>
+@itemx -sid5model <model>
+@itemx -sid6model <model>
+@itemx -sid7model <model>
+@itemx -sid8model <model>
+@itemx -sid9model <model>
+@itemx -sid10model <model>
+Specify the model of the second to tenth SID chip
+(@code{Sid2Model} to @code{Sid10Model})
+(x64, x64sc, xscpu64, x128 and vsid only).
+(same as the first SID: -1, 6581: 0, 8580: 1, 8580 + digiboost: 2)
 
 @findex -sidfilters, +sidfilters
 @item -sidfilters

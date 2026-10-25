@@ -71,6 +71,9 @@ struct sound_s
     /* speed factor */
     int factor;
 
+    /* number of the SID, 0 for the first */
+    int chipno;
+
     /* libresidfp does not have a public interface to the internal state of the
      * emulated SID, so we keep a mirror of the written register values here */
     int sid_register[0x20];
@@ -99,7 +102,7 @@ static short *getbuf(int len)
     return buf;
 }
 
-static sound_t *residfp_open(uint8_t *sidstate)
+static sound_t *residfp_open(uint8_t *sidstate, int chipno)
 {
     sound_t *psid;
     int i;
@@ -107,6 +110,7 @@ static sound_t *residfp_open(uint8_t *sidstate)
     DBG(("residfp_open"));
 
     psid = new sound_t;
+    psid->chipno = chipno;
     psid->sid = new reSIDfp::SID;
 
     for (i = 0x00; i <= 0x18; i++) {
@@ -138,9 +142,7 @@ static int residfp_init(sound_t *psid, int speed, int cycles_per_sec, int factor
         return 0;
     }
 
-    if (resources_get_int("SidModel", &model) < 0) {
-        return 0;
-    }
+    model = sid_get_chip_model(psid->chipno);
     /*printf("residfp_init SidFilters:%d SidModel:%d\n", filters_enabled, model);*/
 
     /*

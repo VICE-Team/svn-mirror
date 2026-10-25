@@ -870,19 +870,38 @@ void psid_init_driver(void)
         }
     }
 
-    /* MOS6581/MOS8580 flag. */
+    /* MOS6581/MOS8580 flags, one for each SID */
     if (!keepenv) {
-        /* FIXME: we cant have mixed SID versions yet */
+        int n;
+
         switch (psid->sid_version[0]) {
             case 0x01:
-                resources_set_int("SidModel", 0);
+                resources_set_int("SidModel", SID_MODEL_6581);
                 break;
             case 0x02:
-                resources_set_int("SidModel", 1);
+                resources_set_int("SidModel", SID_MODEL_8580);
                 break;
             default:
                 /* Keep settings (00 = unknown, 11 = any) */
                 break;
+        }
+        for (n = 1; n < psid->sid_num && n < SOUND_SIDS_MAX; n++) {
+            int model;
+
+            switch (psid->sid_version[n]) {
+                case 0x01:
+                    model = SID_MODEL_6581;
+                    break;
+                case 0x02:
+                    model = SID_MODEL_8580;
+                    break;
+                default:
+                    /* unknown or any: the model of the first SID, as the
+                       format asks for an unknown one */
+                    model = SID_MODEL_SAME_AS_FIRST;
+                    break;
+            }
+            resources_set_int_sprintf("Sid%dModel", model, n + 1);
         }
     }
 
