@@ -564,7 +564,7 @@ static void lib_debug_check(void)
             char *p = (char*)lib_debug_leaklist_address[index];
             int max = lib_debug_leaklist_size[index];
             for (n = 0; n < 0x2e && n < max; n++) {
-                if (isgraph(*p)) {
+                if (isgraph((unsigned char)*p)) {
                     temp[n] = *p;
                 } else {
                     break;
