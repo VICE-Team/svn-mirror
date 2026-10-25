@@ -360,6 +360,33 @@ static cmdline_option_t stereo_cmdline_options[] =
     CMDLINE_LIST_END
 };
 
+/* template for -sid2model and up, registered once for each SID but the first */
+static cmdline_option_t sid_chip_model_cmdline_options[] =
+{
+    { NULL, SET_RESOURCE, CMDLINE_ATTRIB_NEED_ARGS,
+      NULL, NULL, NULL, NULL,
+      "<Model>", "Set the model of that SID (-1: same as the first SID, 0: 6581, 1: 8580, 2: 8580 + digi boost)" },
+    CMDLINE_LIST_END
+};
+
+static int sid_chip_model_cmdline_options_init(void)
+{
+    int chipno;
+    int result;
+
+    for (chipno = 1; chipno < SOUND_SIDS_MAX; chipno++) {
+        sid_chip_model_cmdline_options[0].name = lib_msprintf("-sid%dmodel", chipno + 1);
+        sid_chip_model_cmdline_options[0].resource_name = lib_msprintf("Sid%dModel", chipno + 1);
+        result = cmdline_register_options(sid_chip_model_cmdline_options);
+        lib_free(sid_chip_model_cmdline_options[0].name);
+        lib_free(sid_chip_model_cmdline_options[0].resource_name);
+        if (result < 0) {
+            return -1;
+        }
+    }
+    return 0;
+}
+
 static const cmdline_option_t common_cmdline_options[] =
 {
     { "-sidfilters", SET_RESOURCE, CMDLINE_ATTRIB_NONE,
@@ -732,6 +759,9 @@ int sid_cmdline_options_init(int sid_type)
         stereo_cmdline_options[9].description = sid10_address_range;
 
         if (cmdline_register_options(stereo_cmdline_options) < 0) {
+            return -1;
+        }
+        if (sid_chip_model_cmdline_options_init() < 0) {
             return -1;
         }
     }

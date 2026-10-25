@@ -92,6 +92,9 @@ enum {
 
 #define SID_MODEL_DEFAULT       99
 
+/* model of SID #2 and up that follows the model of SID #1 ("SidModel") */
+#define SID_MODEL_SAME_AS_FIRST (-1)
+
 /* these definitions are the only valid combinations of
    software SID engines and model, and are used in the
    UI and command line code. */
@@ -243,7 +246,7 @@ void sid_state_read(unsigned int channel, struct sid_snapshot_state_s *sid_state
 void sid_state_write(unsigned int channel, struct sid_snapshot_state_s *sid_state);
 
 struct sid_engine_s {
-    struct sound_s *(*open)(uint8_t *sidstate);
+    struct sound_s *(*open)(uint8_t *sidstate, int chipno);
     int (*init)(struct sound_s *psid, int speed, int cycles_per_sec, int factor);
     void (*close)(struct sound_s *psid);
     uint8_t (*read)(struct sound_s *psid, uint16_t addr);
@@ -280,6 +283,7 @@ int sid_sound_machine_channels(void);
 void sid_sound_machine_enable(int enable);
 sid_engine_model_t **sid_get_engine_model_list(void);
 int sid_set_engine_model(int engine, int model);
+int sid_get_chip_model(int chipno);
 void sid_sound_chip_init(void);
 
 #ifdef SOUND_SYSTEM_FLOAT

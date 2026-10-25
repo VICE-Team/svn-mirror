@@ -71,6 +71,9 @@ struct sound_s
     /* speed factor */
     int factor;
 
+    /* number of the SID, 0 for the first */
+    int chipno;
+
     /* resid sid implementation */
     reSID::SID *sid;
 };
@@ -95,12 +98,13 @@ static short *getbuf(int len)
     return buf;
 }
 
-static sound_t *resid_open(uint8_t *sidstate)
+static sound_t *resid_open(uint8_t *sidstate, int chipno)
 {
     sound_t *psid;
     int i;
     DBG(("resid_open"));
     psid = new sound_t;
+    psid->chipno = chipno;
     psid->sid = new reSID::SID;
 
     for (i = 0x00; i <= 0x18; i++) {
@@ -124,9 +128,7 @@ static int resid_init(sound_t *psid, int speed, int cycles_per_sec, int factor)
         return 0;
     }
 
-    if (resources_get_int("SidModel", &model) < 0) {
-        return 0;
-    }
+    model = sid_get_chip_model(psid->chipno);
 
     if (resources_get_int("SidResidEnableRawOutput", &rawoutput) < 0) {
         return 0;

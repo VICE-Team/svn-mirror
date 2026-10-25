@@ -33,6 +33,7 @@
 
 #include "catweaselmkiii.h"
 #include "hardsid.h"
+#include "lib.h"
 #include "log.h"
 #include "machine.h"
 #ifdef HAVE_PARSID
@@ -66,6 +67,7 @@
 static int sid_filters_enabled;       /* app_resources.sidFilters */
 #endif
 static int sid_model;                 /* app_resources.sidModel */
+static int sid_chip_model[SOUND_SIDS_MAX]; /* Sid2Model and up by chipno, [0] unused */
 #if defined(HAVE_RESID) || defined(HAVE_RESIDFP)
 static int sid_resid_sampling;
 #endif
@@ -245,6 +247,41 @@ SET_SIDx_ADDRESS(7)
 SET_SIDx_ADDRESS(8)
 SET_SIDx_ADDRESS(9)
 SET_SIDx_ADDRESS(10)
+
+static int set_sid_chip_model(int val, void *param)
+{
+    int chipno = vice_ptr_to_int(param);
+
+    switch (val) {
+        case SID_MODEL_SAME_AS_FIRST:
+        case SID_MODEL_6581:
+        case SID_MODEL_8580:
+        case SID_MODEL_8580D:
+            break;
+        default:
+            return -1;
+    }
+
+    sid_chip_model[chipno] = val;
+    sid_state_changed = 1;
+    return 0;
+}
+
+/** \brief  Get the model of a SID
+ *
+ * \param[in]  chipno  number of the SID, 0 for the first
+ *
+ * \return  the model of that SID: its SidNModel resource, or SidModel when
+ *          that is SID_MODEL_SAME_AS_FIRST or chipno is 0
+ */
+int sid_get_chip_model(int chipno)
+{
+    if (chipno <= 0 || chipno >= SOUND_SIDS_MAX
+        || sid_chip_model[chipno] == SID_MODEL_SAME_AS_FIRST) {
+        return sid_model;
+    }
+    return sid_chip_model[chipno];
+}
 
 static int set_sid_model(int val, void *param)
 {
@@ -628,6 +665,31 @@ static const resource_int_t stereo_resources_int[] = {
     RESOURCE_INT_LIST_END
 };
 
+/* template for Sid2Model and up, registered once for each SID but the first */
+static resource_int_t sid_chip_model_resources_int[] = {
+    { NULL, SID_MODEL_SAME_AS_FIRST, RES_EVENT_SAME, NULL,
+      NULL, set_sid_chip_model, NULL },
+    RESOURCE_INT_LIST_END
+};
+
+static int sid_chip_model_resources_init(void)
+{
+    int chipno;
+    int result;
+
+    for (chipno = 1; chipno < SOUND_SIDS_MAX; chipno++) {
+        sid_chip_model_resources_int[0].name = lib_msprintf("Sid%dModel", chipno + 1);
+        sid_chip_model_resources_int[0].value_ptr = &sid_chip_model[chipno];
+        sid_chip_model_resources_int[0].param = vice_int_to_ptr(chipno);
+        result = resources_register_int(sid_chip_model_resources_int);
+        lib_free(sid_chip_model_resources_int[0].name);
+        if (result < 0) {
+            return -1;
+        }
+    }
+    return 0;
+}
+
 int sid_common_resources_init(void)
 {
     /* Setup default factory value for sid engine and model. We do this
@@ -686,6 +748,9 @@ int sid_resources_init(void)
 #endif
 
     if (resources_register_int(stereo_resources_int) < 0) {
+        return -1;
+    }
+    if (sid_chip_model_resources_init() < 0) {
         return -1;
     }
 

@@ -139,7 +139,7 @@ static const char snap_module_name_simple7[] = "SID7";
 static const char snap_module_name_simple8[] = "SID8";
 
 #define SNAP_MAJOR_SIMPLE 1
-#define SNAP_MINOR_SIMPLE 5
+#define SNAP_MINOR_SIMPLE 6
 
 static int sid_snapshot_write_module_simple(snapshot_t *s, int sidnr)
 {
@@ -150,6 +150,7 @@ static int sid_snapshot_write_module_simple(snapshot_t *s, int sidnr)
     snapshot_module_t *m;
     const char *snap_module_name_simple = NULL;
     int sid_address = 0;
+    int chip_model = SID_MODEL_SAME_AS_FIRST;
 
     switch (sidnr) {
         default:
@@ -202,6 +203,11 @@ static int sid_snapshot_write_module_simple(snapshot_t *s, int sidnr)
         if (SMW_W(m, (uint16_t)sid_address) < 0) {
             goto fail;
         }
+        /* Added in 1.6, the model of each further SID, after its address */
+        resources_get_int_sprintf("Sid%dModel", &chip_model, sidnr + 1);
+        if (SMW_B(m, (uint8_t)chip_model) < 0) {
+            goto fail;
+        }
     }
 
     /* Changed in 1.2, all data is saved whether sound is on or off */
@@ -236,6 +242,7 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
     const char *snap_module_name_simple = NULL;
     int sids = 0;
     int sid_address;
+    int chip_model;
 
     switch (sidnr) {
         default:
@@ -308,10 +315,17 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
             if (SMR_W_INT(m, &sid_address) < 0) {
                 goto fail;
             }
+            chip_model = SID_MODEL_SAME_AS_FIRST;
+            if (!snapshot_version_is_smaller(major_version, minor_version, 1, 6)) {
+                if (SMR_B(m, &tmp[0]) < 0) {
+                    goto fail;
+                }
+                chip_model = (int8_t)tmp[0];
+            }
         }
         if (sidnr >= 1) {
-            resources_set_int("Sid2AddressStart", sid_address);
             resources_set_int_sprintf("Sid%dAddressStart", sid_address, sidnr + 1);
+            resources_set_int_sprintf("Sid%dModel", chip_model, sidnr + 1);
         }
         if (SMR_BA(m, tmp + 2, 32) < 0) {
             goto fail;

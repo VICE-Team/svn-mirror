@@ -801,6 +801,43 @@ SID_EXTRA_MENU(8, "Eight")
 SID_EXTRA_MENU(9, "Ninth")
 SID_EXTRA_MENU(10, "Tenth")
 
+#define SID_MODEL_MENU(sid_nr)                                  \
+    UI_MENU_DEFINE_RADIO(Sid##sid_nr##Model)                    \
+                                                                \
+    static const ui_menu_entry_t sid##sid_nr##_model_menu[] = { \
+        {   .string   = "Same as SID #1",                       \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,              \
+            .callback = radio_Sid##sid_nr##Model_callback,      \
+            .data     = (ui_callback_data_t)-1                  \
+        },                                                      \
+        {   .string   = "6581",                                 \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,              \
+            .callback = radio_Sid##sid_nr##Model_callback,      \
+            .data     = (ui_callback_data_t)SID_MODEL_6581      \
+        },                                                      \
+        {   .string   = "8580",                                 \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,              \
+            .callback = radio_Sid##sid_nr##Model_callback,      \
+            .data     = (ui_callback_data_t)SID_MODEL_8580      \
+        },                                                      \
+        {   .string   = "8580 + digi boost",                    \
+            .type     = MENU_ENTRY_RESOURCE_RADIO,              \
+            .callback = radio_Sid##sid_nr##Model_callback,      \
+            .data     = (ui_callback_data_t)SID_MODEL_8580D     \
+        },                                                      \
+        SDL_MENU_LIST_END                                       \
+    };
+
+SID_MODEL_MENU(2)
+SID_MODEL_MENU(3)
+SID_MODEL_MENU(4)
+SID_MODEL_MENU(5)
+SID_MODEL_MENU(6)
+SID_MODEL_MENU(7)
+SID_MODEL_MENU(8)
+SID_MODEL_MENU(9)
+SID_MODEL_MENU(10)
+
 static UI_MENU_CALLBACK(show_SidStereo_callback)
 {
     int value;
@@ -941,6 +978,51 @@ ui_menu_entry_t sid_c64_menu[] = {
         .callback = show_Sid10AddressStart_callback,
         .data     = (ui_callback_data_t)c64_sid10_base_menu
     },
+    {   .string   = "Second SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid2_model_menu
+    },
+    {   .string   = "Third SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid3_model_menu
+    },
+    {   .string   = "Fourth SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid4_model_menu
+    },
+    {   .string   = "Fifth SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid5_model_menu
+    },
+    {   .string   = "Sixth SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid6_model_menu
+    },
+    {   .string   = "Seventh SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid7_model_menu
+    },
+    {   .string   = "Eighth SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid8_model_menu
+    },
+    {   .string   = "Ninth SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid9_model_menu
+    },
+    {   .string   = "Tenth SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid10_model_menu
+    },
     {   .string   = "Emulate filters",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
         .callback = toggle_SidFilters_callback,
@@ -1014,6 +1096,51 @@ ui_menu_entry_t sid_c128_menu[] = {
         .type     = MENU_ENTRY_SUBMENU,
         .callback = show_Sid10AddressStart_callback,
         .data     = (ui_callback_data_t)c128_sid10_base_menu
+    },
+    {   .string   = "Second SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid2_model_menu
+    },
+    {   .string   = "Third SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid3_model_menu
+    },
+    {   .string   = "Fourth SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid4_model_menu
+    },
+    {   .string   = "Fifth SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid5_model_menu
+    },
+    {   .string   = "Sixth SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid6_model_menu
+    },
+    {   .string   = "Seventh SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid7_model_menu
+    },
+    {   .string   = "Eighth SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid8_model_menu
+    },
+    {   .string   = "Ninth SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid9_model_menu
+    },
+    {   .string   = "Tenth SID model",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)sid10_model_menu
     },
     {   .string   = "Emulate filters",
         .type     = MENU_ENTRY_RESOURCE_TOGGLE,
