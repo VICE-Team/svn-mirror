@@ -70,6 +70,8 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
     int i;
     autostart_prg_t *prg;
 
+    DBG(("load_prg '%s'", file_name));
+
     prg = lib_malloc(sizeof(autostart_prg_t));
 
     /* get data size of file */

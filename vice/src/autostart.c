@@ -1718,7 +1718,7 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
         return;
     }
 
-    DBG(("reboot_for_autostart %s mode: %u runmode: %u", program_name, mode, runmode));
+    DBG(("reboot_for_autostart '%s' mode: %u runmode: %u", program_name, mode, runmode));
 
     /* program_name may be petscii or ascii at this point, ANDing the charcodes
        with 0x7f here is a cheap way to prevent illegal characters in the
@@ -2613,6 +2613,8 @@ void autostart_reset(void)
     int oldmode;
 
     DBG(("autostart_reset (autostart_enabled:%d)", autostart_enabled));
+    DBG(("autostart_reset (autostart_initial_delay_cycles:%lu maincpu_clk:%lu)",
+         autostart_initial_delay_cycles, maincpu_clk));
 
     if (!autostart_enabled) {
         return;
