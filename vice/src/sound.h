@@ -256,6 +256,7 @@ void sound_suspend(void);
 void sound_resume(void);
 int sound_open(void);
 void sound_close(void);
+bool sound_not_sensible_speed_to_play(void);
 void sound_set_relative_speed(int value);
 void sound_set_warp_mode(int value);
 void sound_set_machine_parameter(long clock_rate, long ticks_per_frame);
