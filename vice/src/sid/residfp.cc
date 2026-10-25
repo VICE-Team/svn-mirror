@@ -275,6 +275,14 @@ static int residfp_calculate_samples(sound_t *psid, float *pbuf, int nr, CLOCK *
     int int_delta_t = (int)*delta_t;
     int i;
 
+    /* Advance digital SID state while low-speed playback is muted. */
+    if (sound_not_sensible_speed_to_play()) {
+        psid->sid->clockDigital((unsigned int)*delta_t);
+        *delta_t = 0;
+        /* clockDigial does not have a return value */
+        return 0;
+    }
+
     /* Tried not to mess with resid during 64-bit conversion. clock(...) wants to modify *delta_t ... */
 
     if (psid->factor == 1000) {
@@ -302,6 +310,14 @@ static int residfp_calculate_samples(sound_t *psid, short *pbuf, int nr, int int
     short *tmp_buf;
     int retval = 0;
     int int_delta_t = (int)*delta_t;
+
+    /* Advance digital SID state while low-speed playback is muted. */
+    if (sound_not_sensible_speed_to_play()) {
+        psid->sid->clockDigital((unsigned int)*delta_t);
+        *delta_t = 0;
+        /* clockDigial does not have a return value */
+        return 0;
+    }
 
     /* Tried not to mess with resid during 64-bit conversion. clock(...) wants to modify *delta_t ... */
     if ((nr > 0) && (int_delta_t > 0)) {
