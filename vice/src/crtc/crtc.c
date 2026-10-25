@@ -358,7 +358,8 @@ void crtc_update_window(void)
                                    crtc.regs[CRTC_REG_VTOTALADJ] +
                                    2 * CRTC_SCREEN_BORDERHEIGHT;
 
-    if (screen_height > crtc.screen_height ||
+    if (screen_height != crtc.screen_height ||
+        screen_height > crtc.screen_height ||
             (max_drawn_lines > screen_height && max_drawn_lines < crtc.screen_height)) {
         /*
          * We only increase the screen height here, but it would also
@@ -389,6 +390,7 @@ void crtc_update_window(void)
 
     crtc_update_renderer();
 
+    /* NOTE: changing any of the sizes here may affect cbm2ui/petui_set_menu_params() */
     raster_set_geometry(&crtc.raster, /*  */
                         crtc.screen_width, /* canvas_width */
                         crtc.screen_height, // - 2 * CRTC_SCREEN_BORDERHEIGHT, /* canvas_height */
@@ -442,6 +444,7 @@ void crtc_set_chargen_addr(uint8_t *chargen, int cmask)
 
 void crtc_set_screen_options(int num_cols, int rasterlines)
 {
+    /* NOTE: changing any of the sizes here may affect cbm2ui/petui_set_menu_params() */
     crtc.screen_width = (num_cols + CRTC_EXTRA_COLS) * 8 + 2 * CRTC_SCREEN_BORDERWIDTH;
     crtc.screen_height = rasterlines + CRTC_EXTRA_RASTERLINES + 2 * CRTC_SCREEN_BORDERHEIGHT;
     crtc.framelines = rasterlines;

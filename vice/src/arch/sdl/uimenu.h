@@ -190,6 +190,7 @@ void sdl_ui_set_main_menu(const ui_menu_entry_t *menu);
 ui_menu_entry_t *sdl_ui_get_main_menu(void);
 menu_draw_t *sdl_ui_get_menu_param(void);
 menufont_t *sdl_ui_get_menu_font(void);
+void sdl_ui_get_menu_font_size(int *w, int *h);
 extern void (*sdl_ui_set_menu_params)(int index, menu_draw_t *menu_draw);
 
 uint8_t *sdl_ui_get_draw_buffer(void);
