@@ -77,13 +77,13 @@
 #include "vsync.h"
 #include "zfile.h"
 
-/* #define DEBUGMACHINE */
+/* #define DEBUG_MACHINE */
 
 #ifndef EXIT_SUCCESS
 #define EXIT_SUCCESS 0
 #endif
 
-#ifdef DEBUGMACHINE
+#ifdef DEBUG_MACHINE
 #define DBG(x) log_printf x
 #else
 #define DBG(x)
@@ -280,6 +280,7 @@ void machine_reset(void)
         /* kick off any requested autostart */
         initcmdline_check_attach();
     }
+    DBG(("machine_reset maincpu_clk: %ld", maincpu_clk));
 }
 
 void machine_maincpu_init(void)

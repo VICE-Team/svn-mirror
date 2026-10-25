@@ -1307,6 +1307,17 @@ Set the random seed (for debugging).
 Put the specified string into the keyboard buffer. Note that you can specify
 specific keycodes by using C-style escaped hexcodes ("\x0a").
 
+@findex -keybuf-after-load, +keybuf-after-load
+@item -keybuf-after-load
+@itemx +keybuf-after-load
+If enabled, fill the keyboard buffer after autoload/start.
+
+@findex -keybuf-delay
+@item -keybuf-delay <cycles>
+Set additional keyboard buffer delay
+(@code{KbdbufDelay}).
+(0: use default)
+
 @findex -console
 @item -console
 Console mode (for music playback, or for running the emulator test programs)
@@ -6425,12 +6436,6 @@ Set the host input for the potentiometers of joystick port 2 to a joystick axis.
 Enable/disable user defined keyset
 (@code{KeySetEnable=1}, @code{KeySetEnable=0})
 (all emulators except vsid).
-
-@findex -keybuf-delay
-@item -keybuf-delay <value>
-Set additional keyboard buffer delay
-(@code{KbdbufDelay}).
-(0: use default)
 
 @end table
 
