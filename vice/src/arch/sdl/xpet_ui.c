@@ -33,6 +33,7 @@
 #include "debug.h"
 #include "actions-display.h"
 #include "actions-speed.h"
+#include "crtc/crtctypes.h"
 #include "lib.h"
 #include "machine.h"
 #include "menu_common.h"
@@ -259,14 +260,19 @@ const ui_menu_entry_t pet_cb2_lowpass =
 static void petui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
     static int old_keymap = -1;
-    int cols = petmem_get_rom_columns();
     int keymap;
+    int width, height;
+    int mfw, mfh;
 
-    menu_draw->max_text_x = cols ? cols : 40;
-    menu_draw->extra_x = 24;
-    menu_draw->extra_y = (cols == 40) ? 32 : 20;
+    menu_draw->extra_x = (CRTC_EXTRA_COLS / 2) * 8;
+    menu_draw->extra_y = 0;
 
-    menu_draw->max_text_y = (cols == 40) ? 26 : 28;
+    width = sdl_active_canvas->geometry->gfx_size.width - CRTC_EXTRA_COLS * 8;
+    height = sdl_active_canvas->geometry->gfx_size.height;
+    sdl_ui_get_menu_font_size(&mfw, &mfh);
+
+    menu_draw->max_text_x = width / mfw;
+    menu_draw->max_text_y = height / mfh;
 
     resources_get_int("KeyboardType", &keymap);
 

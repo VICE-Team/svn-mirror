@@ -37,6 +37,7 @@
 #include "cbm2mem.h"
 #include "cbm2rom.h"
 #include "cbm2ui.h"
+#include "crtc/crtctypes.h"
 #include "lib.h"
 #include "machine.h"
 #include "menu_cbm2cart.h"
@@ -213,18 +214,18 @@ static ui_menu_entry_t xcbm6x0_7x0_main_menu[] = {
 
 static void cbm2ui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
-    int model;
+    int width, height;
+    int mfw, mfh;
 
-    resources_get_int("ModelLine", &model);
+    menu_draw->extra_x = (CRTC_EXTRA_COLS / 2) * 8;
+    menu_draw->extra_y = 0;
 
-    menu_draw->max_text_x = 80;
-    menu_draw->extra_x = 24;
+    width = sdl_active_canvas->geometry->gfx_size.width - CRTC_EXTRA_COLS * 8;
+    height = sdl_active_canvas->geometry->gfx_size.height;
+    sdl_ui_get_menu_font_size(&mfw, &mfh);
 
-    if (model == 0) {
-        menu_draw->extra_y = 8;
-    } else {
-        menu_draw->extra_y = 32;
-    }
+    menu_draw->max_text_x = width / mfw;
+    menu_draw->max_text_y = height / mfh;
 
     /* CRTC */
     menu_draw->color_front = menu_draw->color_default_front = 1;

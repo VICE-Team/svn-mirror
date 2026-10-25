@@ -2005,6 +2005,12 @@ void sdl_ui_set_menu_font(uint8_t *font, int w, int h)
     sdl_ui_set_active_font(MENU_FONT_ASCII);
 }
 
+void sdl_ui_get_menu_font_size(int *w, int *h)
+{
+    *w = menufont.w;
+    *h = menufont.h;
+}
+
 void sdl_ui_set_image_font(uint8_t *font, int w, int h)
 {
     int i;
