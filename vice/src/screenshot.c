@@ -428,7 +428,7 @@ static int quicksave_set_func(const char *value, void *extra_param)
     }
     s = lib_strdup(value);
     while(s[i] != 0) {
-        s[i] = toupper(s[i]);
+        s[i] = toupper((unsigned char)s[i]);
         i++;
     }
     i = resources_set_string("QuicksaveScreenshotFormat", s);
