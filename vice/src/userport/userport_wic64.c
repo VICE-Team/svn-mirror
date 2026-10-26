@@ -1150,7 +1150,7 @@ static void http_get_alarm_handler(CLOCK offset, void *data)
         curl_easy_cleanup(msg->easy_handle);
     }
     curl_multi_cleanup(cm);
-    curl_global_cleanup();
+    /* curl_global_cleanup(); removing this line fixes: 2268 */
     alarm_unset(http_get_alarm);
     memset(httpbuffer, 0, httpbufferptr);
     big_load = 0;
