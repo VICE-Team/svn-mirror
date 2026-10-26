@@ -122,6 +122,10 @@ libarchdep_a_SOURCES = \
 	archdep_rmdir.c \
 	archdep_rtc_get_centisecond.c \
 	archdep_sanitize_filename.c \
+	archdep_serial_control_close.c \
+	archdep_serial_control_list.c \
+	archdep_serial_control_open.c \
+	archdep_serial_control_set.c \
 	archdep_set_current_drive.c \
 	archdep_set_openmp_wait_policy.c \
 	archdep_signals.c \
@@ -237,6 +241,11 @@ EXTRA_DIST = \
 	archdep_rmdir.h \
 	archdep_rtc_get_centisecond.h \
 	archdep_sanitize_filename.h \
+	archdep_serial_control.h \
+	archdep_serial_control_close.h \
+	archdep_serial_control_list.h \
+	archdep_serial_control_open.h \
+	archdep_serial_control_set.h \
 	archdep_set_current_drive.h \
 	archdep_set_openmp_wait_policy.h \
 	archdep_signals.h \

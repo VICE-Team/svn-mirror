@@ -29,7 +29,9 @@
 #include "vice.h"
 #include "types.h"
 
+#include "archdep_serial_control.h"
 #include "attach.h"
+#include "cascom.h"
 #include "cbmimage.h"
 #include "datasette.h"
 #include "diskimage.h"
@@ -456,6 +458,340 @@ const ui_menu_entry_t tapecart_submenu[] = {
     SDL_MENU_LIST_END
 };
 
+
+/*
+ * cascom (BayCom / TCM3105 packet-radio modem) settings
+ *
+ * Mirrors the Gtk3 tape-port page: a mode selector plus per-mode option groups
+ * (audio + PTT for Mode=Audio, network for Mode=Net). The TX/RX audio devices
+ * and the PTT serial device are dynamic radio submenus built from the same
+ * cascom_*_device_list() enumerators the Gtk3 combos use. Groups whose
+ * backend is not compiled into this build are left out entirely.
+ */
+UI_MENU_DEFINE_RADIO(CascomMode)
+#ifdef USE_PORTAUDIO
+UI_MENU_DEFINE_RADIO(CascomTxRate)
+UI_MENU_DEFINE_RADIO(CascomRxRate)
+UI_MENU_DEFINE_RADIO(CascomTxAudioDev)
+UI_MENU_DEFINE_RADIO(CascomRxAudioDev)
+UI_MENU_DEFINE_INT(CascomTxGain)
+UI_MENU_DEFINE_TOGGLE(CascomTxGate)
+#endif
+#ifdef ARCHDEP_HAVE_SERIAL_CONTROL
+UI_MENU_DEFINE_RADIO(CascomPttLine)
+UI_MENU_DEFINE_RADIO(CascomPttDevice)
+UI_MENU_DEFINE_TOGGLE(CascomPttInvert)
+#endif
+#ifdef HAVE_NETWORK
+UI_MENU_DEFINE_INT(CascomNetPort)
+UI_MENU_DEFINE_INT(CascomNetListenPort)
+UI_MENU_DEFINE_STRING(CascomNetPeer)
+UI_MENU_DEFINE_STRING(CascomNetRxFilter)
+#endif
+
+#if defined(USE_PORTAUDIO) || defined(ARCHDEP_HAVE_SERIAL_CONTROL)
+
+/* upper bound on host devices shown in a picker (PortAudio/serial enumeration) */
+#define CASCOM_MENU_MAX_DEVICES 64
+
+static void cascom_dyn_menu_free(ui_menu_entry_t *menu)
+{
+    int i;
+
+    for (i = 0; menu[i].string != NULL; i++) {
+        lib_free(menu[i].string);
+        lib_free(menu[i].data);
+    }
+}
+
+#endif /* USE_PORTAUDIO || ARCHDEP_HAVE_SERIAL_CONTROL */
+
+#ifdef USE_PORTAUDIO
+
+/* dynamically-built device pickers on string resources (cf. SoundDeviceName):
+   list entry [0] is always "" = system default / none */
+static ui_menu_entry_t cascom_txaudio_dyn_menu[CASCOM_MENU_MAX_DEVICES + 1];
+static ui_menu_entry_t cascom_rxaudio_dyn_menu[CASCOM_MENU_MAX_DEVICES + 1];
+static int cascom_txaudio_dyn_menu_init = 0;
+static int cascom_rxaudio_dyn_menu_init = 0;
+
+static UI_MENU_CALLBACK(cascom_txaudio_dynmenu_callback)
+{
+    char **devices = cascom_audio_device_list(0);   /* playback */
+    int i;
+
+    if (cascom_txaudio_dyn_menu_init != 0) {
+        cascom_dyn_menu_free(cascom_txaudio_dyn_menu);
+    } else {
+        cascom_txaudio_dyn_menu_init = 1;
+    }
+
+    for (i = 0; devices[i] != NULL && i < CASCOM_MENU_MAX_DEVICES; i++) {
+        cascom_txaudio_dyn_menu[i].action   = ACTION_NONE;
+        cascom_txaudio_dyn_menu[i].string   = lib_strdup(devices[i][0] != '\0' ? devices[i] : "(system default)");
+        cascom_txaudio_dyn_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
+        cascom_txaudio_dyn_menu[i].callback = radio_CascomTxAudioDev_callback;
+        cascom_txaudio_dyn_menu[i].data     = (ui_callback_data_t)lib_strdup(devices[i]);
+    }
+    cascom_txaudio_dyn_menu[i].string = NULL;
+
+    cascom_device_list_free(devices);
+    return MENU_SUBMENU_STRING;
+}
+
+static UI_MENU_CALLBACK(cascom_rxaudio_dynmenu_callback)
+{
+    char **devices = cascom_audio_device_list(1);   /* capture */
+    int i;
+
+    if (cascom_rxaudio_dyn_menu_init != 0) {
+        cascom_dyn_menu_free(cascom_rxaudio_dyn_menu);
+    } else {
+        cascom_rxaudio_dyn_menu_init = 1;
+    }
+
+    for (i = 0; devices[i] != NULL && i < CASCOM_MENU_MAX_DEVICES; i++) {
+        cascom_rxaudio_dyn_menu[i].action   = ACTION_NONE;
+        cascom_rxaudio_dyn_menu[i].string   = lib_strdup(devices[i][0] != '\0' ? devices[i] : "(system default)");
+        cascom_rxaudio_dyn_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
+        cascom_rxaudio_dyn_menu[i].callback = radio_CascomRxAudioDev_callback;
+        cascom_rxaudio_dyn_menu[i].data     = (ui_callback_data_t)lib_strdup(devices[i]);
+    }
+    cascom_rxaudio_dyn_menu[i].string = NULL;
+
+    cascom_device_list_free(devices);
+    return MENU_SUBMENU_STRING;
+}
+
+#endif /* USE_PORTAUDIO */
+
+#ifdef ARCHDEP_HAVE_SERIAL_CONTROL
+
+static ui_menu_entry_t cascom_pttdev_dyn_menu[CASCOM_MENU_MAX_DEVICES + 1];
+static int cascom_pttdev_dyn_menu_init  = 0;
+
+static UI_MENU_CALLBACK(cascom_pttdev_dynmenu_callback)
+{
+    char **devices = cascom_serial_device_list();
+    int i;
+
+    if (cascom_pttdev_dyn_menu_init != 0) {
+        cascom_dyn_menu_free(cascom_pttdev_dyn_menu);
+    } else {
+        cascom_pttdev_dyn_menu_init = 1;
+    }
+
+    for (i = 0; devices[i] != NULL && i < CASCOM_MENU_MAX_DEVICES; i++) {
+        cascom_pttdev_dyn_menu[i].action   = ACTION_NONE;
+        cascom_pttdev_dyn_menu[i].string   = lib_strdup(devices[i][0] != '\0' ? devices[i] : "(none)");
+        cascom_pttdev_dyn_menu[i].type     = MENU_ENTRY_RESOURCE_RADIO;
+        cascom_pttdev_dyn_menu[i].callback = radio_CascomPttDevice_callback;
+        cascom_pttdev_dyn_menu[i].data     = (ui_callback_data_t)lib_strdup(devices[i]);
+    }
+    cascom_pttdev_dyn_menu[i].string = NULL;
+
+    cascom_device_list_free(devices);
+    return MENU_SUBMENU_STRING;
+}
+
+#endif /* ARCHDEP_HAVE_SERIAL_CONTROL */
+
+static const ui_menu_entry_t cascom_mode_menu[] = {
+    {   .string   = "Loopback (self-test)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_CascomMode_callback,
+        .data     = (ui_callback_data_t)CASCOM_MODE_LOOPBACK
+    },
+#ifdef USE_PORTAUDIO
+    {   .string   = "Audio (soundcard AFSK)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_CascomMode_callback,
+        .data     = (ui_callback_data_t)CASCOM_MODE_AUDIO
+    },
+#endif
+#ifdef HAVE_NETWORK
+    {   .string   = "Network (AXUDP)",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_CascomMode_callback,
+        .data     = (ui_callback_data_t)CASCOM_MODE_NET
+    },
+#endif
+    SDL_MENU_LIST_END
+};
+
+#ifdef USE_PORTAUDIO
+
+#define CASCOM_RATE_MENU(cb)                                                \
+    {   .string = "8000",  .type = MENU_ENTRY_RESOURCE_RADIO,               \
+        .callback = cb, .data = (ui_callback_data_t)8000  },                \
+    {   .string = "11025", .type = MENU_ENTRY_RESOURCE_RADIO,               \
+        .callback = cb, .data = (ui_callback_data_t)11025 },                \
+    {   .string = "16000", .type = MENU_ENTRY_RESOURCE_RADIO,               \
+        .callback = cb, .data = (ui_callback_data_t)16000 },                \
+    {   .string = "22050", .type = MENU_ENTRY_RESOURCE_RADIO,               \
+        .callback = cb, .data = (ui_callback_data_t)22050 },                \
+    {   .string = "24000", .type = MENU_ENTRY_RESOURCE_RADIO,               \
+        .callback = cb, .data = (ui_callback_data_t)24000 },                \
+    {   .string = "32000", .type = MENU_ENTRY_RESOURCE_RADIO,               \
+        .callback = cb, .data = (ui_callback_data_t)32000 },                \
+    {   .string = "44100", .type = MENU_ENTRY_RESOURCE_RADIO,               \
+        .callback = cb, .data = (ui_callback_data_t)44100 },                \
+    {   .string = "48000", .type = MENU_ENTRY_RESOURCE_RADIO,               \
+        .callback = cb, .data = (ui_callback_data_t)48000 },                \
+    {   .string = "96000", .type = MENU_ENTRY_RESOURCE_RADIO,               \
+        .callback = cb, .data = (ui_callback_data_t)96000 },                \
+    SDL_MENU_LIST_END
+
+static const ui_menu_entry_t cascom_txrate_menu[] = {
+    CASCOM_RATE_MENU(radio_CascomTxRate_callback)
+};
+
+static const ui_menu_entry_t cascom_rxrate_menu[] = {
+    CASCOM_RATE_MENU(radio_CascomRxRate_callback)
+};
+
+#undef CASCOM_RATE_MENU
+
+static const ui_menu_entry_t cascom_audio_menu[] = {
+    SDL_MENU_ITEM_TITLE("Transmit (TX)"),
+    {   .string   = "TX audio device",
+        .type     = MENU_ENTRY_DYNAMIC_SUBMENU,
+        .callback = cascom_txaudio_dynmenu_callback,
+        .data     = (ui_callback_data_t)cascom_txaudio_dyn_menu
+    },
+    {   .string   = "TX sample rate",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)cascom_txrate_menu
+    },
+    {   .string   = "TX gain (0-100)",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_CascomTxGain_callback,
+        .data     = (ui_callback_data_t)"Set TX gain (0-100)"
+    },
+    {   .string   = "Gate TX audio on PTT",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_CascomTxGate_callback
+    },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Receive (RX)"),
+    {   .string   = "RX audio device",
+        .type     = MENU_ENTRY_DYNAMIC_SUBMENU,
+        .callback = cascom_rxaudio_dynmenu_callback,
+        .data     = (ui_callback_data_t)cascom_rxaudio_dyn_menu
+    },
+    {   .string   = "RX sample rate",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)cascom_rxrate_menu
+    },
+    SDL_MENU_LIST_END
+};
+
+#endif /* USE_PORTAUDIO */
+
+#ifdef ARCHDEP_HAVE_SERIAL_CONTROL
+
+static const ui_menu_entry_t cascom_pttline_menu[] = {
+    {   .string   = "RTS",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_CascomPttLine_callback,
+        .data     = (ui_callback_data_t)0
+    },
+    {   .string   = "DTR",
+        .type     = MENU_ENTRY_RESOURCE_RADIO,
+        .callback = radio_CascomPttLine_callback,
+        .data     = (ui_callback_data_t)1
+    },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t cascom_ptt_menu[] = {
+    {   .string   = "Serial device",
+        .type     = MENU_ENTRY_DYNAMIC_SUBMENU,
+        .callback = cascom_pttdev_dynmenu_callback,
+        .data     = (ui_callback_data_t)cascom_pttdev_dyn_menu
+    },
+    {   .string   = "Control line",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)cascom_pttline_menu
+    },
+    {   .string   = "Invert PTT polarity",
+        .type     = MENU_ENTRY_RESOURCE_TOGGLE,
+        .callback = toggle_CascomPttInvert_callback
+    },
+    SDL_MENU_LIST_END
+};
+
+#endif /* ARCHDEP_HAVE_SERIAL_CONTROL */
+
+#ifdef HAVE_NETWORK
+
+static const ui_menu_entry_t cascom_net_menu[] = {
+    {   .string   = "Peer host/IP",
+        .type     = MENU_ENTRY_RESOURCE_STRING,
+        .callback = string_CascomNetPeer_callback,
+        .data     = (ui_callback_data_t)"Set network peer host/IP"
+    },
+    {   .string   = "Peer UDP port",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_CascomNetPort_callback,
+        .data     = (ui_callback_data_t)"Set peer UDP port (1-65535)"
+    },
+    {   .string   = "Listen UDP port",
+        .type     = MENU_ENTRY_RESOURCE_INT,
+        .callback = int_CascomNetListenPort_callback,
+        .data     = (ui_callback_data_t)"Set listen UDP port (1-65535)"
+    },
+    {   .string   = "RX callsign filter",
+        .type     = MENU_ENTRY_RESOURCE_STRING,
+        .callback = string_CascomNetRxFilter_callback,
+        .data     = (ui_callback_data_t)"Set RX callsign accept-list"
+    },
+    SDL_MENU_LIST_END
+};
+
+#endif /* HAVE_NETWORK */
+
+const ui_menu_entry_t cascom_device_menu[] = {
+    {   .string   = "Mode",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_radio_callback,
+        .data     = (ui_callback_data_t)cascom_mode_menu
+    },
+#if defined(USE_PORTAUDIO) || defined(ARCHDEP_HAVE_SERIAL_CONTROL)
+    SDL_MENU_ITEM_SEPARATOR,
+
+    SDL_MENU_ITEM_TITLE("Audio (soundcard AFSK) mode"),
+#ifdef USE_PORTAUDIO
+    {   .string   = "Audio modem settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)cascom_audio_menu
+    },
+#endif
+#ifdef ARCHDEP_HAVE_SERIAL_CONTROL
+    {   .string   = "PTT (radio keying)",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)cascom_ptt_menu
+    },
+#endif
+#endif /* USE_PORTAUDIO || ARCHDEP_HAVE_SERIAL_CONTROL */
+#ifdef HAVE_NETWORK
+    SDL_MENU_ITEM_SEPARATOR,
+
+    SDL_MENU_ITEM_TITLE("Network (AXUDP) mode"),
+    {   .string   = "Network gateway settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)cascom_net_menu
+    },
+#endif
+    SDL_MENU_LIST_END
+};
+
 const ui_menu_entry_t tapeport_devices_menu[] = {
     {   .string   = "Tapeport devices",
         .type     = MENU_ENTRY_DYNAMIC_SUBMENU,
@@ -471,6 +807,11 @@ const ui_menu_entry_t tapeport_devices_menu[] = {
         .type     = MENU_ENTRY_SUBMENU,
         .callback = submenu_callback,
         .data     = (ui_callback_data_t)tapecart_submenu
+    },
+    {   .string   = "CASCOM modem settings",
+        .type     = MENU_ENTRY_SUBMENU,
+        .callback = submenu_callback,
+        .data     = (ui_callback_data_t)cascom_device_menu
     },
     SDL_MENU_LIST_END
 };
@@ -503,6 +844,20 @@ void uitapeport_menu_shutdown(void)
             sdl_menu_tapeport_free(i);
         }
     }
+
+#ifdef USE_PORTAUDIO
+    if (cascom_txaudio_dyn_menu_init) {
+        cascom_dyn_menu_free(cascom_txaudio_dyn_menu);
+    }
+    if (cascom_rxaudio_dyn_menu_init) {
+        cascom_dyn_menu_free(cascom_rxaudio_dyn_menu);
+    }
+#endif
+#ifdef ARCHDEP_HAVE_SERIAL_CONTROL
+    if (cascom_pttdev_dyn_menu_init) {
+        cascom_dyn_menu_free(cascom_pttdev_dyn_menu);
+    }
+#endif
 }
 
 void uitape_menu_create(int has_tapeport)
