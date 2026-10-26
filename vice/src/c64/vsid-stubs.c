@@ -73,6 +73,7 @@
 #include "tap.h"
 #include "t64.h"
 #include "tape.h"
+#include "cascom.h"
 #include "tapecart.h"
 #include "tapeport.h"
 #include "tapecontents.h"
@@ -1256,6 +1257,20 @@ tapeport_desc_t *tapeport_get_valid_devices(int port, int sort)
 const char *tapeport_get_device_type_desc(int type)
 {
     return NULL;
+}
+
+char **cascom_audio_device_list(int want_input)
+{
+    return NULL;
+}
+
+char **cascom_serial_device_list(void)
+{
+    return NULL;
+}
+
+void cascom_device_list_free(char **list)
+{
 }
 #endif
 

@@ -22,6 +22,20 @@
  * $VICERES TapecartOptimizeTCRT            x64 x64sc x128
  * $VICERES TapecartLogLevel                x64 x64sc x128
  * $VICERES TapecartTCRTFilename            x64 x64sc x128
+ * $VICERES CascomMode                      x64 x64sc x128
+ * $VICERES CascomTxRate                    x64 x64sc x128
+ * $VICERES CascomRxRate                    x64 x64sc x128
+ * $VICERES CascomTxAudioDev                x64 x64sc x128
+ * $VICERES CascomRxAudioDev                x64 x64sc x128
+ * $VICERES CascomTxGain                    x64 x64sc x128
+ * $VICERES CascomPttDevice                 x64 x64sc x128
+ * $VICERES CascomPttLine                   x64 x64sc x128
+ * $VICERES CascomPttInvert                 x64 x64sc x128
+ * $VICERES CascomTxGate                    x64 x64sc x128
+ * $VICERES CascomNetPeer                   x64 x64sc x128
+ * $VICERES CascomNetPort                   x64 x64sc x128
+ * $VICERES CascomNetListenPort             x64 x64sc x128
+ * $VICERES CascomNetRxFilter               x64 x64sc x128
  */
 
 /*
@@ -49,6 +63,8 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 
+#include "archdep_serial_control.h"
+#include "cascom.h"
 #include "datasette.h"
 #include "lib.h"
 #include "machine.h"
@@ -134,6 +150,68 @@ static GtkWidget *tcrt_filename = NULL;
 /** \brief  Tapecart flush button */
 static GtkWidget *tcrt_flush = NULL;
 
+/** \brief  Cascom mode combo box */
+static GtkWidget *cascom_mode_combo = NULL;
+
+#ifdef USE_PORTAUDIO
+/** \brief  Cascom audio-mode options grid */
+static GtkWidget *cascom_audio_widget = NULL;
+#endif
+
+#ifdef ARCHDEP_HAVE_SERIAL_CONTROL
+/** \brief  Cascom PTT options grid */
+static GtkWidget *cascom_ptt_widget = NULL;
+#endif
+
+#ifdef HAVE_NETWORK
+/** \brief  Cascom network-mode options grid */
+static GtkWidget *cascom_net_widget = NULL;
+#endif
+
+/** \brief  Whether the Cascom device is the one selected on the port */
+static gboolean cascom_device_active = FALSE;
+
+/** \brief  Cascom operating modes
+ *
+ * Modes whose backend is not compiled into this build are left out entirely
+ * (the CascomMode resource setter rejects them as well).
+ */
+static const vice_gtk3_combo_entry_int_t cascom_modes[] = {
+    { "Loopback (self-test)",   0 },
+#ifdef USE_PORTAUDIO
+    { "Audio (soundcard AFSK)", 1 },
+#endif
+#ifdef HAVE_NETWORK
+    { "Network (AXUDP)",        2 },
+#endif
+    { NULL, -1 }
+};
+
+#ifdef ARCHDEP_HAVE_SERIAL_CONTROL
+/** \brief  Cascom PTT control line */
+static const vice_gtk3_combo_entry_int_t cascom_ptt_lines[] = {
+    { "RTS", 0 },
+    { "DTR", 1 },
+    { NULL, -1 }
+};
+#endif
+
+#ifdef USE_PORTAUDIO
+/** \brief  Cascom host audio sample rates */
+static const vice_gtk3_combo_entry_int_t cascom_rates[] = {
+    { "8000",  8000 },
+    { "11025", 11025 },
+    { "16000", 16000 },
+    { "22050", 22050 },
+    { "24000", 24000 },
+    { "32000", 32000 },
+    { "44100", 44100 },
+    { "48000", 48000 },
+    { "96000", 96000 },
+    { NULL, -1 }
+};
+#endif /* USE_PORTAUDIO */
+
 
 /** \brief  Determine if current machine supports tapecart
  *
@@ -208,6 +286,41 @@ static void set_tapecart_active(gboolean state)
     }
 }
 
+/** \brief  Show only the option group(s) relevant to the current mode
+ *
+ * Hides the inactive groups (rather than greying them) to keep the dialog
+ * compact: Audio+PTT for Mode=Audio, Network for Mode=Network, neither for
+ * Loopback (or when the Cascom device isn't selected on the port).
+ */
+static void cascom_update_mode_widgets(void)
+{
+    int mode = 0;
+
+    resources_get_int("CascomMode", &mode);
+    /* mode: 0 = loopback, 1 = audio, 2 = net; groups whose backend is not
+       compiled into this build do not exist at all */
+#ifdef USE_PORTAUDIO
+    gtk_widget_set_visible(cascom_audio_widget, cascom_device_active && mode == 1);
+#endif
+#ifdef ARCHDEP_HAVE_SERIAL_CONTROL
+    gtk_widget_set_visible(cascom_ptt_widget,   cascom_device_active && mode == 1);
+#endif
+#ifdef HAVE_NETWORK
+    gtk_widget_set_visible(cascom_net_widget,   cascom_device_active && mode == 2);
+#endif
+}
+
+/** \brief  Set Cascom widgets active/inactive
+ *
+ * \param[in]   state   status
+ */
+static void set_cascom_active(gboolean state)
+{
+    cascom_device_active = state;
+    gtk_widget_set_sensitive(cascom_mode_combo, state);
+    cascom_update_mode_widgets();
+}
+
 /** \brief  Set individual options active/inactive
  *
  * \param[in]   id      id of active device
@@ -217,6 +330,7 @@ static void set_options_widgets_sensitivity(int id)
     set_datasette_active(id == TAPEPORT_DEVICE_DATASETTE);
     set_f83_active(id == TAPEPORT_DEVICE_CP_CLOCK_F83);
     set_tapecart_active(id == TAPEPORT_DEVICE_TAPECART);
+    set_cascom_active(id == TAPEPORT_DEVICE_CASCOM);
 }
 
 /** \brief  Handler for the 'clicked' event of the tapecart flush button
@@ -442,6 +556,262 @@ static GtkWidget *create_tapecart_widget(void)
                                                         "Optimize data when changed");
     gtk_grid_attach(GTK_GRID(wrapper), tcrt_optimize, 1, 0, 1, 1);
     gtk_grid_attach(GTK_GRID(grid), wrapper, 0, row, 3, 1);
+
+    gtk_widget_show_all(grid);
+    return grid;
+}
+
+/** \brief  Handler for the Cascom mode combo 'changed' event
+ *
+ * \param[in]   widget  mode combo (unused)
+ * \param[in]   data    extra event data (unused)
+ */
+static void on_cascom_mode_changed(GtkWidget *widget, gpointer data)
+{
+    cascom_update_mode_widgets();
+}
+
+/** \brief  Attach a "label: widget" row to a grid
+ *
+ * \param[in]   grid    target grid
+ * \param[in]   row     row index
+ * \param[in]   text    label markup
+ * \param[in]   widget  control for column 1
+ * \param[in]   expand  let \a widget fill the column (combos, sliders) or keep
+ *                      it at its natural size (small spin buttons)
+ *
+ * \return  next row index
+ */
+#ifdef HAVE_NETWORK
+static int cascom_row(GtkWidget *grid, int row, const char *text,
+                      GtkWidget *widget, gboolean expand)
+{
+    gtk_grid_attach(GTK_GRID(grid), label_helper(text), 0, row, 1, 1);
+    if (expand) {
+        gtk_widget_set_hexpand(widget, TRUE);
+    } else {
+        gtk_widget_set_halign(widget, GTK_ALIGN_START);
+    }
+    gtk_grid_attach(GTK_GRID(grid), widget, 1, row, 1, 1);
+    return row + 1;
+}
+#endif /* HAVE_NETWORK */
+
+/** \brief  Create a resource-bound combo populated from a device-name list
+ *
+ * \param[in]   resource    string resource holding the selected name
+ * \param[in]   devices     NULL-terminated name list (entry [0] is always "")
+ * \param[in]   empty_text  display text for the "" (default/none) entry
+ *
+ * \return  GtkComboBox
+ */
+#if defined(USE_PORTAUDIO) || defined(ARCHDEP_HAVE_SERIAL_CONTROL)
+static GtkWidget *create_name_combo(const char *resource,
+                                    char       **devices,
+                                    const char  *empty_text)
+{
+    const vice_gtk3_combo_entry_str_t defaults[] = {
+        { (char *)"", (char *)empty_text },
+        VICE_GTK3_COMBO_ENTRY_STR_LIST_END
+    };
+    GtkWidget *combo = vice_gtk3_resource_combo_str_new(resource, defaults);
+    int        i;
+
+    for (i = 0; devices[i] != NULL; i++) {
+        if (devices[i][0] != '\0') {
+            vice_gtk3_resource_combo_str_append(combo, devices[i], devices[i]);
+        }
+    }
+    vice_gtk3_resource_combo_str_sync(combo);
+    return combo;
+}
+#endif /* USE_PORTAUDIO || ARCHDEP_HAVE_SERIAL_CONTROL */
+
+#ifdef USE_PORTAUDIO
+/** \brief  Create the Cascom audio-mode options grid
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_cascom_audio_widget(void)
+{
+    GtkWidget *grid = gtk_grid_new();
+    GtkWidget *tx_dev, *rx_dev, *tx_rate, *rx_rate, *gain;
+    char     **devs;
+    int        row  = 0;
+
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 4);
+    gtk_grid_attach(GTK_GRID(grid),
+                    label_helper("<b>Audio (soundcard) modem</b>"), 0, row++, 4, 1);
+
+    /* TX device + rate on one line */
+    devs    = cascom_audio_device_list(0);  /* playback */
+    tx_dev  = create_name_combo("CascomTxAudioDev", devs, "(system default)");
+    cascom_device_list_free(devs);
+    tx_rate = vice_gtk3_resource_combo_int_new("CascomTxRate", cascom_rates);
+    gtk_widget_set_hexpand(tx_dev, TRUE);
+    gtk_widget_set_halign(tx_rate, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label_helper("TX device"), 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), tx_dev,                    1, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label_helper("rate (Hz)"), 2, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), tx_rate,                   3, row, 1, 1);
+    row++;
+
+    /* RX device + rate on one line */
+    devs    = cascom_audio_device_list(1);  /* capture */
+    rx_dev  = create_name_combo("CascomRxAudioDev", devs, "(system default)");
+    cascom_device_list_free(devs);
+    rx_rate = vice_gtk3_resource_combo_int_new("CascomRxRate", cascom_rates);
+    gtk_widget_set_hexpand(rx_dev, TRUE);
+    gtk_widget_set_halign(rx_rate, GTK_ALIGN_START);
+    gtk_grid_attach(GTK_GRID(grid), label_helper("RX device"), 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rx_dev,                    1, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label_helper("rate (Hz)"), 2, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), rx_rate,                   3, row, 1, 1);
+    row++;
+
+    /* TX gain slider spanning the value columns */
+    gain = vice_gtk3_resource_scale_custom_new_printf("CascomTxGain",
+                                                      GTK_ORIENTATION_HORIZONTAL,
+                                                      0, 100, 0, 100, 5, "%3.0f%%");
+    gtk_scale_set_value_pos(GTK_SCALE(gain), GTK_POS_RIGHT);
+    gtk_widget_set_hexpand(gain, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), label_helper("TX gain"), 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), gain,                    1, row, 3, 1);
+    row++;
+
+    /* PTT-gated TX audio: only emit tones while keyed (like a real radio), with
+       a short fade so opening/closing the gate doesn't click */
+    gtk_grid_attach(GTK_GRID(grid),
+                    vice_gtk3_resource_check_button_new("CascomTxGate",
+                        "Gate TX audio on PTT (only transmit while keyed)"),
+                    0, row, 4, 1);
+    row++;
+
+    return grid;
+}
+#endif /* USE_PORTAUDIO */
+
+#ifdef ARCHDEP_HAVE_SERIAL_CONTROL
+/** \brief  Create the Cascom PTT options grid
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_cascom_ptt_widget(void)
+{
+    GtkWidget *grid = gtk_grid_new();
+    GtkWidget *serial, *line, *invert;
+    char     **devs;
+    int        row  = 0;
+
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 8);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 4);
+    gtk_grid_attach(GTK_GRID(grid),
+                    label_helper("<b>PTT (radio keying)</b>"), 0, row++, 5, 1);
+
+    /* serial device + control line + invert on one line */
+    devs   = cascom_serial_device_list();
+    serial = create_name_combo("CascomPttDevice", devs, "(none)");
+    cascom_device_list_free(devs);
+    line   = vice_gtk3_resource_combo_int_new("CascomPttLine", cascom_ptt_lines);
+    invert = vice_gtk3_resource_check_button_new("CascomPttInvert", "Invert polarity");
+    gtk_widget_set_hexpand(serial, TRUE);
+    gtk_grid_attach(GTK_GRID(grid), label_helper("Serial device"), 0, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), serial,                        1, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), label_helper("Line"),          2, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), line,                          3, row, 1, 1);
+    gtk_grid_attach(GTK_GRID(grid), invert,                        4, row, 1, 1);
+    row++;
+
+    return grid;
+}
+#endif /* ARCHDEP_HAVE_SERIAL_CONTROL */
+
+#ifdef HAVE_NETWORK
+/** \brief  Create the Cascom network-mode options grid
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_cascom_net_widget(void)
+{
+    GtkWidget *grid = gtk_grid_new();
+    int        row  = 0;
+
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 4);
+    gtk_grid_attach(GTK_GRID(grid),
+                    label_helper("<b>Network (AXUDP) gateway</b>"), 0, row++, 2, 1);
+    row = cascom_row(grid, row, "Peer host",
+                     vice_gtk3_resource_entry_new("CascomNetPeer"), TRUE);
+    row = cascom_row(grid, row, "Peer UDP port",
+                     vice_gtk3_resource_spin_int_new("CascomNetPort", 1, 65535, 1), FALSE);
+    row = cascom_row(grid, row, "Listen UDP port",
+                     vice_gtk3_resource_spin_int_new("CascomNetListenPort", 1, 65535, 1), FALSE);
+    row = cascom_row(grid, row, "RX callsign filter",
+                     vice_gtk3_resource_entry_new("CascomNetRxFilter"), TRUE);
+    return grid;
+}
+#endif /* HAVE_NETWORK */
+
+/** \brief  Create widget to handle the Cascom (BayCom TCM3105 modem) resources
+ *
+ * \return  GtkGrid
+ */
+static GtkWidget *create_cascom_widget(void)
+{
+    GtkWidget *grid = gtk_grid_new();
+    GtkWidget *label;
+    GtkWidget *modebox;
+    int        row  = 0;
+
+    gtk_grid_set_column_spacing(GTK_GRID(grid), 16);
+    gtk_grid_set_row_spacing(GTK_GRID(grid), 8);
+
+    label = label_helper("<b>CASCOM packet-radio modem</b>\n"
+                         "<span size=\"small\">BayCom-compatible TCM3105 modem emulation</span>");
+    gtk_widget_set_margin_bottom(label, 8);
+    gtk_grid_attach(GTK_GRID(grid), label, 0, row++, 2, 1);
+
+    /* keep the label and combo adjacent, independent of the wide groups below */
+    modebox           = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 8);
+    cascom_mode_combo = vice_gtk3_resource_combo_int_new("CascomMode", cascom_modes);
+    gtk_box_pack_start(GTK_BOX(modebox), label_helper("Mode"), FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(modebox), cascom_mode_combo,    FALSE, FALSE, 0);
+    gtk_grid_attach(GTK_GRID(grid), modebox, 0, row, 2, 1);
+    row++;
+    g_signal_connect(G_OBJECT(cascom_mode_combo),
+                     "changed",
+                     G_CALLBACK(on_cascom_mode_changed),
+                     NULL);
+
+    /* Only the groups whose backend is compiled into this build exist.
+       Realise each group's children, then take the group out of the ancestor's
+       show_all recursion so cascom_update_mode_widgets() alone controls their
+       visibility (only the active mode's group is shown, keeping it compact). */
+#ifdef USE_PORTAUDIO
+    cascom_audio_widget = create_cascom_audio_widget();
+    gtk_widget_set_margin_top(cascom_audio_widget, 8);
+    gtk_grid_attach(GTK_GRID(grid), cascom_audio_widget, 0, row++, 2, 1);
+    gtk_widget_show_all(cascom_audio_widget);
+    gtk_widget_set_no_show_all(cascom_audio_widget, TRUE);
+    gtk_widget_set_visible(cascom_audio_widget, FALSE);
+#endif
+#ifdef ARCHDEP_HAVE_SERIAL_CONTROL
+    cascom_ptt_widget = create_cascom_ptt_widget();
+    gtk_widget_set_margin_top(cascom_ptt_widget, 8);
+    gtk_grid_attach(GTK_GRID(grid), cascom_ptt_widget, 0, row++, 2, 1);
+    gtk_widget_show_all(cascom_ptt_widget);
+    gtk_widget_set_no_show_all(cascom_ptt_widget, TRUE);
+    gtk_widget_set_visible(cascom_ptt_widget, FALSE);
+#endif
+#ifdef HAVE_NETWORK
+    cascom_net_widget = create_cascom_net_widget();
+    gtk_widget_set_margin_top(cascom_net_widget, 8);
+    gtk_grid_attach(GTK_GRID(grid), cascom_net_widget, 0, row++, 2, 1);
+    gtk_widget_show_all(cascom_net_widget);
+    gtk_widget_set_no_show_all(cascom_net_widget, TRUE);
+    gtk_widget_set_visible(cascom_net_widget, FALSE);
+#endif
 
     gtk_widget_show_all(grid);
     return grid;
@@ -717,6 +1087,14 @@ GtkWidget *settings_tapeport_widget_create(GtkWidget *parent)
     /* TapeCart settings */
     if (machine_has_tapecart()) {
         gtk_grid_attach(GTK_GRID(grid), create_tapecart_widget(), 0, row, 1, 1);
+        row++;
+    }
+
+    /* Cascom (BayCom TCM3105 modem) settings - C64/C64SC/C128 only */
+    if (machine_class == VICE_MACHINE_C64 ||
+        machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_C128) {
+        gtk_grid_attach(GTK_GRID(grid), create_cascom_widget(), 0, row, 1, 1);
         row++;
     }
 

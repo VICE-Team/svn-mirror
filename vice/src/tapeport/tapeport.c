@@ -31,6 +31,7 @@
 #include <ctype.h>
 
 #include "cmdline.h"
+#include "cascom.h"
 #include "cp-clockf83.h"
 #include "datasette.h"
 #include "dtl-basic-dongle.h"
@@ -376,6 +377,10 @@ static int tapeport_device_resources_init(int amount)
         if (tapecart_resources_init(amount) < 0) {
             return -1;
         }
+
+        if (cascom_resources_init(amount) < 0) {
+            return -1;
+        }
     }
 
 #ifdef TAPEPORT_EXPERIMENTAL_DEVICES
@@ -451,6 +456,8 @@ static const struct tapeport_opt_s id_match[] = {
     { "wordcraftdongle",TAPEPORT_DEVICE_WORDCRAFT_DONGLE },
     { "petspeed",       TAPEPORT_DEVICE_PETSPEED_DONGLE },
     { "petspeeddongle", TAPEPORT_DEVICE_PETSPEED_DONGLE },
+    { "cascom",         TAPEPORT_DEVICE_CASCOM },
+    { "modem",          TAPEPORT_DEVICE_CASCOM },
     { NULL, -1 }
 };
 
@@ -547,6 +554,10 @@ static int tapeport_devices_cmdline_options_init(void)
     /* Only use tapecart device on c64/c128 */
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_C64SC) {
         if (tapecart_cmdline_options_init() < 0) {
+            return -1;
+        }
+
+        if (cascom_cmdline_options_init() < 0) {
             return -1;
         }
     }

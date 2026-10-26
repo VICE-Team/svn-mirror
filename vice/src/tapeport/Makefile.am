@@ -17,6 +17,14 @@ AM_LDFLAGS = @VICE_LDFLAGS@
 noinst_LIBRARIES = libtapeport.a
 
 libtapeport_a_SOURCES = \
+	cascom.c \
+	cascom.h \
+	cascom_dsp.c \
+	cascom_dsp.h \
+	cascom_hdlc.c \
+	cascom_hdlc.h \
+	cascom_nrzi.c \
+	cascom_nrzi.h \
 	cp-clockf83.c \
 	cp-clockf83.h \
 	dtl-basic-dongle.c \

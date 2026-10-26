@@ -8915,6 +8915,9 @@ Set the device attached to the second tape port (xpet only, see table below):
 @item 8
 @tab PetSpeed dongle
 @tab xpet (port 1 only)
+@item 9
+@tab CASCOM packet-radio modem
+@tab x64, x64sc, x128
 @end multitable
 
 @table @code
@@ -8943,6 +8946,100 @@ parameters.
 @vindex TapecartTCRTFilename
 @item TapecartTCRTFilename
 String specifying the file name of the current tapecart image.
+
+@end table
+
+@table @code
+
+@vindex CascomMode
+@item CascomMode
+Integer specifying the CASCOM operating mode. 0: loopback self-test
+(TX bits are reflected back onto the RX lines), 1: audio (AFSK modem to
+and from the host soundcard), 2: network (AXUDP frame gateway).
+
+@vindex CascomTxRate
+@item CascomTxRate
+Integer specifying the host sample rate in Hz of the TX (output) audio
+stream in audio mode. (Default: 48000)
+
+@vindex CascomRxRate
+@item CascomRxRate
+Integer specifying the host sample rate in Hz of the RX (input) audio
+stream in audio mode. (Default: 48000)
+
+@vindex CascomTxAudioDev
+@item CascomTxAudioDev
+String specifying a substring of the host audio output device name used
+for TX audio in audio mode. An empty string selects the system default
+device.
+
+@vindex CascomRxAudioDev
+@item CascomRxAudioDev
+String specifying a substring of the host audio input device name used
+for RX audio in audio mode. An empty string selects the system default
+device.
+
+@vindex CascomMarkFreq
+@item CascomMarkFreq
+Integer specifying the mark (logical 1) tone frequency in Hz.
+(Default: 1200)
+
+@vindex CascomSpaceFreq
+@item CascomSpaceFreq
+Integer specifying the space (logical 0) tone frequency in Hz.
+(Default: 2200)
+
+@vindex CascomBaud
+@item CascomBaud
+Integer specifying the data rate in baud. (Default: 1200)
+
+@vindex CascomTxGain
+@item CascomTxGain
+Integer (0-100) specifying the TX audio output level in percent.
+(Default: 60)
+
+@vindex CascomTxGate
+@item CascomTxGate
+Boolean specifying whether TX audio is gated by PTT: when enabled, tones
+are only emitted while the emulated modem is keyed, with a short fade to
+avoid clicks - like a real radio. When disabled, the modem outputs a
+continuous tone like a bare TCM3105. (Default: on)
+
+@vindex CascomPttDevice
+@item CascomPttDevice
+String specifying the host serial device used to key a radio (PTT):
+a tty path on *nix (e.g. a USB-serial adapter), a COM port name on
+Windows. An empty string disables PTT keying.
+
+@vindex CascomPttLine
+@item CascomPttLine
+Integer specifying the serial control line used for PTT. 0: RTS, 1: DTR.
+
+@vindex CascomPttInvert
+@item CascomPttInvert
+Boolean specifying whether the PTT keying polarity is inverted.
+
+@vindex CascomNetPeer
+@item CascomNetPeer
+String specifying the peer host name or IP address that reconstructed
+AX.25 frames are sent to in network mode. An empty string disables
+sending.
+
+@vindex CascomNetPort
+@item CascomNetPort
+Integer specifying the UDP port of the AXUDP peer. (Default: 10093)
+
+@vindex CascomNetListenPort
+@item CascomNetListenPort
+Integer specifying the local UDP port to listen on for incoming AXUDP
+frames. (Default: 10093)
+
+@vindex CascomNetRxFilter
+@item CascomNetRxFilter
+String specifying an optional comma-separated list of callsigns; an
+incoming frame is only passed to the emulated machine if its AX.25
+destination or source call matches (SSID ignored). An empty string
+accepts all frames.
 
 @end table
 
@@ -8992,7 +9089,148 @@ Specify the tapecart log level. The default level of 0 only logs
 errors. Level 1 additionally logs mode changes and command bytes and
 level 2 adds details of command parameters.
 
+@findex -cascommode
+@item -cascommode <0-2>
+Set the CASCOM modem operating mode
+(0: loopback self-test, 1: audio AFSK, 2: AXUDP network gateway)
+(@code{CascomMode}).
+
+@findex -cascomtxrate
+@item -cascomtxrate <Hz>
+Set the CASCOM TX host audio sample rate
+(@code{CascomTxRate}).
+
+@findex -cascomrxrate
+@item -cascomrxrate <Hz>
+Set the CASCOM RX host audio sample rate
+(@code{CascomRxRate}).
+
+@findex -cascomtxaudiodev
+@item -cascomtxaudiodev <name>
+Set the CASCOM TX (output) audio device name substring, empty for the
+system default
+(@code{CascomTxAudioDev}).
+
+@findex -cascomrxaudiodev
+@item -cascomrxaudiodev <name>
+Set the CASCOM RX (input) audio device name substring, empty for the
+system default
+(@code{CascomRxAudioDev}).
+
+@findex -cascommarkfreq
+@item -cascommarkfreq <Hz>
+Set the CASCOM mark tone frequency
+(@code{CascomMarkFreq}).
+
+@findex -cascomspacefreq
+@item -cascomspacefreq <Hz>
+Set the CASCOM space tone frequency
+(@code{CascomSpaceFreq}).
+
+@findex -cascombaud
+@item -cascombaud <baud>
+Set the CASCOM data rate
+(@code{CascomBaud}).
+
+@findex -cascomtxgain
+@item -cascomtxgain <0-100>
+Set the CASCOM TX audio level in percent
+(@code{CascomTxGain}).
+
+@findex -cascomtxgate, +cascomtxgate
+@item -cascomtxgate
+@itemx +cascomtxgate
+Enable/Disable gating the CASCOM TX audio by PTT (tones only while
+keyed, with a short fade / continuous tone)
+(@code{CascomTxGate=1}, @code{CascomTxGate=0}).
+
+@findex -cascompttdevice
+@item -cascompttdevice <device>
+Set the CASCOM PTT serial device (tty path or COM port), empty to
+disable PTT
+(@code{CascomPttDevice}).
+
+@findex -cascompttline
+@item -cascompttline <0-1>
+Set the CASCOM PTT serial control line (0: RTS, 1: DTR)
+(@code{CascomPttLine}).
+
+@findex -cascompttinvert, +cascompttinvert
+@item -cascompttinvert
+@itemx +cascompttinvert
+Enable/Disable inverted CASCOM PTT keying polarity
+(@code{CascomPttInvert=1}, @code{CascomPttInvert=0}).
+
+@findex -cascomnetpeer
+@item -cascomnetpeer <host>
+Set the CASCOM network peer host that reconstructed AX.25 frames are
+sent to, empty to disable sending
+(@code{CascomNetPeer}).
+
+@findex -cascomnetport
+@item -cascomnetport <port>
+Set the CASCOM AXUDP peer UDP port
+(@code{CascomNetPort}).
+
+@findex -cascomnetlistenport
+@item -cascomnetlistenport <port>
+Set the CASCOM local UDP listen port
+(@code{CascomNetListenPort}).
+
+@findex -cascomnetrxfilter
+@item -cascomnetrxfilter <calls>
+Set the CASCOM RX callsign accept-list (comma separated, empty accepts
+all frames)
+(@code{CascomNetRxFilter}).
+
 @end table
+
+@c @node FIXME
+@subsection CASCOM usage
+
+The CASCOM device emulates a BayCom-compatible TCM3105 AFSK packet-radio
+modem on the cassette port, as used by DIGICOM 64 and similar C64/C128
+packet-radio software. It can operate as a real 1200-baud Bell-202
+soundcard modem (with optional serial-line PTT to key a radio), or as a
+frame-level gateway to AX.25-over-UDP peers (AXUDP, e.g. ax25ipd).
+
+Select the CASCOM device on tape port 1 (in the settings UI under Tape
+port devices, or with @code{-tapeport1device cascom}), choose an
+operating mode and boot your packet-radio software (e.g. DIGICOM 64).
+The software drives the modem exactly as it would the real
+cassette-port hardware.
+
+Audio mode works a real transceiver, or a host soundmodem:
+
+@example
+x64sc -tapeport1device cascom -cascommode 1 \
+  -cascomtxaudiodev "USB Audio" -cascomrxaudiodev "USB Audio" \
+  -cascompttdevice /dev/ttyUSB0 -cascompttline 0
+@end example
+
+@noindent
+connects the modem to the given host audio devices; with the audio and
+PTT lines wired to a transceiver this is a complete 1200-baud packet
+station. Without a radio, point both audio devices at a virtual audio
+cable shared with a host soundmodem such as Direwolf to exchange AX.25
+frames with host APRS/packet tools.
+
+Network mode exchanges AX.25 frames with an AXUDP peer, for example an
+ax25ipd gateway or a HamNet digipeater:
+
+@example
+x64sc -tapeport1device cascom -cascommode 2 \
+  -cascomnetpeer 44.0.0.1 -cascomnetport 10093 -cascomnetlistenport 10093
+@end example
+
+@noindent
+sends every frame the emulated software transmits to the peer as a UDP
+datagram and plays received datagrams back into the emulated modem at
+the configured baud rate.
+
+Loopback mode (@code{-cascommode 0}) needs no host resources at all: it
+reflects transmitted bits back to the receiver, which the packet
+software's loopback/test functions detect.
 
 @c -----------------------------------------------------------------------------
 

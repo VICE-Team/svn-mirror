@@ -59,6 +59,7 @@
 #include "c64rsuser.h"
 #include "cardkey.h"
 #include "cartridge.h"
+#include "cascom.h"
 #include "cia.h"
 #include "clockport-mp3at64.h"
 #include "datasette.h"
@@ -889,6 +890,7 @@ void machine_resources_shutdown(void)
     sampler_resources_shutdown();
     tapeport_resources_shutdown();
     tapecart_exit();
+    cascom_resources_shutdown();
     joyport_resources_shutdown();
 }
 
