@@ -457,7 +457,7 @@ static void cia_ifr_current(cia_context_t *cia_context, CLOCK rclk, int what)
 {
     /*
      * Check if Timer A/B alarms for this cycle are still scheduled.
-     * This check should be needed if all callers are careful,
+     * This check should not be needed if all callers are careful,
      * but is left as a consistency check.
      * Another consistency check could be that ->ifr_clock == rclk.
      */
@@ -1606,15 +1606,18 @@ static void ciacore_async_interrupt(cia_context_t *cia_context, int flag)
      * since we're totally async here.
      */
     CLOCK idleclk = alarm_clk(cia_context->idle_alarm);
-    if (idleclk > rclk + 1) {
+    if (idleclk != rclk + 1) {
         /*
-         * If not already scheduled for the near future, re-schedule
-         * it sooner. We could schedule it for rclk+0 if we could be
-         * sure it won't be scheduled twice then (but we can't).
+         * If not already scheduled for the next cycle, re-schedule it
+         * there. We could schedule it for rclk+0 if we could be sure it
+         * won't be scheduled twice then (but we can't).
+         * Also when it is due sooner: an idle alarm at or before rclk
+         * that has not run yet would run with a clock older than
+         * ifr_clock, which cia_set_irq_flag() just caught up to rclk, so
+         * ciacore_idle() would skip cia_ifr_current() and the new flag
+         * would raise no interrupt until the next one.
          */
         alarm_set(cia_context->idle_alarm, rclk + 1);
-    } else {
-        DBG(("ciacore_async_interrupt: idleclk == rclk + %ld", (long)(idleclk - rclk)));
     }
 }
 
