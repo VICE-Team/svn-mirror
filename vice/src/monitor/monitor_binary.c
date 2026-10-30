@@ -982,6 +982,7 @@ static void monitor_binary_process_resource_get(binary_command_t *command)
     if( resource_name_length < 1 ||
         command->length < 1 + resource_name_length) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
+        return;
     }
 
     /* Change if more fields added */
