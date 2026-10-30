@@ -286,8 +286,16 @@ void file_system_init(void)
                 vdrive_device_setup(file_system[i].vdrive, i + 8);
                 serial_device_type_set(SERIAL_DEVICE_REAL, i + 8);
                 break;
+            case ATTACH_DEVICE_VIRT:
+                vdrive_device_setup(file_system[i].vdrive, i + 8);
+                serial_device_type_set(SERIAL_DEVICE_VIRT, i + 8);
+                break;
         }
-        file_system_set_serial_hooks(i + 8, file_system_device_enabled[i]);
+        if (file_system_device_enabled[i] == ATTACH_DEVICE_VIRT) {
+            file_system_set_serial_hooks(i + 8, ATTACH_DEVICE_NONE);
+        } else {
+            file_system_set_serial_hooks(i + 8, file_system_device_enabled[i]);
+        }
     }
 }
 
@@ -409,6 +417,16 @@ static int set_file_system_device(int val, void *param)
         DBG(("set_file_system_device invalid dev #%u", unit));
         return -1;
     }
+    switch (val) {
+        case ATTACH_DEVICE_NONE:    /* fall through */
+        case ATTACH_DEVICE_FS:      /* fall through */
+        case ATTACH_DEVICE_REAL:    /* fall through */
+        case ATTACH_DEVICE_VIRT:
+            break;
+        default:
+            return -1;
+    }
+
     idx = unit - 8;
     old_device_enabled = file_system_device_enabled[idx];
     new_device_enabled = val;

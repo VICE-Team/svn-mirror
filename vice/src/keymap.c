@@ -1144,6 +1144,10 @@ static int keyboard_set_keyboard_type(int val, void *param)
 {
     int idx, mapping;
 
+    if (val < 0 || val >= machine_get_num_keyboard_types()) {
+        return -1;
+    }
+
     mapping = machine_keyboard_mapping;
     idx = machine_keymap_index;
 

@@ -220,7 +220,7 @@ static char *p00_file_find(const char *file_name, const char *path)
 
 static size_t p00_eliminate_char_p00(char *filename, int pos)
 {
-    memcpy(&filename[pos], &filename[pos + 1], 16 - pos);
+    memmove(&filename[pos], &filename[pos + 1], 16 - pos);
     return strlen(filename);
 }
 
