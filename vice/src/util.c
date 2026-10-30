@@ -1120,16 +1120,15 @@ char **util_strsplit(const char *string, const char *delimiter, int max_tokens)
 
     curpos   = string;
     resindex = 0;
-    ressize  = 0;
     while (*curpos != '\0' && ((max_tokens < 1) || (size_t)resindex < max_tokens)) {
         const char *delimpos;
         char       *token;
         size_t      tokenlen;
 
-        /* -1 for remainder, -1 for terminating NULL */
-        if (resindex == ressize - 2) {
+        /* +1 for remainder, +1 for terminating NULL */
+        if (resindex + 2 >= ressize) {
             ressize *= 2;
-            result = realloc(result, sizeof *result * ressize);
+            result = lib_realloc(result, sizeof *result * ressize);
         }
 
         delimpos = strstr(curpos, delimiter);
