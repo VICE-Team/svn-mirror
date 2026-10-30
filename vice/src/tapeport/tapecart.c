@@ -391,6 +391,11 @@ static void transfer_ptr_clamp(void)
 {
     // the pointer is allowed to point one byte beyond each of the buffers
     switch (transfer_ptr.region) {
+        case REGION_NONE:
+            /* can occur in a snapshot taken before the first mode change */
+            transfer_ptr.offset = 0;
+            break;
+
         case REGION_TRANSFER_BUFFER:
             if (transfer_ptr.offset > sizeof(transfer_buffer)) {
                 transfer_ptr.offset = sizeof(transfer_buffer);
