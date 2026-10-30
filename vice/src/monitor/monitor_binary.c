@@ -705,6 +705,7 @@ static void monitor_binary_process_condition_set(binary_command_t *command)
 
     if (parse_and_execute_line(cmd) != 0) {
         monitor_binary_error(e_MON_ERR_CMD_FAILURE, command->request_id);
+        lib_free(cmd);
         return;
     }
 
