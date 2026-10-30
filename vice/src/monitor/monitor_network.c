@@ -184,10 +184,11 @@ int monitor_network_get_command_line(char **prompt)
         /* Do not read more from network until all commands in current buffer is fully processed */
         if (bufferpos == 0) {
             ssize_t n = monitor_network_receive(buffer + bufferpos,
-                                                sizeof buffer - (size_t)(bufferpos - 1));
+                                                sizeof buffer - 1 - (size_t)bufferpos);
 
             if (n > 0) {
                 bufferpos += n;
+                buffer[bufferpos] = 0;
             } else if (n <= 0) {
                 monitor_network_quit();
                 *prompt = NULL;
@@ -195,7 +196,7 @@ int monitor_network_get_command_line(char **prompt)
             }
         }
 
-        *prompt = monitor_network_extract_text_command_line(buffer, sizeof buffer, &bufferpos);
+        *prompt = monitor_network_extract_text_command_line(buffer, sizeof buffer - 1, &bufferpos);
         if (*prompt) {
             break;
         } else {
