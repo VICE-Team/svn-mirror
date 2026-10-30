@@ -869,6 +869,7 @@ static void monitor_binary_process_registers_set(binary_command_t *command)
     MEMSPACE memspace;
     uint16_t count = little_endian_to_uint16(&body[1]);
 
+    /* quick check for reasonable commands */
     if (command->length < header_size + count * (3 + 1)) {
         monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
         return;
@@ -886,13 +887,18 @@ static void monitor_binary_process_registers_set(binary_command_t *command)
 
     for (i = 0; i < count; i++) {
         uint8_t item_size = body_cursor[0];
-        uint8_t reg_id = body_cursor[1];
-        uint16_t reg_val = little_endian_to_uint16(&body_cursor[2]);
+        uint8_t reg_id;
+        uint16_t reg_val;
 
-        if (item_size < 3) {
+        /* exact check to guard against unreasonable commands */
+        if (item_size < 3 ||
+            (uint32_t)(body_cursor - body) + item_size + 1 > command->length) {
             monitor_binary_error(e_MON_ERR_CMD_INVALID_LENGTH, command->request_id);
             return;
         }
+
+        reg_id = body_cursor[1];
+        reg_val = little_endian_to_uint16(&body_cursor[2]);
 
         if (!mon_register_valid(memspace, (int)reg_id)) {
             monitor_binary_error(e_MON_ERR_OBJECT_MISSING, command->request_id);

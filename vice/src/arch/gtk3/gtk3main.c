@@ -67,6 +67,14 @@ int main(int argc, char **argv)
      */
     archdep_set_main_thread();
 
+#ifdef WINDOWS_COMPILE
+    /*
+     * Disable client side decorations because our renderer on Windows
+     * cannot handle them.
+     */
+    g_setenv("GTK_CSD", "0", FALSE);
+#endif
+
     int init_result = main_program(argc, argv);
     if (init_result) {
         return init_result;
