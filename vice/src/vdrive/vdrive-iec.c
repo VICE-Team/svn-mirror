@@ -130,6 +130,7 @@ static int iec_open_read_sequential(vdrive_t *vdrive, unsigned int secondary, un
     vdrive_alloc_buffer(p, BUFFER_SEQUENTIAL);
     p->bufptr = 2;
     p->record = 1;
+    p->blocks_read = 0;
 
     status = vdrive_read_sector(vdrive, p->buffer, track, sector);
     p->length = p->buffer[0] ? 0 : p->buffer[1];
@@ -268,6 +269,8 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
             p->track = p->sector = 0;
         } else {
             if (p->readmode == CBMDOS_FAM_APPEND) {
+                unsigned int blocks = 0;
+
                 /* append mode */
                 /* allocate buffers */
                 vdrive_alloc_buffer(p, BUFFER_SEQUENTIAL);
@@ -297,8 +300,9 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
                 while (track) {
                     p->track = track;
                     p->sector = sector;
-                    if (vdrive_read_sector(vdrive, p->buffer, p->track, p->sector)) {
-                        /* couldn't read sector, report error and leave */
+                    if (++blocks > VDRIVE_MAX_CHAIN_BLOCKS
+                        || vdrive_read_sector(vdrive, p->buffer, p->track, p->sector)) {
+                        /* read error or chain limit, leave */
                         vdrive_free_buffer(p);
                         vdrive_command_set_error(vdrive, CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR,
                             p->track, p->sector);
@@ -954,6 +958,13 @@ static int iec_read_sequential(vdrive_t *vdrive, uint8_t *data,
 
     switch (p->mode) {
         case BUFFER_SEQUENTIAL:
+
+            /* don't read forever from a cyclic block chain */
+            if (++p->blocks_read > VDRIVE_MAX_CHAIN_BLOCKS) {
+                log_error(vdrive_iec_log, "File block chain too long, stopping.");
+                p->readmode = CBMDOS_FAM_EOF;
+                return SERIAL_EOF;
+            }
 
             track = (unsigned int)p->buffer[0];
             sector = (unsigned int)p->buffer[1];

@@ -972,8 +972,8 @@ static int is_valid_cbm_file_name(const char *name)
 
 
 /*
- * Simple linked list to keep track of track/sector links, currently only
- * used for the `chain` command to detect cyclic references.
+ * Simple linked list to keep track of track/sector links, used by the
+ * `chain` command and the directory walks to detect cyclic references.
  */
 
 /** \brief  Add (\a track, \a sector) to links
@@ -2972,6 +2972,7 @@ static int extract_cmd_common(int nargs, char **args, int geos)
     uint8_t *buf, *str;
     unsigned int channel = 2;
     char *p00_name = NULL;
+    link_t *visited = NULL;
 
     if (nargs == 2) {
         if (arg_to_int(args[1], &dnr) < 0) {
@@ -3017,6 +3018,12 @@ static int extract_cmd_common(int nargs, char **args, int geos)
     while (1) {
         int i, res;
 
+        /* stop on cyclic directory chains */
+        if (link_find(visited, track, sector) != NULL) {
+            fprintf(stderr, "cyclic reference found to (%u,%u)\n", track, sector);
+            break;
+        }
+        visited = link_add(visited, track, sector);
 
         str = (uint8_t *)lib_msprintf("B-R:%u 0 %u %u", channel, track, sector);
         res = vdrive_command_execute(floppy, str, (unsigned int)strlen((char *)str));
@@ -3024,6 +3031,7 @@ static int extract_cmd_common(int nargs, char **args, int geos)
         lib_free(str);
 
         if (res) {
+            link_free(visited);
             return FD_RDERR;
         }
 
@@ -3153,6 +3161,7 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                         if (!write_p00_header(fd, cbm_name)) {
                             fprintf(stderr, "failed to write P00 header\n");
                             lib_free(p00_name);
+                            link_free(visited);
                             return FD_WRTERR;
                         }
                     }
@@ -3180,6 +3189,7 @@ static int extract_cmd_common(int nargs, char **args, int geos)
                 vdrive_iec_close(floppy, 0);
 
                 if (fclose(fd)) {
+                    link_free(visited);
                     return FD_RDERR;
                 }
             }
@@ -3191,6 +3201,7 @@ static int extract_cmd_common(int nargs, char **args, int geos)
             break;
         }
     }
+    link_free(visited);
     vdrive_iec_close(floppy, channel);
     return FD_OK;
 }
@@ -4258,6 +4269,7 @@ static int find_dir_entry(char *filename, int dnr, uint8_t *slot)
     vdrive_t *floppy;
     uint8_t *buf, *str;
     unsigned int channel = 2;
+    link_t *visited = NULL;
 
     /* printf("find dir entry for: %s (dev:%d)\n", filename, dnr); */
 
@@ -4275,11 +4287,19 @@ static int find_dir_entry(char *filename, int dnr, uint8_t *slot)
     while (1) {
         int i, res;
 
+        /* stop on cyclic directory chains */
+        if (link_find(visited, track, sector) != NULL) {
+            fprintf(stderr, "cyclic reference found to (%u,%u)!\n", track, sector);
+            break;
+        }
+        visited = link_add(visited, track, sector);
+
         str = (uint8_t *)lib_msprintf("B-R:%u 0 %u %u", channel, track, sector);
         res = vdrive_command_execute(floppy, str, (unsigned int)strlen((char *)str));
         lib_free(str);
 
         if (res) {
+            link_free(visited);
             return FD_RDERR;
         }
 
@@ -4301,6 +4321,7 @@ static int find_dir_entry(char *filename, int dnr, uint8_t *slot)
                 if (memcmp(filename, file_name, len) == 0) {
                     /* printf("found! %s\n", file_name); */
                     memcpy(slot, buf + i, SLOT_SIZE);
+                    link_free(visited);
                     vdrive_iec_close(floppy, channel);
                     return FD_OK;
                 }
@@ -4313,6 +4334,7 @@ static int find_dir_entry(char *filename, int dnr, uint8_t *slot)
             break;
         }
     }
+    link_free(visited);
     vdrive_iec_close(floppy, channel);
     return FD_OK;
 }
