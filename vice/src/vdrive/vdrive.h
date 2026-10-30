@@ -102,6 +102,7 @@ typedef struct bufferinfo_s {
     unsigned int partend;
     int small;               /* flag to enable small buffer reads on seq type files */
     int timemode;            /* flag to enable time output on dir listings */
+    unsigned int blocks_read;/* blocks followed in chain */
 
     vdrive_dir_context_t dir; /* directory listing context or directory entry */
 
