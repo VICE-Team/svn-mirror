@@ -111,13 +111,13 @@ void fsdevice_error(vdrive_t *vdrive, int code)
 
     dnr = vdrive->unit - 8;
 
-    /* Only set an error once per command */
-    if (code != CBMDOS_IPE_OK && last_code[dnr] != CBMDOS_IPE_OK
-        && last_code[dnr] != CBMDOS_IPE_DOS_VERSION) {
+    if (dnr >= FSDEVICE_DEVICE_MAX) {
         return;
     }
 
-    if (dnr >= FSDEVICE_DEVICE_MAX) {
+    /* Only set an error once per command */
+    if (code != CBMDOS_IPE_OK && last_code[dnr] != CBMDOS_IPE_OK
+        && last_code[dnr] != CBMDOS_IPE_DOS_VERSION) {
         return;
     }
 
