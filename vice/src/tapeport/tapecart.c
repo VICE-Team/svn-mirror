@@ -2172,7 +2172,8 @@ static int save_tcrt(const char *filename, tapecart_memory_t *tcmem)
 /* update TCRT if updates enabled and changes pending */
 static void update_tcrt(void)
 {
-    if (tcrt_filename && tapecart_memory->changed && tapecart_update_tcrt) {
+    if (tcrt_filename && tapecart_memory &&
+        tapecart_memory->changed && tapecart_update_tcrt) {
         save_tcrt(tcrt_filename, tapecart_memory);
     }
 }
