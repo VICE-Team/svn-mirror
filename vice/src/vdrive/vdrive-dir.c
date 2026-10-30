@@ -229,6 +229,7 @@ void vdrive_dir_find_first_slot(vdrive_t *vdrive, const uint8_t *name,
     dir->track = vdrive->Header_Track;
     dir->sector = vdrive->Header_Sector;
     dir->slot = 7;
+    dir->blocks_read = 0;
 
     /* date comparisons; show everything */
     dir->time_low = 0;
@@ -292,6 +293,12 @@ uint8_t *vdrive_dir_find_next_slot(vdrive_dir_context_t *dir)
             /* end of current directory? */
             if (dir->buffer[0] == 0) {
                 break;
+            }
+
+            /* don't loop forever on a cyclic directory chain */
+            if (++dir->blocks_read > VDRIVE_MAX_CHAIN_BLOCKS) {
+                log_error(vdrive_dir_log, "Directory chain too long, giving up.");
+                return NULL;
             }
 
             dir->slot = 0;
@@ -652,6 +659,7 @@ int vdrive_dir_first_directory(vdrive_t *vdrive,
         p->dir.track = vdrive->Header_Track;
         p->dir.sector = vdrive->Header_Sector;
         p->dir.slot = 7;
+        p->dir.blocks_read = 0;
 
         vdrive_read_sector(vdrive, p->dir.buffer, p->dir.track, p->dir.sector);
 
@@ -869,6 +877,7 @@ void vdrive_dir_part_find_first_slot(vdrive_t *vdrive, const uint8_t *name,
     dir->track = 1;
     dir->sector = 0;
     dir->slot = 7;
+    dir->blocks_read = 0;
 
     dir->buffer[0] = 1;
     dir->buffer[1] = 0;
@@ -912,6 +921,12 @@ uint8_t *vdrive_dir_part_find_next_slot(vdrive_dir_context_t *dir)
             /* end of current directory? */
             if (dir->buffer[0] == 0) {
                 break;
+            }
+
+            /* don't loop forever on a cyclic directory chain */
+            if (++dir->blocks_read > VDRIVE_MAX_CHAIN_BLOCKS) {
+                log_error(vdrive_dir_log, "Directory chain too long, giving up.");
+                return NULL;
             }
 
             dir->slot = 0;

@@ -57,6 +57,9 @@
 #define PSLOT_TYPE            2
 #define PSLOT_NAME            5
 
+/* theoretical maximum chain length without loops */
+#define VDRIVE_MAX_CHAIN_BLOCKS (255 * 256)
+
 struct vdrive_s;
 struct cbmdos_cmd_parse_plus_s;
 struct bufferinfo_s;
@@ -71,6 +74,7 @@ typedef struct vdrive_dir_context_s {
     unsigned int sector;
     unsigned int time_low;
     unsigned int time_high;
+    unsigned int blocks_read; /* for detecting looped directory chains */
     struct vdrive_s *vdrive;
 } vdrive_dir_context_t;
 
