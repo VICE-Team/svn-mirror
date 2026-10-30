@@ -179,6 +179,11 @@ int drive_check_type(unsigned int drive_type, unsigned int dnr)
         return 0;
     }
 
+    /* a 1551 can only be device 8 or 9 */
+    if (drive_type == DRIVE_TYPE_1551 && dnr > 1) {
+        return 0;
+    }
+
     if (machine_drive_rom_check_loaded(drive_type) < 0) {
         return 0;
     }

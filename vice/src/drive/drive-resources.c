@@ -155,6 +155,11 @@ static int drive_resources_type(int val, void *param)
     type = (unsigned int)val;
     busses = iec_available_busses();
 
+    /* a 1551 can only be device 8 or 9 */
+    if (type == DRIVE_TYPE_1551 && dnr > 1) {
+        return -1;
+    }
+
     /* first of all, detach any disk images, so we don't end up with images
        attached to drives that do not support them */
     if (file_system_get_vdrive(dnr + 8) != NULL) {
