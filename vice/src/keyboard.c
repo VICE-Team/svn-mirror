@@ -360,7 +360,7 @@ static void keyboard_latch_matrix(CLOCK offset)
 /* update keyboard latch, returns 0 on success, -1 on error */
 static int keyboard_set_latch_keyarr(int row, int col, int pressed)
 {
-    if (row < 0 || col < 0) {
+    if (row < 0 || col < 0 || row >= KBD_ROWS || col >= KBD_COLS) {
         return -1;
     }
     DBGMTX(("keyboard_set_latch_keyarr     row:%d col:%d pressed:%d", row, col, pressed));
