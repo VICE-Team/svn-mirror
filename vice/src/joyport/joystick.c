@@ -1427,7 +1427,7 @@ static void joy_arch_parse_keyword(char *buffer, joystick_device_t  *joydev)
 
     key = strtok(buffer + 1, " \t:");
 
-    if (!strcmp(key, "CLEAR")) {
+    if (key != NULL && !strcmp(key, "CLEAR")) {
         joy_arch_keyword_clear(joydev);
     }
 }
