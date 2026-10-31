@@ -41,10 +41,6 @@
 
 static log_t archdep_font_log = LOG_DEFAULT;
 
-/** \brief  Filename of the TrueType CBM font used for directory display
- */
-/* #define VICE_CBM_FONT_TTF "C64_Pro_Mono-STYLE.ttf" */
-
 /** \brief  List of fonts to register with the OS */
 static const char *font_files[] = {
     "C64_Pro_Mono-STYLE.ttf",
@@ -177,11 +173,6 @@ int archdep_register_cbmfont(void)
 
 #  ifdef WINDOWS_COMPILE
 
-/** Flag indictating the font was successfully registered and thus must be
- *  unregistered.
- */
-static bool font_registered = false;
-
 /* Make sure AddFontResourceEx prototype is used in wingdi.h */
 #   ifndef _WIN32_WINNT
 #    define _WIN32_WINNT 0x0500
@@ -196,6 +187,19 @@ static bool font_registered = false;
 #   include <pango/pango.h>
 #   include <pango/pangocairo.h>
 
+/** \brief  Paths of the font files registered with GDI
+ *
+ * AddFontResourceA() registers a font session-globally with a per-path
+ * reference count; the registration - and Windows' lock on the font file,
+ * which also prevents deleting its directory - survives process exit.  Each
+ * AddFontResourceA() must therefore be paired with exactly one
+ * RemoveFontResourceA() on shutdown, so the resolved paths are kept here.
+ */
+static char *registered_fonts[sizeof font_files / sizeof font_files[0]];
+
+/** \brief  Number of used entries in \c registered_fonts */
+static size_t registered_count = 0;
+
 int archdep_register_cbmfont(void)
 {
     size_t i;
@@ -205,6 +209,10 @@ int archdep_register_cbmfont(void)
                 "%s(): Registering CBM fonts using Pango %s",
                 __func__, pango_version_string());
 
+    /* The fonts are registered session-globally: Pango 1.50.12+ enumerates
+       fonts through DirectWrite, which does not see process-private fonts
+       added with AddFontResourceEx(FR_PRIVATE), see
+       https://gitlab.gnome.org/GNOME/pango/-/issues/720 */
     for (i = 0; i < sizeof font_files / sizeof font_files[0]; i++) {
         char *path = NULL;
 
@@ -216,55 +224,27 @@ int archdep_register_cbmfont(void)
             int result = AddFontResourceA(path);
 
             if (result > 0) {
-                font_registered = true;
                 log_message(archdep_font_log,
                             "succesfully registered %d font(s) from %s.",
                             result, path);
-                lib_free(path);
+                /* keep path for the paired RemoveFontResourceA() */
+                registered_fonts[registered_count++] = path;
                 nfonts += result;
             } else {
                 log_warning(archdep_font_log, "no fonts found in %s.", path);
+                lib_free(path);
             }
         }
     }
 
     log_message(archdep_font_log, "registered %d font(s) total.", nfonts);
-#if 0
-    /* Work around the fact that Pango, starting with 1.50.12, has switched to
-       (only) using DirectWrite for enumarating fonts, and DirectWrite doesn't
-       find fonts added with AddFontResourceEx().
-       see https://gitlab.gnome.org/GNOME/pango/-/issues/720
 
-       1.50.12 is actually broken in this respect, but the GDI way of font
-       enumeration (with AddFontResource[A|W]) will be added back in 1.50.13.
-     */
-    if (pango_version() < PANGO_VERSION_ENCODE(1, 50, 12)) {
-        log_message(archdep_font_log,
-                    "%s(): Using AddFontResourceEx()",
-                    __func__);
-        result = AddFontResourceEx(path, FR_PRIVATE, 0);
-    } else {
-        /* non-private version, if VICE crashes the font will remain on the
-           host system until the system is rebooted */
-        log_message(archdep_font_log,
-                    "%s(): Using AddFontResourceA()",
-                    __func__);
-        result = AddFontResourceA(path);
+    if (nfonts > 0) {
+        /* tell other processes and the DirectWrite font cache that the
+           session font table changed */
+        SendNotifyMessageA(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
     }
-    lib_free(path);
-    if (result > 0) {
-        font_registered = true;
-        log_message(archdep_font_log,
-                    "%s(): According to Windows, the CBM font was succesfully"
-                    " registered.",
-                    __func__);
-    } else {
-        log_warning(archdep_font_log,
-                    "%s(): According to Windows, registering the font failed",
-                    __func__);
-        return 0;
-    }
-#endif
+
     /* Force Pango to reinitialize so that the available fonts are rescanned */
     pango_cairo_font_map_set_default(NULL);
 
@@ -290,45 +270,28 @@ int archdep_register_cbmfont(void)
 void archdep_unregister_cbmfont(void)
 {
 # ifdef WINDOWS_COMPILE
-#if 0
-    if (font_registered) {
-        char *path;
+    size_t i;
 
-        if (sysfile_locate(VICE_CBM_FONT_TTF, "common", &path) < 0) {
-            log_error(archdep_font_log, "failed to find resource data '%s'.",
-                    VICE_CBM_FONT_TTF);
-            return;
-        }
-
-        if (pango_version() < PANGO_VERSION_ENCODE(1, 50, 12)) {
-            log_message(archdep_font_log,
-                        "%s(): Unregistering CBM font with RemoveFontResourceExA()",
-                        __func__);
-            RemoveFontResourceExA(path, FR_PRIVATE, 0);
-        } else {
-            /* If we unregister the font with RemoveFontResourceA() the font
-             * will somehow remain unregistered and registering the font with
-             * AddFontResourceA() on subsequent runs will NOT register it again,
-             * although the function reports success.
-             * So if we call this RemoveFontResourceA() the user will either
-             * have to reboot Windows every time before starting VICE, or
-             * manually install the font.
-             * Although rebooting a lot is perfectly normal in daily Windows use,
-             * I find to be less enjoyable ;)
-             * So we leave the font around for the session, after a reboot (heh)
-             * the font will be gone again and VICE will register it again.
-             */
+    /* Pair each AddFontResourceA() with one RemoveFontResourceA(): the
+       session-global registration is reference-counted per path and outlives
+       the process, keeping the font files (and their directory) locked by
+       Windows until the count drops to zero or the system is rebooted.
+       Registrations leaked by a crashed instance, or held by other emulators
+       running concurrently, are counted on top of ours, so removing exactly
+       our own references here is always safe. */
+    for (i = 0; i < registered_count; i++) {
+        if (RemoveFontResourceA(registered_fonts[i]) == 0) {
             log_warning(archdep_font_log,
-                        "%s(): Pango version >= 1.5.12: skipping unregistering"
-                        " font with RemoveFontResourceA()",
-                        __func__);
-#if 0
-            RemoveFontResourceA(path);
-#endif
+                        "%s(): failed to unregister font(s) from %s.",
+                        __func__, registered_fonts[i]);
         }
-        lib_free(path);
-   }
-#endif
+        lib_free(registered_fonts[i]);
+        registered_fonts[i] = NULL;
+    }
+    if (registered_count > 0) {
+        registered_count = 0;
+        SendNotifyMessageA(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
+    }
 # endif
 }
 # else  /* !USE_GTK3UI */
