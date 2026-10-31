@@ -738,8 +738,8 @@ static bool vhk_parser_do_undef(const char *line)
     /* get combined modifier masks and keyval */
     oldpos = curpos;
     if (!vhk_parser_get_keysym_and_modmask(curpos, &curpos,
-                                           &vice_mask, &vice_key,
-                                           &arch_mask, &arch_key)) {
+                                           &vice_key, &vice_mask,
+                                           &arch_key, &arch_mask)) {
         /* error already logged */
         return false;
     }
