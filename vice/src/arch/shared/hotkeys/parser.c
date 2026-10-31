@@ -784,7 +784,7 @@ static bool vhk_parser_do_undef(const char *line)
             memcpy(accel_name, oldpos, accel_len);
             accel_name[accel_len] = '\0';
 
-            vhk_parser_warning("hotkey '%s' not found, ignoring.");
+            vhk_parser_warning("hotkey '%s' not found, ignoring.", accel_name);
         }
     }
     return true;
