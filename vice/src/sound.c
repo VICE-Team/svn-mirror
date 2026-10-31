@@ -1242,6 +1242,9 @@ int sound_open(void)
             } else {
                 snddata.sound_output_channels = channels;
             }
+        } else {
+            /* ensure channel count is valid if device has no init (e.g. dummy) */
+            snddata.sound_output_channels = channels;
         }
         if (snddata.buffer) {
             lib_free(snddata.buffer);
