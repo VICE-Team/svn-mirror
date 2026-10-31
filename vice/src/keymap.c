@@ -170,6 +170,9 @@ static int keyboard_keyword_rowcol(int *row, int *col)
         p = strtok(NULL, " \t,");
         if (p != NULL) {
             c = atoi(p);
+            if (r < 0 || r >= KBD_ROWS || c < 0 || c >= KBD_COLS) {
+                return -1;
+            }
             /* no error */
             *row = r; *col = c;
             return 0;
@@ -414,7 +417,7 @@ static int keyboard_parse_set_pos_row(signed long sym, int row, int col,
 
     /* FIXME: we should check against the actual size of the emulated
               keyboard here */
-    if ((row >= KBD_ROWS) || (col >= KBD_COLS)) {
+    if ((row >= KBD_ROWS) || (col < 0) || (col >= KBD_COLS)) {
         return -1;
     }
 
