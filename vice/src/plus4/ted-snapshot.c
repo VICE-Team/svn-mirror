@@ -302,13 +302,14 @@ int ted_snapshot_read_module(snapshot_t *s)
         ted.force_black_overscan_background_color = 0;
     }
 
-    if (ted.regs[0x06] & 0x8) {
-        ted.raster.display_ystart = ted.row_25_start_line;
-        ted.raster.display_ystop = ted.row_25_stop_line;
-    } else {
-        ted.raster.display_ystart = ted.row_24_start_line;
-        ted.raster.display_ystop = ted.row_24_stop_line;
-    }
+    /* The TED code drives the vertical border flip-flop itself in
+       ted_raster_draw_alarm_handler(), comparing ted_raster_counter against
+       row_2x_start/stop_line; the raster core's own flip-flop is kept
+       disabled (see ted_init()).  row_2x_start/stop_line are TED raster
+       counter values, offset from raster canvas lines by vsync_line, so
+       arming the core flip-flop with them here would blank the bottom part
+       of the display window.  */
+    ted.raster.display_ystart = ted.raster.display_ystop = -1;
 
     if (ted.regs[0x07] & 0x8) {
         ted.raster.display_xstart = TED_40COL_START_PIXEL;
