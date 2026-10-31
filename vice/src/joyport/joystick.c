@@ -1861,7 +1861,7 @@ static bool joy_arch_parse_entry(const char *buffer, const char *filename, int l
 
             action_name[a] = state.bufptr[a];
             a++;
-            while (a < sizeof action_name &&
+            while (a < sizeof action_name - 1u &&
                    state.bufptr[a] != '\0' &&
                    (isalnum((unsigned char)(state.bufptr[a])) ||
                     state.bufptr[a] == '_' ||
