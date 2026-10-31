@@ -633,6 +633,17 @@ void drive_reset(void)
     }
 }
 
+/* Reset last_clk for all drives to the main CPU so drive_cpu_execute_in_step()
+   doesn't think that they are (far) ahead after a computer-only reset. */
+void drive_cpu_resync_main_clk(void)
+{
+    unsigned int dnr;
+
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
+        diskunit_context[dnr]->cpu->last_clk = maincpu_clk;
+    }
+}
+
 /* NOTE: this function is very similar to machine_jam - in case the behavior
          changes, change machine_jam too */
 unsigned int drive_jam(int mynumber, const char *format, ...)

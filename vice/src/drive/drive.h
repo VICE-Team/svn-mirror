@@ -409,6 +409,7 @@ struct monitor_interface_s *drive_cpu_monitor_interface_get(unsigned int dnr);
 void drive_cpu_early_init_all(void);
 void drive_cpu_trigger_reset(unsigned int dnr);
 void drive_reset(void);
+void drive_cpu_resync_main_clk(void);
 void drive_shutdown(void);
 void drive_cpu_execute_one(struct diskunit_context_s *drv, CLOCK clk_value);
 void drive_cpu_execute_all(CLOCK clk_value);
