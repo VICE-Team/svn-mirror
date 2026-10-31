@@ -682,6 +682,14 @@ static int keyb_find_in_keyconvtab(int sym, int mod)
 int keyboard_find_mapped_row_col(int key, int *row, int *col, int *shift)
 {
     int keynum = keyb_find_in_keyconvtab(key, 0);
+
+    if (keynum < 0) {
+        /* key is not mapped */
+        *row = -1;
+        *col = -1;
+        *shift = 0;
+        return keynum;
+    }
     *row = keyconvmap[keynum].row;
     *col = keyconvmap[keynum].column;
     *shift = keyconvmap[keynum].shift;
