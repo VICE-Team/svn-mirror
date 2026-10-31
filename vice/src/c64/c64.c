@@ -1263,6 +1263,11 @@ void machine_specific_reset(void)
     int iecreset = 1;
     resources_get_int("IECReset", &iecreset);
 
+    /* Resync the drives' last_clk value if we only reset the computer */
+    if (!(reset_poweron || iecreset)) {
+        drive_cpu_resync_main_clk();
+    }
+
     serial_traps_reset();
 
     /* These calls must be before the CIA initialization */

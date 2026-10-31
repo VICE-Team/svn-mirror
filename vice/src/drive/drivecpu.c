@@ -259,17 +259,17 @@ void drivecpu_init(diskunit_context_t *drv, int type)
     drivecpu_reset(drv);
 }
 
-inline void drivecpu_wake_up(diskunit_context_t *drv)
+inline void drivecpu_wake_up(diskunit_context_t *drv, CLOCK clk_value)
 {
     if (drv->idling_method == DRIVE_IDLE_SKIP_CYCLES) {
         /* FIXME: this value could break some programs, or be way too high for
         others.  Maybe we should put it into a user-definable resource.  */
-        if (((maincpu_clk - drv->cpu->last_clk) > 0xffffff) &&
+        if ((clk_value > drv->cpu->last_clk) &&
+            ((clk_value - drv->cpu->last_clk) > 0xffffff) &&
             (*(drv->clk_ptr) > 934639)) {
             log_message(drv->log, "Skipping cycles.");
-            /* forward clock (set last main cpu clock to current clock) */
-            /* FIXME: shouldn't we use clk_value from below? */
-            drv->cpu->last_clk = maincpu_clk;
+            /* forward clock (set last main cpu clock to the clock we run to) */
+            drv->cpu->last_clk = clk_value;
         }
     }
     /* NOTE: after this, cpu->stop_clk will be recalculated from
@@ -392,7 +392,7 @@ void drivecpu_execute(diskunit_context_t *drv, CLOCK clk_value)
 
     cpu = drv->cpu;
 
-    drivecpu_wake_up(drv);
+    drivecpu_wake_up(drv, clk_value);
 
     /* Calculate number of main CPU clocks to emulate */
     if (clk_value >= cpu->last_clk) {

@@ -492,6 +492,18 @@ void drive_enable_update_ui(diskunit_context_t *drv)
                            drive_led_color);
 }
 
+/* Forward the clock of "skip cycles" idle mode drives to clk_value */
+static void drive_skip_cycles_to(diskunit_context_t *drv, CLOCK clk_value)
+{
+    if (drv->type == DRIVE_TYPE_2000 ||
+        drv->type == DRIVE_TYPE_4000 ||
+        drv->type == DRIVE_TYPE_CMDHD) {
+        drivecpu65c02_wake_up(drv, clk_value);
+    } else {
+        drivecpu_wake_up(drv, clk_value);
+    }
+}
+
 /* Activate full drive emulation. */
 int drive_enable(diskunit_context_t *drv)
 {
@@ -531,13 +543,7 @@ int drive_enable(diskunit_context_t *drv)
     /* resync */
     drv->cpu->stop_clk = *(drv->clk_ptr);
 
-    if (drv->type == DRIVE_TYPE_2000 ||
-        drv->type == DRIVE_TYPE_4000 ||
-        drv->type == DRIVE_TYPE_CMDHD) {
-        drivecpu65c02_wake_up(drv);
-    } else {
-        drivecpu_wake_up(drv);
-    }
+    drive_skip_cycles_to(drv, maincpu_clk);
 
     /* Make sure the UI is updated.  */
     drive_enable_update_ui(drv);
@@ -624,6 +630,17 @@ void drive_reset(void)
     unsigned int dnr;
     for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
         drive_cpu_trigger_reset(dnr);
+    }
+}
+
+/* Reset last_clk for all drives to the main CPU so drive_cpu_execute_in_step()
+   doesn't think that they are (far) ahead after a computer-only reset. */
+void drive_cpu_resync_main_clk(void)
+{
+    unsigned int dnr;
+
+    for (dnr = 0; dnr < NUM_DISK_UNITS; dnr++) {
+        diskunit_context[dnr]->cpu->last_clk = maincpu_clk;
     }
 }
 
@@ -1030,7 +1047,8 @@ void drive_cpu_execute_one(diskunit_context_t *drv, CLOCK clk_value)
    "skip cycles" mode may have been left behind for seconds. So the oldest drive first catches up
    alone, in one call, to the next oldest one's clock (no other drive moves meanwhile), and a
    drive is only ever run forward: running a drive to a clock older than its own would set its
-   last_clk back, and it would then emulate the same time again and run ahead of the computer. */
+   last_clk back, and it would then emulate the same time again and run ahead of the computer.
+   Drives in "skip cycles" mode jump ahead directly. */
 static void drive_cpu_execute_in_step(CLOCK clk_value)
 {
     unsigned int dnr, enabled = 0, oldest = 0;
@@ -1041,8 +1059,10 @@ static void drive_cpu_execute_in_step(CLOCK clk_value)
         diskunit_context_t *unit = diskunit_context[dnr];
 
         if (unit->enable) {
-            CLOCK c = unit->cpu->last_clk;
+            CLOCK c;
 
+            drive_skip_cycles_to(unit, clk_value);
+            c = unit->cpu->last_clk;
             enabled++;
             if (c < t1) {
                 t2 = t1;
