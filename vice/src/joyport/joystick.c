@@ -866,9 +866,16 @@ static int set_joystick_device(int val, void *param)
 /* POT mapping (used by GTK joystick drivers) */
 void joy_set_axis_value(joystick_device_t *joydev, joystick_axis_t *axis, int value)
 {
-    if ((joydev->joyport == 0 || joydev->joyport == 1) && (axis->mapping.pot > 0)) {
+    if ((joydev->joyport == 0 || joydev->joyport == 1) &&
+        (axis->mapping.pot > 0 && axis->mapping.pot <= 2)) {
         int range = axis->maximum - axis->minimum;
-        int scaled = (255 * (value - axis->minimum)) / range;
+        int scaled;
+
+        if (range == 0) {
+            /* invalid axis limits, ignore */
+            return;
+        }
+        scaled = (255 * (value - axis->minimum)) / range;
         /* CAUTION: POT value is in 0-255 range here */
         joystick_axis_value[joydev->joyport][axis->mapping.pot - 1] = scaled;
     }
@@ -1875,6 +1882,11 @@ static bool joy_arch_parse_entry(const char *buffer, const char *filename, int l
             /* map axis to potentiometer */
             if (!parse_int(state.bufptr, &endptr, &state.args.pot)) {
                 parser_log_error(&state, "missing potentiometer number.");
+                return false;
+            }
+            if (state.args.pot < 0 || state.args.pot > 2) {
+                parser_log_error(&state, "invalid potentiometer number %d.",
+                                 state.args.pot);
                 return false;
             }
             break;
