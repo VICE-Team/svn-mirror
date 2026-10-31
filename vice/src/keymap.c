@@ -192,6 +192,9 @@ static int keyboard_keyword_vshiftl(void)
 {
     char *p = strtok(NULL, " \t,\r");
 
+    if (p == NULL) {
+        return -1;
+    }
     if (!strcmp(p, "RSHIFT")) {
         return KEY_RSHIFT;
     } else if (!strcmp(p, "LSHIFT")) {
@@ -230,6 +233,9 @@ static int keyboard_keyword_cbm(void)
 {
     char *p = strtok(NULL, " \t,\r");
 
+    if (p == NULL) {
+        return -1;
+    }
     if (!strcmp(p, "LCBM")) {
         return KEY_LCBM;
     }
@@ -255,6 +261,9 @@ static int keyboard_keyword_ctrl(void)
 {
     char *p = strtok(NULL, " \t,\r");
 
+    if (p == NULL) {
+        return -1;
+    }
     if (!strcmp(p, "LCTRL")) {
         return KEY_LCTRL;
     }
@@ -310,12 +319,16 @@ static void keyboard_keyword_clear(void)
     }
 }
 
-static void keyboard_keyword_include(void)
+static int keyboard_keyword_include(void)
 {
     char *key;
 
     key = strtok(NULL, " \t");
+    if (key == NULL) {
+        return -1;
+    }
     keyboard_parse_keymap(key, 1);
+    return 0;
 }
 
 static void keyboard_keysym_undef(signed long sym)
@@ -335,7 +348,7 @@ static void keyboard_keysym_undef(signed long sym)
     }
 }
 
-static void keyboard_keyword_undef(void)
+static int keyboard_keyword_undef(void)
 {
     char *key;
 
@@ -344,7 +357,11 @@ static void keyboard_keyword_undef(void)
      *       good idea.
      */
     key = strtok(NULL, " \t");
+    if (key == NULL) {
+        return -1;
+    }
     keyboard_keysym_undef(kbd_arch_keyname_to_keynum(key));
+    return 0;
 }
 
 static void keyboard_parse_keyword(char *buffer, int line, const char *filename)
@@ -353,6 +370,11 @@ static void keyboard_parse_keyword(char *buffer, int line, const char *filename)
     char *key;
 
     key = strtok(buffer + 1, " \t:");
+
+    if (key == NULL) {
+        log_error(keyboard_log, "%s:%d: missing keyword.", filename, line);
+        return;
+    }
 
     if (!strcmp(key, "LSHIFT")) {
         ret = keyboard_keyword_lshift();
@@ -373,9 +395,9 @@ static void keyboard_parse_keyword(char *buffer, int line, const char *filename)
     } else if (!strcmp(key, "CLEAR")) {
         keyboard_keyword_clear();
     } else if (!strcmp(key, "INCLUDE")) {
-        keyboard_keyword_include();
+        ret = keyboard_keyword_include();
     } else if (!strcmp(key, "UNDEF")) {
-        keyboard_keyword_undef();
+        ret = keyboard_keyword_undef();
     } else {
         log_error(keyboard_log, "%s:%d: unknown keyword (%s).", filename, line, key);
     }
@@ -467,6 +489,10 @@ static void keyboard_parse_entry(char *buffer, int line, const char *filename)
     int shift = 0;
 
     key = strtok(buffer, " \t:");
+    if (key == NULL) {
+        /* only whitespace */
+        return;
+    }
 
     sym = kbd_arch_keyname_to_keynum(key);
 
