@@ -47,7 +47,7 @@ void drivecpu_setup_context(struct diskunit_context_s *drv, int i);
 void drivecpu_init(struct diskunit_context_s *drv, int type);
 void drivecpu_reset(struct diskunit_context_s *drv);
 void drivecpu_sleep(struct diskunit_context_s *drv);
-void drivecpu_wake_up(struct diskunit_context_s *drv);
+void drivecpu_wake_up(struct diskunit_context_s *drv, CLOCK clk_value);
 void drivecpu_shutdown(struct diskunit_context_s *drv);
 void drivecpu_reset_clk(struct diskunit_context_s *drv);
 void drivecpu_trigger_reset(unsigned int dnr);
