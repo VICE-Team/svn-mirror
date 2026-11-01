@@ -27,6 +27,7 @@
 #ifndef VICE_DS12C887_H
 #define VICE_DS12C887_H
 
+#include <stdbool.h>
 #include <time.h>
 
 #include "snapshot.h"
@@ -85,7 +86,7 @@ int ds12c887_update_flags(rtc_ds12c887_t *context);
 
 void ds12c887_store_address(rtc_ds12c887_t *context, uint8_t address);
 void ds12c887_store_data(rtc_ds12c887_t *context, uint8_t data);
-uint8_t ds12c887_read(rtc_ds12c887_t *context);
+uint8_t ds12c887_read(rtc_ds12c887_t *context, bool peek);
 
 int ds12c887_dump(rtc_ds12c887_t *context);
 

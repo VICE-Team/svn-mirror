@@ -105,6 +105,7 @@ static CLOCK check_cycles = 0;
 
 static void profidos_io2_store(uint16_t addr, uint8_t value);
 static uint8_t profidos_io2_read(uint16_t addr);
+static uint8_t profidos_io2_peek(uint16_t addr);
 static int profidos_dump(void);
 
 static io_source_t profidos_io2_device = {
@@ -116,7 +117,7 @@ static io_source_t profidos_io2_device = {
     profidos_io2_store,      /* store function */
     NULL,                    /* NO poke function */
     profidos_io2_read,       /* read function */
-    NULL,                    /* NO peek function */
+    profidos_io2_peek,       /* peek function */
     profidos_dump,           /* device state information dump function */
     CARTRIDGE_PROFIDOS,      /* cartridge ID */
     IO_PRIO_NORMAL,          /* normal priority, device read needs to be checked for collisions */
@@ -148,6 +149,11 @@ static uint8_t profidos_io2_read(uint16_t addr)
 {
     DBG(("%08lx profidos_io2_read %04x", maincpu_clk, addr));
     enabled = 0;
+    return 0;
+}
+
+static uint8_t profidos_io2_peek(uint16_t addr)
+{
     return 0;
 }
 
@@ -294,6 +300,10 @@ int profidos_crt_attach(FILE *fd, uint8_t *rawcart)
 void profidos_detach(void)
 {
     export_remove(&export_res);
+    if (profidos_io2_list_item) {
+        io_source_unregister(profidos_io2_list_item);
+        profidos_io2_list_item = NULL;
+    }
 }
 
 /* ---------------------------------------------------------------------*/

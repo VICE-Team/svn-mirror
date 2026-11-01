@@ -100,6 +100,7 @@ static int ap_active;
 
 /* some prototypes are needed */
 static uint8_t atomicpower_io1_read(uint16_t addr);
+static uint8_t atomicpower_io1_peek(uint16_t addr);
 static void atomicpower_io1_store(uint16_t addr, uint8_t value);
 static uint8_t atomicpower_io2_read(uint16_t addr);
 static void atomicpower_io2_store(uint16_t addr, uint8_t value);
@@ -110,11 +111,11 @@ static io_source_t atomicpower_io1_device = {
     IO_DETACH_CART,              /* use cartridge ID to detach the device when involved in a read-collision */
     IO_DETACH_NO_RESOURCE,       /* does not use a resource for detach */
     0xde00, 0xdeff, 0xff,        /* range for the device, address is ignored, reg:$de00, mirrors:$de01-$deff */
-    0,                           /* read is never valid, there is no read or peek function */
+    0,                           /* read is never valid */
     atomicpower_io1_store,       /* store function */
     NULL,                        /* NO poke function */
     atomicpower_io1_read,        /* read function */
-    NULL,                        /* TODO: peek function */
+    atomicpower_io1_peek,        /* peek function */
     atomicpower_dump,            /* device state information dump function */
     CARTRIDGE_ATOMIC_POWER,      /* cartridge ID */
     IO_PRIO_NORMAL,              /* normal priority, device read needs to be checked for collisions */
@@ -197,6 +198,11 @@ static uint8_t atomicpower_io1_read(uint16_t addr)
                 addr & 0xffu);
 
     return value;
+}
+
+static uint8_t atomicpower_io1_peek(uint16_t addr)
+{
+    return atomicpower_control_reg;
 }
 
 static uint8_t atomicpower_io2_read(uint16_t addr)
