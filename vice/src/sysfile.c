@@ -207,6 +207,7 @@ FILE *sysfile_open(const char *name, const char *subpath, char **complete_path_r
         archdep_stat(p, NULL, &isdir);
         if (isdir) {
             log_error(sysfile_log, "'%s' is a directory, not a file.", p);
+            lib_free(p);
             if (complete_path_return != NULL) {
                 *complete_path_return = NULL;
             }
@@ -319,6 +320,9 @@ int sysfile_load(const char *name, const char *subpath, uint8_t *dest, int minsi
     return (int)rsize;  /* return ok */
 
 fail:
+    if (fp != NULL) {
+        fclose(fp);
+    }
     lib_free(complete_path);
     return -1;
 }

@@ -273,6 +273,7 @@ static void funmp3_start(uint8_t val)
     if ((archdep_glob(fn_abs, 0, NULL, &results) != 0) ||
         (results.gl_pathc < 1)) {
         log_message(lh, "can't open '%s'", fn_abs);
+        lib_free(fn_abs);
         return;
     }
     mp3_name = lib_strdup(results.gl_pathv[0]);
