@@ -78,6 +78,7 @@ static int ds12c887rtc_accessed = 0;
 
 /* Some prototypes are needed */
 static uint8_t ds12c887rtc_read(uint16_t addr);
+static uint8_t ds12c887rtc_peek(uint16_t addr);
 static void ds12c887rtc_store(uint16_t addr, uint8_t byte);
 static int ds12c887rtc_dump(void);
 
@@ -90,7 +91,7 @@ static io_source_t ds12c887rtc_device = {
     ds12c887rtc_store,          /* store function */
     NULL,                       /* NO poke function */
     ds12c887rtc_read,           /* read function */
-    ds12c887rtc_read,           /* peek function */
+    ds12c887rtc_peek,           /* peek function */
     ds12c887rtc_dump,           /* device state information dump function */
     CARTRIDGE_DS12C887RTC,      /* cartridge ID */
     IO_PRIO_NORMAL,             /* normal priority, device read needs to be checked for collisions */
@@ -289,10 +290,19 @@ static uint8_t ds12c887rtc_read(uint16_t addr)
     if (addr & 1) {
         ds12c887rtc_accessed = 1;
         ds12c887rtc_device.io_source_valid = 1;
-        return ds12c887_read(ds12c887rtc_context);
+        return ds12c887_read(ds12c887rtc_context, false);
     }
 
     ds12c887rtc_device.io_source_valid = 0;
+
+    return 0;
+}
+
+static uint8_t ds12c887rtc_peek(uint16_t addr)
+{
+    if (addr & 1) {
+        return ds12c887_read(ds12c887rtc_context, true);
+    }
 
     return 0;
 }
