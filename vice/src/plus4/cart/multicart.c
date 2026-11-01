@@ -319,17 +319,25 @@ int multicart_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
+    if ((temp_filesize != 0x200000) && (temp_filesize != 0x400000)) {
+        goto fail;
+    }
+
     multicart_filesize = temp_filesize;
 
+    /* detach has freed the ROM, attach allocates it again */
+    if (multicart_common_attach() < 0) {
+        goto fail;
+    }
+
     if (0
-        || SMR_BA(m, multicartromlo, multicart_filesize / 2)
+        || SMR_BA(m, multicartromlo, multicart_filesize / 2) < 0
         || SMR_BA(m, multicartromhi, multicart_filesize / 2) < 0) {
+        multicart_detach();
         goto fail;
     }
 
     snapshot_module_close(m);
-
-    multicart_common_attach();
 
     /* set filetype to none */
     multicart_filetype = 0;
