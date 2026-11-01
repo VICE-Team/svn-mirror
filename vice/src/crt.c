@@ -321,8 +321,8 @@ int crt_read_chip_header(crt_chip_header_t *header, FILE *fd)
 */
 int crt_read_chip(uint8_t *rawcart, int offset, crt_chip_header_t *chip, FILE *fd)
 {
-    if (offset + chip->size > C64CART_IMAGE_LIMIT) {
-        return -1; /* overflow */
+    if ((offset < 0) || (offset + chip->size > C64CART_IMAGE_LIMIT)) {
+        return -1; /* underflow/overflow */
     }
     if (fread(&rawcart[offset], chip->size, 1, fd) < 1) {
         return -1; /* eof?! */

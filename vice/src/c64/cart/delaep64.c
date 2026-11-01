@@ -257,7 +257,7 @@ int delaep64_crt_attach(FILE *fd, uint8_t *rawcart)
         }
 
         /* maximum of 2 32kb or 8 8kb images allowed */
-        if ((rom_size == 0x8000 && chip.bank > 2) || (rom_size == 0x2000 && chip.bank > 8)) {
+        if ((chip.bank < 1) || (rom_size == 0x8000 && chip.bank > 2) || (rom_size == 0x2000 && chip.bank > 8)) {
             return -1;
         }
 

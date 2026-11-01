@@ -122,7 +122,7 @@ void blackbox8_config_init(void)
 void blackbox8_config_setup(uint8_t *rawcart)
 {
     int i;
-    for (i = 0; i <= bb8_rom_banks; i++) {
+    for (i = 0; i < bb8_rom_banks; i++) {
         memcpy(&roml_banks[0x2000 * i], &rawcart[0x0000 + (0x4000 * i)], 0x2000);
         memcpy(&romh_banks[0x2000 * i], &rawcart[0x2000 + (0x4000 * i)], 0x2000);
     }
