@@ -372,17 +372,21 @@ static int palette_read_info(const char *pathname, const char *filename, palette
     DBG(("palette_read_info: '%s':'%s' (='%s') chip guess:'%s'",
          pathname, filename, fullpath, chip_guess));
 
-    /* read chip tag from palette file */
+    /* read chip and name tags from palette file */
+    chip[0] = 0;
+    name[0] = 0;
     f = fopen(fullpath, "rb");
-    palette_read_tag(f, "TYPE", chip, MAX_TAG_LEN);
+    if (f != NULL) {
+        palette_read_tag(f, "TYPE", chip, MAX_TAG_LEN);
+        palette_read_tag(f, "NAME", name, MAX_TAG_LEN);
+        fclose(f);
+    }
     if (chip[0] != 0) {
         /* use chip type from .vpl file */
         chip_guess = chip;
     }
     chip_tag = lib_strdup(chip_guess);
 
-    /* read name tag from palette file */
-    palette_read_tag(f, "NAME", name, MAX_TAG_LEN);
     if (name[0] != 0) {
         /* use name from .vpl file */
         name_guess = name;
@@ -394,7 +398,6 @@ static int palette_read_info(const char *pathname, const char *filename, palette
         name_tag = lib_strdup(name_guess);
         name_tag[n - 4] = 0; /* remove file extension from name */
     }
-    fclose(f);
 
     DBG(("palette_read_info: chip_tag:'%s' name_tag:'%s' filename:'%s'", chip_tag, name_tag, filename));
 

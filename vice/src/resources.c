@@ -1275,12 +1275,15 @@ static int check_resource_file_version(const char *fname)
 
         if (util_get_line(buf, 1024, f) < 0) {
             err = 1;
-        } if (*buf == 0) {
+        } else if (*buf == 0) {
             err = 1;
         } else {
             char *tag = strtok(buf, "=");
-            if (strcmp(tag, "ConfigVersion") == 0) {
+            if (tag != NULL && strcmp(tag, "ConfigVersion") == 0) {
                 tag = strtok(NULL, "=");
+                if (tag == NULL) {
+                    tag = "";
+                }
                 if (strcmp(tag, VERSION) != 0) {
                     log_warning(LOG_DEFAULT, "Config file version mismatch (is '%s', expected '%s').",
                                 tag, VERSION);
