@@ -2536,14 +2536,14 @@ uint8_t *ultimax_romh_phi1_ptr(uint16_t addr)
     /* DBG(("phi1 addr %04x\n", addr)); */
     n = addr & 0x0fff;
     res = ultimax_romh_phi1_read((uint16_t)(0x1000 + n), &mem_phi1[n]);
-    if (mem_phi1_ptr[n] != (res ? &mem_phi1[n] : NULL)) {
+    if (mem_phi1_ptr[n] != ((res == CART_READ_VALID) ? &mem_phi1[n] : NULL)) {
         mem_phi1_valid = 0;
     }
 
     if (!mem_phi1_valid) {
         n = 0;
         while (n < 0x1000) {
-            if (ultimax_romh_phi1_read((uint16_t)(0x1000 + n), &mem_phi1[n]) == 0) {
+            if (ultimax_romh_phi1_read((uint16_t)(0x1000 + n), &mem_phi1[n]) != CART_READ_VALID) {
                 mem_phi1_ptr[n] = NULL;
             } else {
                 mem_phi1_ptr[n] = &mem_phi1[n];
@@ -2563,14 +2563,14 @@ uint8_t *ultimax_romh_phi2_ptr(uint16_t addr)
     /* DBG(("phi2 addr %04x\n", addr)); */
     n = addr & 0x0fff;
     res = ultimax_romh_phi2_read((uint16_t)(0x1000 + n), &mem_phi2[n]);
-    if (mem_phi2_ptr[n] != (res ? &mem_phi2[n] : NULL)) {
+    if (mem_phi2_ptr[n] != ((res == CART_READ_VALID) ? &mem_phi2[n] : NULL)) {
         mem_phi2_valid = 0;
     }
 
     if (!mem_phi2_valid) {
         n = 0;
         while (n < 0x1000) {
-            if (ultimax_romh_phi2_read((uint16_t)(0x1000 + n), &mem_phi2[n]) == 0) {
+            if (ultimax_romh_phi2_read((uint16_t)(0x1000 + n), &mem_phi2[n]) != CART_READ_VALID) {
                 mem_phi2_ptr[n] = NULL;
             } else {
                 mem_phi2_ptr[n] = &mem_phi2[n];
