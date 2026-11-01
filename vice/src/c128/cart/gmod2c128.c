@@ -484,7 +484,7 @@ int c128gmod2_flush_eeprom(void)
 
 void c128gmod2_detach(void)
 {
-    if (c128gmod2_flash_write && flashrom_state->flash_dirty) {
+    if (c128gmod2_flash_write && flashrom_state && flashrom_state->flash_dirty) {
         c128gmod2_flush_image();
     }
 
