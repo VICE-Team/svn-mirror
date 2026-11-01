@@ -495,6 +495,11 @@ static bool vhk_parser_get_keysym_and_modmask(const char  *line,
             vhk_parser_error("parse error: unknown modifier '%s'.", curpos);
             return false;
         }
+        if (*end != VHK_MODIFIER_CLOSE) {
+            vhk_parser_error("parse error: missing '%c' after modifier.",
+                             VHK_MODIFIER_CLOSE);
+            return false;
+        }
         /* add found modifier to final mask */
         v_mask |= v_mod;
         a_mask |= ui_hotkeys_arch_modifier_to_arch(v_mod);
