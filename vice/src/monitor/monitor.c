@@ -40,6 +40,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <errno.h>
+#include <limits.h>
 
 #ifdef HAVE_STRINGS_H
 #include <strings.h>
@@ -1828,6 +1829,11 @@ static int set_monitor_log_enabled(int val, void *param)
 static int monitorchislines = 0;
 static int set_monitor_chis_lines(int val, void *param)
 {
+    /* a hack in monitor_cpuhistory_allocate() multiplies lines by 5,
+       clamp to a value that will not overflow */
+    if (val > (INT_MAX - 1) / 5) {
+        return -1;
+    }
     /* 10 lines minimum */
     if (val < 10) {
         val = 10;
