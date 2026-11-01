@@ -343,7 +343,7 @@ static void iecbus_cpu_write_conf2(uint8_t data, CLOCK clock)
         default:
             iecbus.drv_bus[9] = (((iecbus.drv_data[9] << 3) & 0x40)
                                  | ((iecbus.drv_data[9] << 6)
-                                    & ((~iecbus.drv_data[9] ^ iecbus.cpu_bus) << 3)
+                                    & ((uint32_t)(~iecbus.drv_data[9] ^ iecbus.cpu_bus) << 3)
                                     & 0x80));
     }
 
@@ -420,7 +420,7 @@ static void iecbus_cpu_write_conf3(uint8_t data, CLOCK clock)
                 default:
                     iecbus.drv_bus[unit] = (((iecbus.drv_data[unit] << 3) & 0x40)
                                             | ((iecbus.drv_data[unit] << 6)
-                                               & ((~iecbus.drv_data[unit]
+                                               & ((uint32_t)(~iecbus.drv_data[unit]
                                                    ^ iecbus.cpu_bus) << 3) & 0x80));
             }
         }
