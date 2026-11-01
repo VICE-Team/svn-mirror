@@ -326,7 +326,7 @@ static inline uint8_t io_read(io_source_list_t *list, uint16_t addr)
     }
 
     if (io_source_counter == 1) {
-        vic20_cpu_last_data = retval;
+        vic20_cpu_last_data = firstval;
         vic20_mem_v_bus_read(addr);
         return vic20_cpu_last_data;
     }
