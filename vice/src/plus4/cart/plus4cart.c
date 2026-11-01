@@ -860,8 +860,9 @@ int cartridge_attach_image(int type, const char *filename)
     }
     DBG(("CART: cartridge_attach_image type: %d ID: %d", type, cartid));
 
-    /* allocate temporary array */
+    /* allocate temporary array filled with 0xff */
     rawcartdata = lib_malloc(PLUS4CART_IMAGE_LIMIT);
+    memset(rawcartdata, 0xff, PLUS4CART_IMAGE_LIMIT);
 
     if (type == CARTRIDGE_CRT) {
         DBG(("CART: attach CRT ID: %d '%s'", carttype, filename));
@@ -1228,9 +1229,8 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 DBG(("CART snapshot read: cart %i handler missing", cart_ids[i]));
                 goto fail2;
         }
+        cart_attach_from_snapshot(cart_ids[i]);
     }
-
-    cart_attach_from_snapshot(cart_ids[i]);
 
     /* set up config */
     /* machine_update_memory_ptrs(); */

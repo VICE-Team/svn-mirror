@@ -306,14 +306,21 @@ int speedy_snapshot_read_module(snapshot_t *s)
 
     if (0
         || SMR_B_INT(m, &freeze_active) < 0
-        || SMR_B_INT(m, &freeze_active_q) < 0
-        || SMR_BA(m, speedyrom, SPEEDYROMSIZE) < 0) {
+        || SMR_B_INT(m, &freeze_active_q) < 0) {
+        goto fail;
+    }
+
+    /* detach has freed the ROM, attach allocates it again */
+    if (speedy_common_attach() < 0) {
+        goto fail;
+    }
+
+    if (SMR_BA(m, speedyrom, SPEEDYROMSIZE) < 0) {
+        speedy_detach();
         goto fail;
     }
 
     snapshot_module_close(m);
-
-    speedy_common_attach();
 
     /* set filetype to none */
     speedy_filetype = 0;

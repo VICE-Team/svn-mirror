@@ -2675,6 +2675,9 @@ static int tapecart_read_snapshot(int port, struct snapshot_s *s)
     set_sense(sense_out_state);
     set_write(write_out_state);
 
+    lib_free(tcrt_filename);
+    tcrt_filename = NULL;
+
     transfer_ptr_clamp();
     return snapshot_module_close(m);
 

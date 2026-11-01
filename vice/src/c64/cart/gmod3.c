@@ -593,20 +593,21 @@ void gmod3_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
-/* CARTGMOD3 0.1 snapshot module format:
+/* CARTGMOD3 0.2 snapshot module format:
 
-   type  | name         | description
-   -----------------------------------
-   BYTE  | gmod3_cmode  |
-   BYTE  | gmod3_bank   |
-   ARRAY | gmod3_rom    | GMOD3_16MB_FLASH_SIZE
+   type  | name            | version | description
+   ---------------------------------------------
+   BYTE  | gmod3_cmode     |   0.1+  |
+   BYTE  | gmod3_bank      |   0.1+  |
+   DWORD | gmod3_flashsize |   0.2+  | size of the flash chip
+   ARRAY | gmod3_rom       |   0.1+  | gmod3_flashsize (0.2) or GMOD3_16MB_FLASH_SIZE (0.1)
 
    followed by SPI flash module
 */
 
 static const char snap_module_name[] = "CARTGMOD3";
 #define SNAP_MAJOR   0
-#define SNAP_MINOR   1
+#define SNAP_MINOR   2
 
 int gmod3_snapshot_write_module(snapshot_t *s)
 {
@@ -621,7 +622,8 @@ int gmod3_snapshot_write_module(snapshot_t *s)
     if (0
         || SMW_B(m, (uint8_t)gmod3_cmode) < 0
         || SMW_B(m, (uint8_t)gmod3_bank) < 0
-        || SMW_BA(m, gmod3_rom, GMOD3_16MB_FLASH_SIZE) < 0
+        || SMW_DW(m, gmod3_flashsize) < 0
+        || SMW_BA(m, gmod3_rom, gmod3_flashsize) < 0
     ) {
         snapshot_module_close(m);
         return -1;
@@ -650,7 +652,7 @@ int gmod3_snapshot_read_module(snapshot_t *s)
     }
 
     /* reject snapshot modules older than what we can handle (the snapshot is too old) */
-    if (snapshot_version_is_smaller(vmajor, vminor, SNAP_MAJOR, SNAP_MINOR)) {
+    if (snapshot_version_is_smaller(vmajor, vminor, 0, 1)) {
         snapshot_set_error(SNAPSHOT_MODULE_INCOMPATIBLE);
         goto fail;
     }
@@ -661,12 +663,34 @@ int gmod3_snapshot_read_module(snapshot_t *s)
 
     if (0
         || SMR_B_INT(m, &gmod3_cmode) < 0
-        || SMR_B_INT(m, &gmod3_bank) < 0
-        || SMR_BA(m, gmod3_rom, GMOD3_16MB_FLASH_SIZE) < 0) {
+        || SMR_B_INT(m, &gmod3_bank) < 0) {
+        goto fail;
+    }
+
+    /* new in 0.2 */
+    if (!snapshot_version_is_smaller(vmajor, vminor, 0, 2)) {
+        if (SMR_DW(m, &gmod3_flashsize) < 0) {
+            goto fail;
+        }
+    } else {
+        gmod3_flashsize = GMOD3_16MB_FLASH_SIZE;
+    }
+
+    if (SMR_BA(m, gmod3_rom, gmod3_flashsize) < 0) {
+        goto fail;
+    }
+
+    if ((gmod3_flashsize != GMOD3_2MB_FLASH_SIZE)
+        && (gmod3_flashsize != GMOD3_4MB_FLASH_SIZE)
+        && (gmod3_flashsize != GMOD3_8MB_FLASH_SIZE)
+        && (gmod3_flashsize != GMOD3_16MB_FLASH_SIZE)) {
         goto fail;
     }
 
     snapshot_module_close(m);
+
+    /* point at the new data block */
+    spi_flash_set_image(gmod3_rom, gmod3_flashsize);
 
     if (spi_flash_snapshot_read_module(s) < 0) {
         return -1;

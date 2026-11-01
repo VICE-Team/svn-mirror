@@ -256,15 +256,21 @@ int jacint1mb_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
-    if (0
-        || SMR_B_INT(m, &bankreg) < 0
-        || SMR_BA(m, jacint1mbrom, JACINT1MBROMSIZE) < 0) {
+    if (SMR_B_INT(m, &bankreg) < 0) {
+        goto fail;
+    }
+
+    /* detach has freed the ROM, attach allocates it again */
+    if (jacint1mb_common_attach() < 0) {
+        goto fail;
+    }
+
+    if (SMR_BA(m, jacint1mbrom, JACINT1MBROMSIZE) < 0) {
+        jacint1mb_detach();
         goto fail;
     }
 
     snapshot_module_close(m);
-
-    jacint1mb_common_attach();
 
     /* set filetype to none */
     jacint1mb_filetype = 0;
