@@ -685,6 +685,11 @@ int generic_crt_attach(FILE *fd, uint8_t *rawcart)
             goto exiterror;
         }
 
+        if ((offset + chip.size) > CART_ROM_SIZE) {
+            log_error(LOG_DEFAULT, "CHIP at $%04x with size $%04x does not fit into the cartridge ROM", chip.start, chip.size);
+            goto exiterror;
+        }
+
         if (crt_read_chip(cart_rom + offset, 0, &chip, fd)) {
             goto exiterror;
         }

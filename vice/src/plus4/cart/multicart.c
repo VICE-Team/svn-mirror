@@ -211,7 +211,8 @@ int multicart_crt_attach(FILE *fd, uint8_t *rawcart)
             break;
         }
 
-        if ((chip.bank >= 256) || (chip.size != 0x4000)) {
+        /* max. 128 banks of 16KiB each for c1lo and c1hi */
+        if ((chip.bank >= ((MULTICART_MAX_SIZE / 2) / 0x4000)) || (chip.size != 0x4000)) {
             return -1;
         }
 
