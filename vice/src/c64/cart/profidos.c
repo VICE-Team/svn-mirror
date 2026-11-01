@@ -294,6 +294,10 @@ int profidos_crt_attach(FILE *fd, uint8_t *rawcart)
 void profidos_detach(void)
 {
     export_remove(&export_res);
+    if (profidos_io2_list_item) {
+        io_source_unregister(profidos_io2_list_item);
+        profidos_io2_list_item = NULL;
+    }
 }
 
 /* ---------------------------------------------------------------------*/
