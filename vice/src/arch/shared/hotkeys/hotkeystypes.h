@@ -119,6 +119,7 @@ typedef struct textfile_reader_s {
     size_t              buflen;     /**< length of text in buffer */
     FILE *              fp;         /**< file pointer for the current file */
     textfile_entry_t *  entries;    /**< stack of files */
+    int                 depth;      /**< depth of file stack */
 } textfile_reader_t;
 
 /** \brief Source of vhk file

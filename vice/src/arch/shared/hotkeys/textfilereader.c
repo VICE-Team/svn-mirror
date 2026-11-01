@@ -120,6 +120,7 @@ void textfile_reader_init(textfile_reader_t *reader)
     reader->buflen  = 0;
     reader->fp      = NULL;
     reader->entries = NULL;
+    reader->depth   = 0;
 }
 
 
@@ -185,6 +186,7 @@ bool textfile_reader_open(textfile_reader_t *reader, const char *path)
     new = textfile_entry_new(path);
     new->next = current;
     reader->entries = new;
+    reader->depth++;
 
     return true;
 }
@@ -224,6 +226,7 @@ bool textfile_reader_close(textfile_reader_t *reader)
         textfile_entry_free(current);
         current = next;
         reader->entries = current;
+        reader->depth--;
 
         /* reopen previous file on stack, if any */
         if (current != NULL) {

@@ -63,6 +63,12 @@
  */
 #define ARRAY_LEN(arr)  (sizeof (arr) / sizeof (arr[0]) )
 
+/** \brief  Maximum nesting depth of !include directives
+ *
+ * Guards against a file including itself (directly or indirectly).
+ */
+#define VHK_INCLUDE_DEPTH_MAX   16
+
 /** \brief  Object for mapping of !DEBUG arguments to boolean
  */
 typedef struct debug_args_s {
@@ -699,6 +705,12 @@ static bool vhk_parser_do_include(const char *line)
     if (*line == '\0') {
         /* missing argument */
         vhk_parser_error("syntax error: missing argument for !include.");
+        return false;
+    }
+
+    if (reader.depth >= VHK_INCLUDE_DEPTH_MAX) {
+        vhk_parser_error("!include nested more than %d levels",
+                         VHK_INCLUDE_DEPTH_MAX);
         return false;
     }
 
