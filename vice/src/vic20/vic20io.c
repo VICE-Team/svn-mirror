@@ -281,7 +281,7 @@ static inline uint8_t io_read(io_source_list_t *list, uint16_t addr)
 {
     io_source_list_t *current = list->next;
     int io_source_counter = 0;
-    uint8_t realval = 0;
+    uint8_t realval = 0xff;   /* must be all-ones for IO_COLLISION_METHOD_AND_WIRES to work */
     uint8_t retval = 0;
     uint8_t firstval = 0;
     unsigned int lowest_order = 0xffffffff;
