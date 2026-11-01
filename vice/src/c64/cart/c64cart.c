@@ -1127,8 +1127,9 @@ int cartridge_attach_image(int type, const char *filename)
     }
     DBG(("CART: cartridge_attach_image type: %d ID: %d", type, carttype));
 
-    /* allocate temporary array */
+    /* allocate temporary array filled with 0xff */
     rawcart = lib_malloc(C64CART_IMAGE_LIMIT);
+    memset(rawcart, 0xff, C64CART_IMAGE_LIMIT);
 
 /*  cart should always be detached. there is no reason for doing fancy checks
     here, and it will cause problems incase a cart MUST be detached before
