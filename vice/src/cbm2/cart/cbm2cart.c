@@ -1086,9 +1086,8 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 DBG(("CART snapshot read: cart %i handler missing", cart_ids[i]));
                 goto fail2;
         }
+        cart_attach_from_snapshot(cart_ids[i]);
     }
-
-    cart_attach_from_snapshot(cart_ids[i]);
 
     /* set up config */
     /* machine_update_memory_ptrs(); */
