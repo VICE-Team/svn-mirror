@@ -724,8 +724,20 @@ int magicdeskplus_snapshot_read_module(snapshot_t *s) {
         return -1;
     }
 
+    if ((bankmask & ~(MAXBANKS - 1)) || (revision > MAGICDESKPLUS_MAX_REV)) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    /* the SRAM and EEPROM sizes depend on the revision */
+    set_magicdeskplus_revision(revision, NULL);
+
     /* SRAM */
     if (SMR_DW(m, &sram_size) < 0) {
+        snapshot_module_close(m);
+        return -1;
+    }
+    if (sram_size != (uint32_t)magicdeskplus_sram_size()) {
         snapshot_module_close(m);
         return -1;
     }
@@ -748,14 +760,15 @@ int magicdeskplus_snapshot_read_module(snapshot_t *s) {
         snapshot_module_close(m);
         return -1;
     }
+    if (eeprom_size != (uint32_t)magicdeskplus_eeprom_size()) {
+        snapshot_module_close(m);
+        return -1;
+    }
     if (eeprom_size) {
-        if (magicdeskplus_eeprom.data) {
-            lib_free(magicdeskplus_eeprom.data);
-        }
-        magicdeskplus_eeprom.data = lib_malloc(eeprom_size);
+        magicdeskplus_eeprom_init(eeprom_size);
         if (SMR_BA(m, magicdeskplus_eeprom.data, eeprom_size) < 0) {
             snapshot_module_close(m);
-            lib_free(magicdeskplus_eeprom.data);
+            magicdeskplus_eeprom_init(0);
             magicdeskplus_eeprom.data = NULL;
             return -1;
         }
