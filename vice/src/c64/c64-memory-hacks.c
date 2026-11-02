@@ -240,6 +240,7 @@ int memhacks_snapshot_read_modules(struct snapshot_s *s)
     }
 
     snapshot_module_close(m);
+    m = NULL;
 
     switch (memory_hack) {
         default:
