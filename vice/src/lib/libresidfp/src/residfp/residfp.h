@@ -229,7 +229,7 @@ public:
     /**
      * Enable filter emulation.
      *
-     * @param enable false to turn off filter emulation
+     * @param enable false to turn off filter emulation (default enabled)
      */
     void enableFilter(bool enable);
 
@@ -326,6 +326,28 @@ public:
      * @since 1.3
      */
     void set6581caps(CapsType type);
+
+    /**
+     * Set strong P+S for 6581 model.
+     * If enabled when Pulse and Saw are combined the
+     * topbit is not pulled down, providing a stronger
+     * sound.
+     *
+     * @param enable true to turn on strong PS (default disabled)
+     *
+     * @since 1.3
+     */
+    void enableStrongPS(bool enable);
+
+    /**
+     * Set background noise level.
+     * @note: if noise is disabled there will be audible quantization noise.
+     *
+     * @param level the noise level, between 0 (no noise) and 8 (max level) (default 5)
+     *
+     * @since 1.3
+     */
+    void noiseLevel(int level);
 };
 
 }

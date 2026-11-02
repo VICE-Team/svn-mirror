@@ -22,8 +22,6 @@
 #ifndef RESAMPLER_H
 #define RESAMPLER_H
 
-#include "Limiter.h"
-
 #include <cstdint>
 
 namespace reSIDfp
@@ -36,26 +34,7 @@ namespace reSIDfp
 class Resampler
 {
 protected:
-    virtual int32_t output() const = 0;
-
     Resampler() = default;
-
-    mutable uint32_t m_wnoise = 34653463u;
-    mutable int32_t m_bnoise = 0;
-
-    int32_t bnoise() const
-    {
-        // white noise
-        m_wnoise = m_wnoise * 1664525u + 1013904223u;
-
-        // Reduce to 9bit signed
-        int32_t n = (int32_t)((m_wnoise >> 20) & 0x1ff) - 0x100;
-
-        // low-passed noise
-        m_bnoise = m_bnoise + ((n - m_bnoise) / 16);
-
-        return m_bnoise;
-    }
 
 public:
     virtual ~Resampler() = default;
@@ -73,11 +52,7 @@ public:
      *
      * @return resampled sample
      */
-    inline int16_t getOutput(int32_t scaleFactor) const
-    {
-        const int32_t out = (scaleFactor * output()) / 2;
-        return Limiter::softClip(out + bnoise());
-    }
+    virtual int32_t output() const = 0;
 
     virtual void reset() = 0;
 };

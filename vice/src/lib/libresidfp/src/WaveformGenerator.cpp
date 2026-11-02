@@ -382,6 +382,12 @@ void WaveformGenerator::writeCONTROL_REG(uint8_t control)
             // Reset fading time for floating DAC input.
             floating_output_ttl = is6581 ? FLOATING_OUTPUT_TTL_6581R3 : FLOATING_OUTPUT_TTL_8580R5;
         }
+
+        // topbit pulldown happens only on 6581 when saw is selected
+        // but not if saw is combined with pulse and strongPS is selected
+        msb_pulldown = is6581
+            && (waveform & 2)
+            && !(strongPS && (waveform == 6));
     }
 
     if (test != test_prev)
@@ -441,6 +447,9 @@ void WaveformGenerator::reset()
 
     test = false;
     sync = false;
+
+    strongPS = false;
+    msb_pulldown = false;
 
     wave = model_wave ? (*model_wave)[0] : nullptr;
     pulldown = nullptr;
