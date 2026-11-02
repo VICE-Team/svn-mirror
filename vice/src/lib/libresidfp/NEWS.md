@@ -2,6 +2,7 @@
 * Minor resampler fixes and optimizations
 * Allow choosing 330pF caps on the 6581 (#50)
 * Replace dithering with noise (#40)
+* Adjusted 6581 combined waveforms
 
 
 

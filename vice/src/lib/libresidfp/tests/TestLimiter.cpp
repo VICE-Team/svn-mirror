@@ -20,14 +20,13 @@
 
 #include "utpp/utpp.h"
 
-#define private public
-
-#include "../src/resample/Limiter.h"
+#include "../src/Limiter.h"
 
 #include <limits>
 #include <cstdint>
 
 using namespace UnitTest;
+using namespace reSIDfp;
 
 SUITE(Limiter)
 {

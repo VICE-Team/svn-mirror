@@ -61,6 +61,8 @@ int State::saveState(SID &s, char* buffer, int size)
         state.sync[i] = wave->sync;
         state.test_or_reset[i] = wave->test_or_reset;
         state.msb_rising[i] = wave->msb_rising;
+        state.strongPS[i] = wave->strongPS;
+        state.msb_pulldown[i] = wave->msb_pulldown;
 
         EnvelopeGenerator* const envelope = s.voice[i].envelope();
         state.lfsr[i] = envelope->lfsr;
@@ -283,6 +285,8 @@ void State::restoreState(SID &s, char* buffer, int size)
         wave->sync = state.sync[i];
         wave->test_or_reset = state.test_or_reset[i];
         wave->msb_rising = state.msb_rising[i];
+        wave->strongPS = state.strongPS[i];
+        wave->msb_pulldown = state.msb_pulldown[i];
 
         wave->setWave();
         wave->setPulldown();

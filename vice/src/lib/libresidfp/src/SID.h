@@ -33,6 +33,9 @@
 #include "ExternalFilter.h"
 #include "Filter.h"
 #include "Voice.h"
+#include "Limiter.h"
+#include "Noise.h"
+
 #include "State.h"
 
 namespace reSIDfp
@@ -85,6 +88,8 @@ private:
 
     /// SID voices
     Voice voice[3];
+
+    Noise m_noise;
 
     /// Used to amplify the output by x/2 to get an adequate playback volume
     int scaleFactor;
@@ -173,6 +178,13 @@ private:
         uint16_t filtOutput = filter->clock(voice[0], voice[1], voice[2]);
         int32_t exFiltInput = static_cast<int32_t>(filtOutput) + INT16_MIN;
         return externalFilter.clock(exFiltInput);
+    }
+
+    /// scale and limit output
+    inline int16_t getOutput()
+    {
+        const int32_t out = (scaleFactor * resampler->output()) / 2;
+        return Limiter::softClip(out + m_noise.output());
     }
 
 private:
@@ -378,6 +390,16 @@ public:
      * Set caps for 6581 model.
      */
     void set6581caps(CapsType type);
+
+    /**
+     * Set strong P+S for 6581 model.
+     */
+    void enableStrongPS(bool enable);
+
+    /*
+     * Set the background noise level.
+     */
+    void setNoiseLevel(int level);
 };
 
 } // namespace reSIDfp
@@ -428,7 +450,7 @@ int SID::clock(unsigned int cycles, int16_t* buf)
                 int32_t output = clockFilt();
                 if (unlikely(resampler->input(output)))
                 {
-                    buf[s++] = resampler->getOutput(scaleFactor);
+                    buf[s++] = getOutput();
                 }
             }
 
@@ -469,7 +491,7 @@ int SID::clock(int16_t* buf, int bufSize)
                 int32_t output = clockFilt();
                 if (unlikely(resampler->input(output)))
                 {
-                    buf[s++] = resampler->getOutput(scaleFactor);
+                    buf[s++] = getOutput();
                     if (unlikely(s == bufSize))
                     {
                         break;
