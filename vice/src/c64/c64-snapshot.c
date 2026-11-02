@@ -73,7 +73,10 @@ int c64_snapshot_write(const char *name, int save_roms, int save_disks, int even
     /* Execute drive CPUs to get in sync with the main CPU.  */
     drive_cpu_execute_all(maincpu_clk);
 
+    /* the memory hacks must come before C64MEM and the cartridges, reading
+       them reinitializes the memory configuration */
     if (maincpu_snapshot_write_module(s) < 0
+        || memhacks_snapshot_write_modules(s) < 0
         || c64_snapshot_write_module(s, save_roms) < 0
         || ciacore_snapshot_write_module(machine_context.cia1, s) < 0
         || ciacore_snapshot_write_module(machine_context.cia2, s) < 0
@@ -83,7 +86,6 @@ int c64_snapshot_write(const char *name, int save_roms, int save_disks, int even
         || vicii_snapshot_write_module(s) < 0
         || c64_glue_snapshot_write_module(s) < 0
         || event_snapshot_write_module(s, event_mode) < 0
-        || memhacks_snapshot_write_modules(s) < 0
         || tapeport_snapshot_write_module(s, save_disks) < 0
         || keyboard_snapshot_write_module(s) < 0
         || joyport_snapshot_write_module(s, JOYPORT_1) < 0
@@ -118,7 +120,10 @@ int c64_snapshot_read(const char *name, int event_mode)
 
     joyport_clear_devices();
 
+    /* the memory hacks must come before C64MEM and the cartridges, reading
+       them reinitializes the memory configuration */
     if (maincpu_snapshot_read_module(s) < 0
+        || memhacks_snapshot_read_modules(s) < 0
         || c64_snapshot_read_module(s) < 0
         || ciacore_snapshot_read_module(machine_context.cia1, s) < 0
         || ciacore_snapshot_read_module(machine_context.cia2, s) < 0
@@ -128,7 +133,6 @@ int c64_snapshot_read(const char *name, int event_mode)
         || vicii_snapshot_read_module(s) < 0
         || c64_glue_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
-        || memhacks_snapshot_read_modules(s) < 0
         || tapeport_snapshot_read_module(s) < 0
         || keyboard_snapshot_read_module(s) < 0
         || joyport_snapshot_read_module(s, JOYPORT_1) < 0
