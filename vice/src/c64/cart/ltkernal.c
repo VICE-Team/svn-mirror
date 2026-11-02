@@ -1377,6 +1377,7 @@ int ltkernal_snapshot_read_module(snapshot_t *s)
 {
     uint8_t vmajor, vminor;
     snapshot_module_t *m;
+    CLOCK snapshot_alarm_time;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
 
@@ -1390,6 +1391,7 @@ int ltkernal_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
+    /* ltk_alarm is destroyed by detach */
     ltkernal_detach();
 
     if (0
@@ -1402,7 +1404,7 @@ int ltkernal_snapshot_read_module(snapshot_t *s)
         || (SMR_B(m, &ltk_in2) < 0)
         || (SMR_DW_INT(m, &ltk_io) < 0)
         || (SMR_DW_INT(m, &ltk_port) < 0)
-        || (SMR_CLOCK(m, &ltk_alarm_time) < 0)
+        || (SMR_CLOCK(m, &snapshot_alarm_time) < 0)
         || (SMR_BA(m, roml_banks, 0x2000) < 0)
         || (SMR_BA(m, export_ram0, 0x4000) < 0)) {
         goto fail;
@@ -1414,19 +1416,25 @@ int ltkernal_snapshot_read_module(snapshot_t *s)
 
     snapshot_module_close(m);
 
+    /* attach recreates ltk_alarm but also resets the SCSI state and ltk_alarm_time */
+    if (ltkernal_common_attach() < 0) {
+        return -1;
+    }
+
     if (scsi_snapshot_read_module(&ltk_scsi, s) < 0) {
         return -1;
     }
 
     ltk_imageopenall();
 
+    ltk_alarm_time = snapshot_alarm_time;
     if (ltk_alarm_time < CLOCK_MAX) {
         alarm_set(ltk_alarm, ltk_alarm_time);
     } else {
         alarm_unset(ltk_alarm);
     }
 
-    return ltkernal_common_attach();
+    return 0;
 
 fail:
     snapshot_module_close(m);
