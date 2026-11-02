@@ -237,6 +237,8 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_VIC20_MEGACART:
         case CARTRIDGE_VIC20_MINIMON:
         case CARTRIDGE_VIC20_RABBIT:
+        case CARTRIDGE_VIC20_SUPEREXPANDER:
+        case CARTRIDGE_VIC20_MIKRO_ASSEMBLER:
         case CARTRIDGE_VIC20_FINAL_EXPANSION:
         case CARTRIDGE_VIC20_UM:
         case CARTRIDGE_VIC20_FP:
@@ -252,6 +254,7 @@ static int set_cartridge_type(int val, void *param)
         case CARTRIDGE_VIC20_4KB_A000:
         case CARTRIDGE_VIC20_8KB_A000:
         case CARTRIDGE_VIC20_4KB_B000:
+        case CARTRIDGE_VIC20_2KB_B000:
         case CARTRIDGE_VIC20_8KB_4000:
         case CARTRIDGE_VIC20_4KB_4000:
         case CARTRIDGE_VIC20_16KB_2000:
