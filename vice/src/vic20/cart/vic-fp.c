@@ -688,10 +688,16 @@ int vic_fp_snapshot_read_module(snapshot_t *s)
 
     CART_CFG_INIT(cart_cfg_reg);
 
+    if (export_add(&export_res) < 0) {
+        return -1;
+    }
+
     mem_cart_blocks = VIC_CART_RAM123 |
                       VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
                       VIC_CART_IO2;
     mem_initialize_memory();
+
+    vfp_list_item = io_source_register(&vfp_device);
 
     /* set filetype to none */
     vic_fp_filename = NULL;

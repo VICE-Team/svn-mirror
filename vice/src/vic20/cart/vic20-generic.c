@@ -916,6 +916,11 @@ int generic_snapshot_read_module(snapshot_t *s)
 
     snapshot_module_close(m);
 
+    export_res.exrom = generic_ram_blocks | generic_rom_blocks;
+    if (export_add(&export_res) < 0) {
+        return -1;
+    }
+
     /* update memory mapping to use only the saved blocks */
     mem_cart_blocks = generic_ram_blocks | generic_rom_blocks;
     mem_initialize_memory();

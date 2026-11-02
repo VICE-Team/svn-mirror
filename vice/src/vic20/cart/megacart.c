@@ -812,10 +812,17 @@ int megacart_snapshot_read_module(snapshot_t *s)
 
     reset_mode = BUTTON_RESET;
 
+    if (export_add(&export_res) < 0) {
+        return -1;
+    }
+
     mem_cart_blocks = VIC_CART_RAM123 |
                       VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
                       VIC_CART_IO2 | VIC_CART_IO3;
     mem_initialize_memory();
+
+    megacart_io2_list_item = io_source_register(&megacart_io2_device);
+    megacart_io3_list_item = io_source_register(&megacart_io3_device);
 
     return 0;
 }

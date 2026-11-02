@@ -302,8 +302,15 @@ int rabbit_snapshot_read_module(snapshot_t *s)
 
     snapshot_module_close(m);
 
+    if (export_add(&export_res23) < 0) {
+        return -1;
+    }
+
     mem_cart_blocks = VIC_CART_IO2 | VIC_CART_IO3;
     mem_initialize_memory();
+
+    rabbit_io2_list_item = io_source_register(&rabbit_io2_device);
+    rabbit_io3_list_item = io_source_register(&rabbit_io3_device);
 
     return 0;
 }
