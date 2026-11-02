@@ -278,8 +278,14 @@ int writenow_snapshot_read_module(snapshot_t *s)
 
     snapshot_module_close(m);
 
+    if (export_add(&export_res23) < 0) {
+        return -1;
+    }
+
     mem_cart_blocks = VIC_CART_IO2 | VIC_CART_BLK5;
     mem_initialize_memory();
+
+    writenow_io2_list_item = io_source_register(&writenow_io2_device);
 
     return 0;
 }

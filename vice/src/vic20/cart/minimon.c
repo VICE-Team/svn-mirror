@@ -983,8 +983,15 @@ int minimon_snapshot_read_module(snapshot_t *s)
 
     minimon_bios_type = CARTRIDGE_FILETYPE_SNAPSHOT;
 
+    if (export_add(&export_res23) < 0) {
+        return -1;
+    }
+
     mem_cart_blocks = VIC_CART_IO2 | VIC_CART_IO3;
     mem_initialize_memory();
+
+    io_register();
+    minimon_alarm_install();
 
     return 0;
 }

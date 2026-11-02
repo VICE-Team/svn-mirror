@@ -1044,6 +1044,10 @@ int vic_um_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
+    if (export_add(&export_res) < 0) {
+        return -1;
+    }
+
     mem_cart_blocks = VIC_CART_RAM123 |
                       VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
                       VIC_CART_IO2 | VIC_CART_IO3;
