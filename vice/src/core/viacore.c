@@ -1907,7 +1907,7 @@ void viacore_shutdown(via_context_t *via_context)
 
 /* ---------------------------------------------------------------------*/
 
-/* VIA 2.2 snapshot module format:
+/* VIA 2.3 snapshot module format:
 
    type  | name                 |version| description
    --------------------------------------------------
@@ -1930,7 +1930,11 @@ void viacore_shutdown(via_context_t *via_context)
    UBYTE | IER                  |       | interrupt masks
    UBYTE | PB7                  |       | bit 7 = pb7 state
    UBYTE | SRHBITS              |       | number of half-bits to shift out on SR
-   UBYTE | CABSTATE             |       | bit 7 = ca2 state, bit6 = cb2 state, bit5 = cb1
+   UBYTE | CABSTATE             |       | bit 7 = ca2 out state, bit 6 = cb2 out state,
+         |                      |       | bit 5 = cb2 in state, bit 4 = cb1 in state,
+         |                      |       | bit 3 = cb1 out state
+         |                      |       | (before 2.3: bit 6 = cb2 out | cb2 in,
+         |                      |       |  bit 5 = cb1 in | cb1 out)
    UBYTE | ILA                  |       | input latch port A  (see ACR bit 0)
    UBYTE | ILB                  |       | input latch port B  (see ACR bit 1)
    UBYTE | t2_irq_allowed       | 2.2+  |
@@ -1940,7 +1944,7 @@ void viacore_shutdown(via_context_t *via_context)
 
 /* The name of the modul must be defined before including this file.  */
 #define VIA_DUMP_VER_MAJOR      2
-#define VIA_DUMP_VER_MINOR      2
+#define VIA_DUMP_VER_MINOR      3
 
 /* FIXME!!!  Error check.  */
 
@@ -1983,9 +1987,9 @@ int viacore_snapshot_write_module(via_context_t *via_context, snapshot_t *s)
         || SMW_B(m, (uint8_t)via_context->shift_state) < 0
         || SMW_B(m, (uint8_t)((via_context->ca2_out_state ? 0x80 : 0) |
                               (via_context->cb2_out_state ? 0x40 : 0) |
-                              (via_context->cb2_in_state ? 0x40 : 0)  |
-                              (via_context->cb1_in_state ? 0x20 : 0)  |
-                              (via_context->cb1_out_state ? 0x20 : 0))) < 0
+                              (via_context->cb2_in_state ? 0x20 : 0)  |
+                              (via_context->cb1_in_state ? 0x10 : 0)  |
+                              (via_context->cb1_out_state ? 0x08 : 0))) < 0
         || SMW_B(m, via_context->ila) < 0
         || SMW_B(m, via_context->ilb) < 0) {
         snapshot_module_close(m);
@@ -2158,10 +2162,18 @@ int viacore_snapshot_read_module(via_context_t *via_context, snapshot_t *s)
     via_context->shift_state = byte5;
 
     via_context->ca2_out_state = (byte6 & 0x80) != 0;
-    via_context->cb2_out_state = (byte6 & 0x40) != 0;
-    via_context->cb2_in_state =  (byte6 & 0x20) != 0;
-    via_context->cb1_in_state =  (byte6 & 0x10) != 0;
-    via_context->cb1_out_state = (byte6 & 0x08) != 0;
+    if (snapshot_version_is_smaller(vmajor, vminor, 2, 3)) {
+        /* older versions stored only the OR of the in and out states */
+        via_context->cb2_out_state = (byte6 & 0x40) != 0;
+        via_context->cb2_in_state =  (byte6 & 0x40) != 0;
+        via_context->cb1_in_state =  (byte6 & 0x20) != 0;
+        via_context->cb1_out_state = (byte6 & 0x20) != 0;
+    } else {
+        via_context->cb2_out_state = (byte6 & 0x40) != 0;
+        via_context->cb2_in_state =  (byte6 & 0x20) != 0;
+        via_context->cb1_in_state =  (byte6 & 0x10) != 0;
+        via_context->cb1_out_state = (byte6 & 0x08) != 0;
+    }
 
     via_context->t2_irq_allowed = m2_t2_irq_allowed;
 
