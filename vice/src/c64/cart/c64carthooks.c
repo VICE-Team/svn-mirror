@@ -3499,7 +3499,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
             if (c128cartridge->snapshot_write(cart_ids[i], s) < 0) {
                 return -1;
             }
-            break;
+            continue;
         } else {
 
             switch (cart_ids[i]) {
@@ -4129,7 +4129,7 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
             if (c128cartridge->snapshot_read(cart_ids[i], s) < 0) {
                 return -1;
             }
-            break;
+            continue;
         } else {
 
             switch (cart_ids[i]) {
