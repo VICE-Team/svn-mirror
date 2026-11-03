@@ -343,7 +343,7 @@ void silverrock128_detach(void)
 
 /* ---------------------------------------------------------------------*/
 
-/* CARTSILVERROCK128 snapshot module format:
+/* CARTSILVERRCK128 snapshot module format:
 
    type  | name   | version | description
    --------------------------------------
@@ -352,7 +352,8 @@ void silverrock128_detach(void)
    ARRAY | ROML   |   0.0+  | 262144 BYTES of ROML data
  */
 
-static const char snap_module_name[] = "CARTSILVERROCK128";
+/* module names are limited to 16 chars */
+static const char snap_module_name[] = "CARTSILVERRCK128";
 #define SNAP_MAJOR   0
 #define SNAP_MINOR   1
 

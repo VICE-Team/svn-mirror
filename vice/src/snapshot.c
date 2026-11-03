@@ -678,6 +678,12 @@ snapshot_module_t *snapshot_module_create(snapshot_t *s, const char *name, uint8
 {
     snapshot_module_t *m;
 
+    if (strlen(name) > SNAPSHOT_MODULE_NAME_LEN) {
+        snapshot_error = SNAPSHOT_ILLEGAL_STRING_LENGTH_ERROR;
+        DBG(("snapshot_module_create error: name '%s' is too long", name));
+        return NULL;
+    }
+
     current_module = (char *)name;
 
     m = lib_malloc(sizeof(snapshot_module_t));
@@ -708,6 +714,12 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s, const char *name, uint8_t
     snapshot_module_t *m;
     char n[SNAPSHOT_MODULE_NAME_LEN];
     unsigned int name_len = (unsigned int)strlen(name);
+
+    if (name_len > SNAPSHOT_MODULE_NAME_LEN) {
+        snapshot_error = SNAPSHOT_MODULE_NOT_FOUND_ERROR;
+        DBG(("snapshot_module_open error: name '%s' is too long", name));
+        return NULL;
+    }
 
     current_module = (char *)name;
 
