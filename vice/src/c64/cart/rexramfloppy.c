@@ -507,11 +507,15 @@ int rexramfloppy_snapshot_read_module(snapshot_t *s)
         || (SMR_B_INT(m, &ram_enabled) < 0)
         || (SMR_B_INT(m, &ram_writeable) < 0)
         || (SMR_B_INT(m, &ram_bank) < 0)
-        || (SMR_BA(m, roml_banks, 0x2000) < 0)
-        || (SMR_BA(m, rexramfloppy_ram, 0x2000 * 32) < 0)) {
+        || (SMR_BA(m, roml_banks, 0x2000) < 0)) {
         goto fail;
     }
 
+    if (ram_bank < 0 || ram_bank > 31) {
+        goto fail;
+    }
+
+    /* attach allocates the RAM */
     if (rexramfloppy_common_attach() < 0) {
         snapshot_module_close(m);
         return -1;
