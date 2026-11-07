@@ -82,7 +82,7 @@
 
 #include "vice.h"
 
-/* #define DEBUG_FILEDRV 1 */
+/* #define DEBUG_FILEDRV */
 
 #include <string.h> /* for memcpy */
 #include <math.h>
@@ -434,7 +434,7 @@ static void check_and_skip_chunk(void)
     /* if the current chunk is of type 'LIST' we need to skip it */
     if (file_buffer[file_pointer] == 0x4C && file_buffer[file_pointer + 1] == 0x49 && file_buffer[file_pointer + 2] == 0x53 && file_buffer[file_pointer + 3] == 0x54) {
         skip_chunk = 1;
-#if DEBUG_FILEDRV
+#ifdef DEBUG_FILEDRV
         log_warning(filedrv_log, "LIST chunk found, skipping");
 #endif
     }
@@ -442,7 +442,7 @@ static void check_and_skip_chunk(void)
     /* if the current chunk is of type 'PEAK' we need to skip it */
     if (file_buffer[file_pointer] == 0x50 && file_buffer[file_pointer + 1] == 0x45 && file_buffer[file_pointer + 2] == 0x41 && file_buffer[file_pointer + 3] == 0x4B) {
         skip_chunk = 1;
-#if DEBUG_FILEDRV
+#ifdef DEBUG_FILEDRV
         log_warning(filedrv_log, "PEAK chunk found, skipping");
 #endif
     }
@@ -450,7 +450,7 @@ static void check_and_skip_chunk(void)
     /* if the current chunk is of type 'fact' we need to skip it */
     if (file_buffer[file_pointer] == 0x66 && file_buffer[file_pointer + 1] == 0x61 && file_buffer[file_pointer + 2] == 0x63 && file_buffer[file_pointer + 3] == 0x74) {
         skip_chunk = 1;
-#if DEBUG_FILEDRV
+#ifdef DEBUG_FILEDRV
         log_warning(filedrv_log, "fact chunk found, skipping");
 #endif
     }
