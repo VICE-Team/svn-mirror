@@ -28,6 +28,13 @@
 #define VICE_OPENCBMLIB_H
 
 #include "vice.h"
+
+/* opencbm.h checks DBG with just #if, so define it here so we don't have
+   to edit the upstream header file to remove the related warning */
+#ifndef DBG
+#define DBG 0
+#endif
+
 #include "opencbm.h"
 
 typedef int (CBMAPIDECL *cbm_driver_open_t)(CBM_FILE *f, int port);
