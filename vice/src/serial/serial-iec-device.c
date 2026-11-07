@@ -25,8 +25,8 @@
  *
  */
 
-/* #define IEC_DEVICE_DEBUG 0 */
-/* #define IEC_DEVICE_DEBUG 8 */
+/* debug level, 0...8 */
+#define IEC_DEVICE_DEBUG 0
 
 #include "vice.h"
 
