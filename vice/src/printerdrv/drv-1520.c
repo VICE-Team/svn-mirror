@@ -42,10 +42,12 @@
 #include "palette.h"
 #include "types.h"
 
-/*#define DEBUG1520       1 */
-/*#define DEBUG1520_A   1*/
+/*#define DEBUG_1520 */
+/*#define DEBUG_1520_A */
+/*#define DEBUG_1520_B */
+/*#define DEBUG_1520_C */
 
-#ifdef DEBUG1520
+#ifdef DEBUG_1520
 #define DBG(x) log_printf  x
 #else
 #define DBG(x)
@@ -146,7 +148,7 @@ static void write_lines(plot_t *mps, int lines)
     int x, y;
     int prnr = mps->prnr;
 
-#if DEBUG1520
+#ifdef DEBUG_1520
     log_message(drv1520_log, "write_lines: %d lines", lines);
 #endif
 
@@ -167,12 +169,12 @@ static void write_lines(plot_t *mps, int lines)
  */
 static void reset_abs_origin(plot_t *mps)
 {
-#if DEBUG1520
+#ifdef DEBUG_1520
     log_message(drv1520_log, "reset_abs_origin: abs_origin_y=%d lowest_y=%d cur_y=%d", mps->abs_origin_y, mps->lowest_y, mps->cur_y);
 #endif
     mps->abs_origin_x += mps->cur_x;
     mps->abs_origin_y += mps->cur_y;
-#if DEBUG1520
+#ifdef DEBUG_1520
     log_message(drv1520_log, "                 : abs_origin_y=%d lowest_y=%d", mps->abs_origin_y, mps->lowest_y);
 #endif
 
@@ -188,7 +190,7 @@ static void reset_abs_origin(plot_t *mps)
         int y_steps = -mps->abs_origin_y - MAX_Y_COORD;
         int y_pixels = y_steps * PIXELS_PER_STEP;
         int remaining_y_pixels = Y_PIXELS - y_pixels;
-#if DEBUG1520
+#ifdef DEBUG_1520
         log_message(drv1520_log, "reset_abs_origin: output and shift %d pixels (%d Y-coordinates)", y_pixels, y_steps);
 #endif
 
@@ -203,7 +205,7 @@ static void reset_abs_origin(plot_t *mps)
 
         mps->abs_origin_y += y_steps;
         mps->lowest_y += y_steps;
-#if DEBUG1520
+#ifdef DEBUG_1520
         log_message(drv1520_log, "                 : abs_origin_y=%d lowest_y=%d", mps->abs_origin_y, mps->lowest_y);
 #endif
     }
@@ -220,7 +222,7 @@ static void set_rel_origin(plot_t *mps)
 
 static void eject(plot_t *mps)
 {
-#if DEBUG1520
+#ifdef DEBUG_1520
     log_message(drv1520_log, "eject");
 #endif
     write_lines(mps, -mps->lowest_y + 1);
@@ -277,11 +279,11 @@ static void mix(uint8_t *old, int new)
 
 static void plot(plot_t *mps, int x, int y)
 {
-#if DEBUG1520_A
+#ifdef DEBUG_1520_A
     log_message(drv1520_log, "plot: (%4d,%4d) scribe=%d state=%d", x, y, mps->scribe, mps->scribe_state);
 #endif
     if (x >= X_PIXELS || x < 0 || y > Y_PIXELS || y < 0) {
-#if DEBUG1520
+#ifdef DEBUG_1520
         log_message(drv1520_log, "plot: (%4d,%4d) out of bounds", x, y);
 #endif
         return;
@@ -315,7 +317,7 @@ static void bresenham(plot_t *mps, int x0, int y0, int x1, int y1)
     int sx = (x0 < x1) ? 1 : -1;
     int sy = (y0 < y1) ? 1 : -1;
     int err = dx - dy;
-#if DEBUG1520_B
+#ifdef DEBUG_1520_B
     log_message(drv1520_log, "bresenham: (%4d,%4d)...(%4d,%4d)",  x0, y0, x1, y1);
 #endif
 
@@ -356,7 +358,7 @@ static void bresenham_par(plot_t *mps, int x0, int y0, int x1, int y1, int wd)
     int err = dx - dy;
     int xo = 0, yo = 0;
     int scribe = mps->scribe_state;
-#if DEBUG1520_B
+#ifdef DEBUG_1520_B
     log_message(drv1520_log, "bresenham_par: (%4d,%4d)...(%4d,%4d) dx=%d dy=%d sx=%d sy=%d",  x0, y0, x1, y1, dx, dy, sx, sy);
 #endif
 
@@ -400,7 +402,7 @@ static void bresenham_par(plot_t *mps, int x0, int y0, int x1, int y1, int wd)
 
 static void draw(plot_t *mps, int from_x, int from_y, int to_x, int to_y)
 {
-#if DEBUG1520_C
+#ifdef DEBUG_1520_C
     log_error(drv1520_log, "draw:                                 (%4d,%4d)...(%4d,%4d)", from_x, from_y, to_x, to_y);
 #endif
     /*
@@ -414,14 +416,14 @@ static void draw(plot_t *mps, int from_x, int from_y, int to_x, int to_y)
 
     mps->lowest_y = vice_min(mps->lowest_y, vice_min(from_y, to_y));
 
-#if DEBUG1520_C
+#ifdef DEBUG_1520_C
     log_message(drv1520_log, "draw: applied abs origin (%4d,%4d): (%4d,%4d)...(%4d,%4d) lowest_y=%d",  mps->abs_origin_x, mps->abs_origin_y, from_x, from_y, to_x, to_y, mps->lowest_y);
 #endif
     /* Flip y-axis */
     from_y = -from_y;
       to_y = -  to_y;
 
-#if DEBUG1520_C
+#ifdef DEBUG_1520_C
     log_message(drv1520_log, "draw: flip y:                         (%4d,%4d)...(%4d,%4d)",  from_x, from_y, to_x, to_y);
 #endif
 
@@ -882,7 +884,7 @@ static void print_char_plot(plot_t *mps, const uint8_t c)
             mps->command_y = 0;
             mps->command_flags = FNUM_START;
             mps->command_stage = letter_seen;
-#if DEBUG1520
+#ifdef DEBUG_1520
             log_message(drv1520_log, "print_char_plot: command_stage := letter_seen");
 #endif
         } else {
@@ -894,7 +896,7 @@ static void print_char_plot(plot_t *mps, const uint8_t c)
         value = fnumsparser(&mps->command_x, &mps->command_flags, c);
         if (value != INCOMPLETE) {
             mps->command_stage = x_seen;
-#if DEBUG1520
+#ifdef DEBUG_1520
             log_message(drv1520_log, "print_char_plot: command_stage := x_seen");
 #endif
         }
@@ -903,7 +905,7 @@ static void print_char_plot(plot_t *mps, const uint8_t c)
         value = fnumsparser(&mps->command_y, &mps->command_flags, c);
         if (value != INCOMPLETE) {
             mps->command_stage = y_seen;
-#if DEBUG1520
+#ifdef DEBUG_1520
             log_message(drv1520_log, "print_char_plot: command_stage := y_seen");
 #endif
         }
@@ -916,7 +918,7 @@ static void print_char_plot(plot_t *mps, const uint8_t c)
 
     if (c == CR) {
         int new_x, new_y;
-#if DEBUG1520
+#ifdef DEBUG_1520
             log_message(drv1520_log, "print_char_plot: executing command %c %d %d", mps->command, mps->command_x, mps->command_y);
 #endif
 
@@ -963,7 +965,7 @@ static void print_char_plot(plot_t *mps, const uint8_t c)
         default:        /* some error - ignore */
             break;
         }
-#if DEBUG1520
+#ifdef DEBUG_1520
             log_message(drv1520_log, "print_char_plot: cur = (%4d, %4d) rel origin = (%4d, %4d)", mps->cur_x, mps->cur_y, mps->rel_origin_x, mps->rel_origin_y);
 #endif
 
@@ -1013,11 +1015,11 @@ static void print_char_select_scribe(plot_t *mps, const uint8_t c)
 
     if (value != INCOMPLETE) {
         mps->scribe = (value % 16) * PIXELS_PER_STEP;
-#if DEBUG1520
+#ifdef DEBUG_1520
         log_message(drv1520_log, "print_char_select_scribe: scribe = %d (%d)", mps->scribe, value);
 #endif
     } else {
-#if DEBUG1520
+#ifdef DEBUG_1520
         log_message(drv1520_log, "print_char_select_scribe: scribe_accu = %d", mps->scribe_accu);
 #endif
     }
@@ -1117,7 +1119,7 @@ static int drv_1520_palette_init(void)
 
 static int drv_1520_first_open(unsigned int prnr)
 {
-#if DEBUG1520
+#ifdef DEBUG_1520
     log_message(drv1520_log, "drv_1520_first_open: prnr=%u", prnr);
 #endif
 
@@ -1139,7 +1141,7 @@ static int drv_1520_first_open(unsigned int prnr)
 }
 static int drv_1520_open(unsigned int prnr, unsigned int secondary)
 {
-#if DEBUG1520
+#ifdef DEBUG_1520
     log_message(drv1520_log, "drv_1520_open: sa=%u prnr=%u", secondary, prnr);
 #endif
 
@@ -1173,7 +1175,7 @@ static int drv_first_open(unsigned int prnr)
 
 static void drv_1520_close(unsigned int prnr, unsigned int secondary)
 {
-#if DEBUG1520
+#ifdef DEBUG_1520
     log_message(drv1520_log, "drv_1520_close: sa=%u prnr=%u", secondary, prnr);
 #endif
     if (drv_first_open(prnr) < 0) {
@@ -1183,7 +1185,7 @@ static void drv_1520_close(unsigned int prnr, unsigned int secondary)
     if (secondary == DRIVER_LAST_CLOSE) {
         plot_t *mps = &drv_1520[prnr];
 
-#if DEBUG1520
+#ifdef DEBUG_1520
         log_message(drv1520_log, "drv_1520_close: last close");
 #endif
         if (palette == NULL) {
@@ -1203,7 +1205,7 @@ static int drv_1520_putc(unsigned int prnr, unsigned int secondary, uint8_t b)
 {
     plot_t *mps = &drv_1520[prnr];
 
-#if DEBUG1520
+#ifdef DEBUG_1520
     log_message(drv1520_log, "drv_1520_putc: sa=%u b='%c' (%u) prnr=%u", secondary, b, b, prnr);
 #endif
     if (drv_first_open(prnr) < 0) {
@@ -1251,7 +1253,7 @@ static int drv_1520_getc(unsigned int prnr, unsigned int secondary, uint8_t *b)
 
 static int drv_1520_flush(unsigned int prnr, unsigned int secondary)
 {
-#if DEBUG1520
+#ifdef DEBUG_1520
     log_message(drv1520_log, "drv_1520_flush");
 #endif
     if (drv_first_open(prnr) < 0) {
@@ -1262,7 +1264,7 @@ static int drv_1520_flush(unsigned int prnr, unsigned int secondary)
 
 static int drv_1520_formfeed(unsigned int prnr)
 {
-#if DEBUG1520
+#ifdef DEBUG_1520
     log_message(drv1520_log, "drv_1520_formfeed");
 #endif
     plot_t *mps = &drv_1520[prnr];
@@ -1283,7 +1285,7 @@ static int drv_1520_formfeed(unsigned int prnr)
 int drv_1520_init_resources(void)
 {
     driver_select_t driver;
-#if DEBUG1520
+#ifdef DEBUG_1520
     log_message(drv1520_log, "drv_1520_init_resources");
 #endif
 
@@ -1316,7 +1318,7 @@ int drv_1520_init(void)
 {
     drv1520_log = log_open("plot1520");
 
-#if DEBUG1520
+#ifdef DEBUG_1520
     log_message(drv1520_log, "drv_1520_init");
 #endif
 
@@ -1325,7 +1327,7 @@ int drv_1520_init(void)
 
 void drv_1520_shutdown(void)
 {
-#if DEBUG1520
+#ifdef DEBUG_1520
     log_message(drv1520_log, "drv_1520_shutdown");
 #endif
     palette_free(palette);
