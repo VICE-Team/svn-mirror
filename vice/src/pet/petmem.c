@@ -830,7 +830,7 @@ uint8_t mem6809_read(uint16_t addr)
 
 void mem6809_store16(uint16_t addr, uint16_t value)
 {
-#if PRINT_6809_STORE0
+#if PRINT_6809_STORE
     printf("mem6809_store16 %04x <- %04x\n", addr, value);
 #endif
     addr++;
@@ -854,7 +854,7 @@ uint16_t mem6809_read16(uint16_t addr)
 #ifdef H6309
 void mem6809_store32(uint16_t addr, uint32_t value)
 {
-#if PRINT_6809_STORE0
+#if PRINT_6809_STORE
     printf("mem6809_store32 %04x <- %04x\n", addr, value);
 #endif
     addr += 3;
