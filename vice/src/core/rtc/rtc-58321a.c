@@ -430,7 +430,7 @@ int rtc58321a_write_snapshot(rtc_58321a_t *context, snapshot_t *s)
     snapshot_module_t *m;
 
     /* time_t can be either 32bit or 64bit, so we save as 64bit */
-#if (SIZE_OF_TIME_T == 8)
+#if (SIZEOF_TIME_T == 8)
     latch_hi = (uint32_t)(context->latch >> 32);
     latch_lo = (uint32_t)(context->latch & 0xffffffff);
     offset_hi = (uint32_t)(context->offset >> 32);
@@ -505,7 +505,7 @@ int rtc58321a_read_snapshot(rtc_58321a_t *context, snapshot_t *s)
 
     snapshot_module_close(m);
 
-#if (SIZE_OF_TIME_T == 8)
+#if (SIZEOF_TIME_T == 8)
     context->latch = (time_t)(latch_hi) << 32;
     context->latch |= latch_lo;
     context->offset = (time_t)(offset_hi) << 32;
