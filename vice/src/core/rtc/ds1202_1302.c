@@ -758,7 +758,7 @@ int ds1202_1302_write_snapshot(rtc_ds1202_1302_t *context, snapshot_t *s)
     snapshot_module_t *m;
 
     /* time_t can be either 32bit or 64bit, so we save as 64bit */
-#if (SIZE_OF_TIME_T == 8)
+#if (SIZEOF_TIME_T == 8)
     clock_halt_latch_hi = (uint32_t)(context->clock_halt_latch >> 32);
     clock_halt_latch_lo = (uint32_t)(context->clock_halt_latch & 0xffffffff);
     latch_hi = (uint32_t)(context->latch >> 32);
@@ -868,7 +868,7 @@ int ds1202_1302_read_snapshot(rtc_ds1202_1302_t *context, snapshot_t *s)
 
     snapshot_module_close(m);
 
-#if (SIZE_OF_TIME_T == 8)
+#if (SIZEOF_TIME_T == 8)
     context->clock_halt_latch = (time_t)(clock_halt_latch_hi) << 32;
     context->clock_halt_latch |= clock_halt_latch_lo;
     context->latch = (time_t)(latch_hi) << 32;

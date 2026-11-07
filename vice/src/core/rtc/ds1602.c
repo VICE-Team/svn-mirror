@@ -284,7 +284,7 @@ int ds1602_write_snapshot(rtc_ds1602_t *context, snapshot_t *s)
     snapshot_module_t *m;
 
     /* time_t can be either 32bit or 64bit, so we save as 64bit */
-#if (SIZE_OF_TIME_T == 8)
+#if (SIZEOF_TIME_T == 8)
     latch_hi = (uint32_t)(context->latch >> 32);
     latch_lo = (uint32_t)(context->latch & 0xffffffff);
     offset0_hi = (uint32_t)(context->offset0 >> 32);
@@ -377,7 +377,7 @@ int ds1602_read_snapshot(rtc_ds1602_t *context, snapshot_t *s)
     }
     snapshot_module_close(m);
 
-#if (SIZE_OF_TIME_T == 8)
+#if (SIZEOF_TIME_T == 8)
     context->latch = (time_t)(latch_hi) << 32;
     context->latch |= latch_lo;
     context->offset0 = (time_t)(offset0_hi) << 32;
