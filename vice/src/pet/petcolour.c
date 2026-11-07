@@ -40,12 +40,21 @@
 #include "crtc.h"
 #include "crtc-color.h"
 #include "crtctypes.h"
+#include "log.h"
 #include "pet.h"
 #include "petcolour.h"
 #include "petmem.h"
 #include "pets.h"
 #include "pet-resources.h"
 #include "video.h"
+
+/* #define DEBUG_GFX */
+
+#ifdef DEBUG_GFX
+#define DBG(x)  log_printf  x
+#else
+#define DBG(x)
+#endif
 
 /*
  * These "draw" functions don't really draw anything in the usual sense
@@ -59,9 +68,8 @@ static void DRAW_rgbi(uint8_t *p, int xstart, int xend, int scr_rel, int ymod8)
         uint8_t *colour_ptr = crtc.screen_base + COLOUR_MEMORY_START;
         int i;
 
-#if DEBUG_GFX
-        printf("DRAW_rgbi: xstart=%d, xend=%d, ymod8=%d, scr_rel=%04x vaddr_mask_eff=%04x\n", xstart, xend, ymod8, scr_rel, crtc.vaddr_mask_eff);
-#endif
+        DBG(("DRAW_rgbi: xstart=%d, xend=%d, ymod8=%d, scr_rel=%04x vaddr_mask_eff=%04x", xstart, xend, ymod8, scr_rel, crtc.vaddr_mask_eff));
+
         for (i = xstart; i < xend; i++) {
             uint8_t colour = colour_ptr[scr_rel & crtc.vaddr_mask_eff];
             uint8_t bg = (colour >> 4) & 0x0F;
@@ -88,9 +96,8 @@ static void DRAW_analog(uint8_t *p, int xstart, int xend, int scr_rel, int ymod8
         uint8_t *colour_ptr = crtc.screen_base + COLOUR_MEMORY_START;
         int i;
 
-#if DEBUG_GFX
-        printf("DRAW_analog: xstart=%d, xend=%d, ymod8=%d, scr_rel=%04x\n", xstart, xend, ymod8, scr_rel);
-#endif
+        DBG(("DRAW_analog: xstart=%d, xend=%d, ymod8=%d, scr_rel=%04x", xstart, xend, ymod8, scr_rel));
+
         for (i = xstart; i < xend; i++) {
             uint8_t colour = colour_ptr[scr_rel & crtc.vaddr_mask_eff];
 
