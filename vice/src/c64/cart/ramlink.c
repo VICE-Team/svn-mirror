@@ -2222,10 +2222,17 @@ int ramlink_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
+    /* reject manipulated snapshots that would cause OOB accesses */
+    if ((rl_rombase & ~0xc000) || (rl_kernbase & ~0xc000) || (rl_rambase & ~0x1f00)) {
+        goto fail;
+    }
+
     set_enabled(1, NULL);
 
     /* set ramcard size */
-    set_size(size, NULL);
+    if (set_size((int)size, NULL) < 0) {
+        goto fail;
+    }
     /* set the cardbase via a dummy write to the address system */
     ramlink_io2_a0_a3_store(0,3);
 

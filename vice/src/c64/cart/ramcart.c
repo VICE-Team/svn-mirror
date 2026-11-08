@@ -729,6 +729,8 @@ int ramcart_snapshot_read_module(snapshot_t *s)
 {
     uint8_t vmajor, vminor;
     snapshot_module_t *m;
+    int size;
+    int size_kb;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
 
@@ -745,11 +747,20 @@ int ramcart_snapshot_read_module(snapshot_t *s)
     if (0
         || (SMR_B_INT(m, &ramcart_enabled) < 0)
         || (SMR_B_INT(m, &ramcart_readonly) < 0)
-        || (SMR_DW_INT(m, &ramcart_size) < 0)
-        || (SMR_B_INT(m, &ramcart_size_kb) < 0)
+        || (SMR_DW_INT(m, &size) < 0)
+        || (SMR_B_INT(m, &size_kb) < 0)
         || (SMR_BA(m, ramcart, 2) < 0)) {
         goto fail;
     }
+
+    /* reject manipulated snapshots that would cause OOB accesses */
+    if (((size_kb != 64) && (size_kb != 128))
+        || (size != (size_kb << 10))
+        || ((size_kb == 64) && (ramcart[1] & 1))) {
+        goto fail;
+    }
+    ramcart_size = size;
+    ramcart_size_kb = size_kb;
 
     ramcart_ram = lib_malloc(ramcart_size);
 
