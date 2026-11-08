@@ -127,6 +127,7 @@ int cbm2_snapshot_read(const char *name, int event_mode)
         || acia1_snapshot_read_module(s) < 0
         || sid_snapshot_read_module(s) < 0
         || drive_snapshot_read_module(s) < 0
+        || fsdrive_snapshot_read_module(s) < 0
         || event_snapshot_read_module(s, event_mode) < 0
         || tapeport_snapshot_read_module(s) < 0
         || keyboard_snapshot_read_module(s) < 0
