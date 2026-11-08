@@ -201,6 +201,11 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
         effective_ramsize -= 64;
     }
 
+    if (effective_start + (memsize << 17) > CBM2_RAM_SIZE) {
+        snapshot_module_close(m);
+        return -1;
+    }
+
     SMR_BA(m, mem_ram + effective_start, memsize << 17);
 
     ramsize = effective_ramsize;
