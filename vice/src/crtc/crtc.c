@@ -358,8 +358,7 @@ void crtc_update_window(void)
                                    crtc.regs[CRTC_REG_VTOTALADJ] +
                                    2 * CRTC_SCREEN_BORDERHEIGHT;
 
-    if (screen_height != crtc.screen_height ||
-        screen_height > crtc.screen_height ||
+    if (screen_height > crtc.screen_height ||
             (max_drawn_lines > screen_height && max_drawn_lines < crtc.screen_height)) {
         /*
          * We only increase the screen height here, but it would also
