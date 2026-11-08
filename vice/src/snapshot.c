@@ -749,6 +749,12 @@ snapshot_module_t *snapshot_module_open(snapshot_t *s, const char *name, uint8_t
             goto fail;
         }
 
+        /* reject modules that claim to be smaller than the required header */
+        if (m->size < SNAPSHOT_MODULE_NAME_LEN + 1 + 1 + 4) {
+            snapshot_error = SNAPSHOT_MODULE_HEADER_READ_ERROR;
+            goto fail;
+        }
+
         /* Found?  */
         if (memcmp(n, name, name_len) == 0
             && (name_len == SNAPSHOT_MODULE_NAME_LEN || n[name_len] == 0)) {

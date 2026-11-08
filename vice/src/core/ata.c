@@ -1424,13 +1424,14 @@ int ata_snapshot_write_module(ata_drive_t *drv, snapshot_t *s)
         return -1;
     }
 
-    if (drv->busy & 1) {
+    /* the alarms are not necessarily pending (pending_idx < 0) */
+    if ((drv->busy & 1) && drv->spindle_alarm->pending_idx >= 0) {
         spindle_clk = drv->spindle_alarm->context->pending_alarms[drv->spindle_alarm->pending_idx].clk;
     }
-    if (drv->busy & 2) {
+    if ((drv->busy & 2) && drv->head_alarm->pending_idx >= 0) {
         head_clk = drv->head_alarm->context->pending_alarms[drv->head_alarm->pending_idx].clk;
     }
-    if (drv->standby) {
+    if (drv->standby && drv->standby_alarm->pending_idx >= 0) {
         standby_clk = drv->standby_alarm->context->pending_alarms[drv->standby_alarm->pending_idx].clk;
     }
     if (drv->file) {
@@ -1517,7 +1518,7 @@ int ata_snapshot_read_module(ata_drive_t *drv, snapshot_t *s)
         drv->type = ATA_DRIVE_NONE;
     }
     SMR_W_INT(m, &drv->geometry.cylinders);
-    if (drv->geometry.cylinders < 1 || drv->geometry.cylinders > 16) {
+    if (drv->geometry.cylinders < 1 || drv->geometry.cylinders > 65535) {
         drv->geometry.cylinders = 1;
     }
     SMR_B_INT(m, &drv->geometry.heads);
@@ -1525,7 +1526,7 @@ int ata_snapshot_read_module(ata_drive_t *drv, snapshot_t *s)
         drv->geometry.heads = 1;
     }
     SMR_B_INT(m, &drv->geometry.sectors);
-    if (drv->geometry.sectors < 1 || drv->geometry.sectors > 16) {
+    if (drv->geometry.sectors < 1 || drv->geometry.sectors > 63) {
         drv->geometry.sectors = 1;
     }
     SMR_DW_INT(m, &drv->geometry.size);
@@ -1588,17 +1589,17 @@ int ata_snapshot_read_module(ata_drive_t *drv, snapshot_t *s)
     SMR_DW_INT(m, &drv->standby);
     SMR_DW_INT(m, &drv->standby_max);
     drv->busy &= 0x03;
-    if (drv->busy & 1) {
+    if ((drv->busy & 1) && spindle_clk != CLOCK_MAX) {
         alarm_set(drv->spindle_alarm, spindle_clk);
     } else {
         alarm_unset(drv->spindle_alarm);
     }
-    if (drv->busy & 2) {
+    if ((drv->busy & 2) && head_clk != CLOCK_MAX) {
         alarm_set(drv->head_alarm, head_clk);
     } else {
         alarm_unset(drv->head_alarm);
     }
-    if (drv->standby) {
+    if (drv->standby && standby_clk != CLOCK_MAX) {
         alarm_set(drv->standby_alarm, standby_clk);
     } else {
         alarm_unset(drv->standby_alarm);
