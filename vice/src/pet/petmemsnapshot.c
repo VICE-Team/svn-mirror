@@ -236,6 +236,12 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
     SMR_B(m, &conf8x96);
     SMR_B(m, &superpet);
 
+    if (memsize > 32) {
+        log_error(pet_snapshot_log, "Invalid RAM size %d in snapshot", memsize);
+        snapshot_module_close(m);
+        return -1;
+    }
+
     rconf = config & 0xc0;
     config &= 0x0f;
 
