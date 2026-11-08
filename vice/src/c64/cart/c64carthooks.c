@@ -3608,6 +3608,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                         return -1;
                     }
                     break;
+                case CARTRIDGE_BLACKBOX9:
+                    if (blackbox9_snapshot_write_module(s) < 0) {
+                        return -1;
+                    }
+                    break;
                 case CARTRIDGE_BMPDATATURBO:
                     if (bmpdataturbo_snapshot_write_module(s) < 0) {
                         return -1;
@@ -4235,6 +4240,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                     break;
                 case CARTRIDGE_BLACKBOX8:
                     if (blackbox8_snapshot_read_module(s) < 0) {
+                        goto fail2;
+                    }
+                    break;
+                case CARTRIDGE_BLACKBOX9:
+                    if (blackbox9_snapshot_read_module(s) < 0) {
                         goto fail2;
                     }
                     break;
