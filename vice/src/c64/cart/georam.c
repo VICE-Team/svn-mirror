@@ -670,6 +670,7 @@ int georam_read_snapshot_module(snapshot_t *s)
     uint8_t vmajor, vminor;
     snapshot_module_t *m;
     uint32_t size;
+    uint8_t regs[2];
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
 
@@ -702,15 +703,24 @@ int georam_read_snapshot_module(snapshot_t *s)
         goto fail;
     }
 
-    set_georam_size((int)size, NULL);
+    if (set_georam_size((int)size, NULL) < 0) {
+        goto fail;
+    }
 
     if (!georam_enabled) {
         set_georam_enabled(1, NULL);
     }
 
-    if (SMR_BA(m, georam, sizeof(georam)) < 0 || SMR_BA(m, georam_ram, georam_size) < 0) {
+    if (SMR_BA(m, regs, sizeof(regs)) < 0 || SMR_BA(m, georam_ram, georam_size) < 0) {
         goto fail;
     }
+
+    /* reject manipulated snapshots that would cause OOB accesses */
+    if ((regs[0] > 63) || (regs[1] >= (georam_size_kb / 16))) {
+        goto fail;
+    }
+    georam[0] = regs[0];
+    georam[1] = regs[1];
 
     snapshot_module_close(m);
     georam_enabled = 1;
