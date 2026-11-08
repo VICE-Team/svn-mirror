@@ -850,7 +850,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
     int origpart = vdrive->current_part;
 
     /* initialize the source registers */
-    for (i = 0; i <COPYMAX; i++) {
+    for (i = 0; i < COPYMAX; i++) {
         src[i].file = NULL;
         src[i].filelength = 0;
         src[i].path = NULL;
@@ -871,6 +871,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
         goto out;
     }
 
+    memset(&dest, 0, sizeof(dest));
     dest.file = cmd->file;
     dest.filelength = cmd->filelength;
     dest.path = cmd->path;
