@@ -712,6 +712,7 @@ int dqbb_snapshot_read_module(snapshot_t *s)
 {
     uint8_t vmajor, vminor;
     snapshot_module_t *m;
+    int size;
 
     m = snapshot_module_open(s, snap_module_name, &vmajor, &vminor);
 
@@ -735,10 +736,30 @@ int dqbb_snapshot_read_module(snapshot_t *s)
         || (SMR_B_INT(m, &dqbb_off) < 0)
         || (SMR_B_INT(m, &reg_value) < 0)
         || (SMR_B_INT(m, &dqbb_exrom) < 0)
-        || (SMR_B_INT(m, &dqbb_size) < 0)
+        || (SMR_B_INT(m, &size) < 0)
         || (SMR_B_INT(m, &dqbb_bank) < 0)
-        || (SMR_B_INT(m, &dqbb_mode_switch) < 0)
-        || (SMR_BA(m, dqbb_ram, dqbb_size * 0x400) < 0)) {
+        || (SMR_B_INT(m, &dqbb_mode_switch) < 0)) {
+        snapshot_module_close(m);
+        lib_free(dqbb_ram);
+        dqbb_ram = NULL;
+        return -1;
+    }
+
+    /* fix wrapping caused by storing the size as a byte amount of KBytes */
+    if (size == 0) {
+        size = 256;
+    }
+    if (((size != 16) && (size != 32) && (size != 64) && (size != 128) && (size != 256))
+        || (dqbb_bank > ((size / 16) - 1))) {
+        snapshot_module_close(m);
+        lib_free(dqbb_ram);
+        dqbb_ram = NULL;
+        return -1;
+    }
+    dqbb_size = size;
+    dqbb_bank_mask = (size / 16) - 1;
+
+    if (SMR_BA(m, dqbb_ram, dqbb_size * 0x400) < 0) {
         snapshot_module_close(m);
         lib_free(dqbb_ram);
         dqbb_ram = NULL;
