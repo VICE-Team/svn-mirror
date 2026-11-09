@@ -303,7 +303,13 @@ static uint8_t read_pra(via_context_t *via_context, uint16_t addr, bool peek_onl
         if (!peek_only) {
             rotation_rotate_disk(via1p->drive);
         }
+        /* Only PA7 (byte ready) and PA0 (track 0 sensor) are driven from
+           outside; PA1-PA6 read high whenever they are inputs.  Measured on a
+           real 1571: $1801 = $99 (1 MHz) / $B9 (2 MHz) with the DOS's DDRA $66,
+           $FF with DDRA $00.  The Super Snapshot 5 and Action Replay 5 fast
+           loaders test PA3/PA4 to tell a 1571 in 2 MHz mode from a 1541.  */
         tmp = (via1p->drive->byte_ready_level ? 0 : 0x80)
+              | 0x7e
               | (via1p->drive->current_half_track == 2 ? 0 : 1);
         return (tmp & ~(via_context->via[VIA_DDRA]))
                | (via_context->via[VIA_PRA] & via_context->via[VIA_DDRA]);
