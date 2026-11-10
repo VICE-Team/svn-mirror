@@ -175,21 +175,21 @@ static void mon_buffer_add(const char *buffer, unsigned int bufferlen)
 /*! \internal \brief Notify interested interfaces that the monitor opened.
 */
 void mon_event_opened(void) {
-    #ifdef HAVE_NETWORK
-        if (monitor_is_binary()) {
-            monitor_binary_event_opened();
-        }
-    #endif
+#ifdef HAVE_NETWORK
+    if (monitor_is_binary()) {
+        monitor_binary_event_opened();
+    }
+#endif
 }
 
 /*! \internal \brief Notify interested interfaces that the monitor closed.
 */
 void mon_event_closed(void) {
-    #ifdef HAVE_NETWORK
-        if (monitor_is_binary()) {
-            monitor_binary_event_closed();
-        }
-    #endif
+#ifdef HAVE_NETWORK
+    if (monitor_is_binary()) {
+        monitor_binary_event_closed();
+    }
+#endif
 }
 
 static int mon_out_buffered(const char *buffer, int mode, int maxlen)
