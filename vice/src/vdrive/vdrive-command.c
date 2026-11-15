@@ -1353,6 +1353,10 @@ static int vdrive_command_rename(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
         dest[0] = '=';
     }
     dest[destlen] = 0;
+    /* CBM DOS truncates names longer than 16 characters */
+    if (destlen > CBMDOS_SLOT_NAME_LENGTH) {
+        destlen = CBMDOS_SLOT_NAME_LENGTH;
+    }
 
     /* use parser to find source name */
     vdrive_cmdfree_full(cmd);
@@ -1559,6 +1563,10 @@ static int vdrive_command_renamepart(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *
         goto out;
     }
     dest[destlen] = 0;
+    /* HD DOS probably truncates names longer than 16 chars */
+    if (destlen > CBMDOS_SLOT_NAME_LENGTH) {
+        destlen = CBMDOS_SLOT_NAME_LENGTH;
+    }
 
     /* use parser to find source name */
     vdrive_cmdfree_full(cmd);
