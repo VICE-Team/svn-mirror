@@ -289,7 +289,7 @@ int fsimage_gcr_read_sector(const disk_image_t *image, uint8_t *buf, const disk_
 {
     fdc_err_t rf;
 
-    if (dadr->track > image->tracks) {
+    if (dadr->track < 1 || dadr->track > image->tracks) {
         log_error(fsimage_gcr_log,
                   "Track %u out of bounds.  Cannot read GCR track.",
                   dadr->track);
@@ -350,7 +350,7 @@ int fsimage_gcr_read_sector(const disk_image_t *image, uint8_t *buf, const disk_
 int fsimage_gcr_write_sector(disk_image_t *image, const uint8_t *buf,
                              const disk_addr_t *dadr)
 {
-    if (dadr->track > image->tracks) {
+    if (dadr->track < 1 || dadr->track > image->tracks) {
         log_error(fsimage_gcr_log,
                   "Track %u out of bounds.  Cannot write GCR sector",
                   dadr->track);
