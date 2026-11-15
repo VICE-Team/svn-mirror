@@ -745,6 +745,14 @@ static int vdrive_command_block(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
                 goto out;
             }
 
+            /* apply range limits */
+            if (vdrive_check_track_sector(vdrive, track, sector) < 0) {
+                status = CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR;
+                t = track;
+                s = sector;
+                goto out;
+            }
+
             if (cmd->abbrv[2] == 'A') {
                 if (!vdrive_bam_allocate_sector(vdrive, track, sector)) {
                     /*
@@ -3769,8 +3777,13 @@ int vdrive_command_memory_read(vdrive_t *vdrive, const uint8_t *buf, uint16_t ad
     for (i = 0; i < len; i++) {
         p->buffer[i] = vdrive->ram[(addr + i) & 0x7fff];
     }
-    /* add a CR at the end */
-    p->buffer[i] = 13;
+    if (len < 256) {
+        /* add a CR at the end */
+        p->buffer[i] = 13;
+    } else {
+        /* no room for a CR, terminate at last data byte */
+        len = 255;
+    }
 
 out:
     p->length = len;

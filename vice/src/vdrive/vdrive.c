@@ -1001,6 +1001,21 @@ static int vdrive_log_to_phy(vdrive_t *vdrive, disk_addr_t *dadr, unsigned int t
 }
 
 /* ------------------------------------------------------------------------- */
+
+/* Check if track+sector are valid for the current image/partition */
+int vdrive_check_track_sector(vdrive_t *vdrive, unsigned int track, unsigned int sector)
+{
+    disk_addr_t dadr;
+
+    if (vdrive_log_to_phy(vdrive, &dadr, track, sector) < 0) {
+        return -1;
+    }
+    if (disk_image_check_sector(vdrive->image, dadr.track, dadr.sector) < 0) {
+        return -1;
+    }
+    return 0;
+}
+
 /* This is where logical sectors are turned to physical. Not yet, but soon. */
 int vdrive_read_sector(vdrive_t *vdrive, uint8_t *buf, unsigned int track, unsigned int sector)
 {
