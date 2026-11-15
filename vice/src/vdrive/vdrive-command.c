@@ -745,6 +745,14 @@ static int vdrive_command_block(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
                 goto out;
             }
 
+            /* apply range limits */
+            if (vdrive_check_track_sector(vdrive, track, sector) < 0) {
+                status = CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR;
+                t = track;
+                s = sector;
+                goto out;
+            }
+
             if (cmd->abbrv[2] == 'A') {
                 if (!vdrive_bam_allocate_sector(vdrive, track, sector)) {
                     /*
