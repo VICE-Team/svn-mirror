@@ -378,7 +378,6 @@ static int sid_snapshot_read_module_simple(snapshot_t *s, int sidnr)
     if (SMR_BA(m, tmp, 34) < 0) {
         if (SMR_BA(m, tmp, 32) < 0) {
             if (SMR_BA(m, tmp, 1) < 0) {
-                snapshot_module_close(m);
                 goto fail;
             } else {
                 sound_close();

@@ -407,6 +407,10 @@ int drive_snapshot_read_module(snapshot_t *s)
             snapshot_module_close(m);
             return -1;
         }
+        if (has_drives[unr] < 1 || has_drives[unr] > NUM_DRIVES) {
+            snapshot_module_close(m);
+            return -1;
+        }
         resources_set_int_sprintf("Drive%iTrueEmulation", has_tde[unr], unr + 8);
 
         DBG(("reading snapshot module: '%s' with TDE %s, Drives: %i\n",

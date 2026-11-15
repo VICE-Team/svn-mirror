@@ -1098,6 +1098,7 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
         if (size > 0) {
             data = lib_malloc(size);
             if (SMR_BA(m, data, size) < 0) {
+                lib_free(data);
                 snapshot_module_close(m);
                 return -1;
             }
