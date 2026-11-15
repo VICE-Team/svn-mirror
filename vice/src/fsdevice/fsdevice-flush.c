@@ -384,6 +384,17 @@ static unsigned int get_bammask(unsigned int trk, unsigned int sec)
     return 1U << ((((trk - 1) * FSDEVICE_SECTOR_MAX) + sec) & 7);
 }
 
+/* check if a track/sector fits into the fake bam */
+static int check_track_sector(unsigned int dnr, unsigned int trk, unsigned int sec)
+{
+    if (trk < 1 || trk > FSDEVICE_TRACK_MAX || sec >= FSDEVICE_SECTOR_MAX) {
+        fsdevice_dev[dnr].track = trk;
+        fsdevice_dev[dnr].sector = sec;
+        return CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR;
+    }
+    return CBMDOS_IPE_OK;
+}
+
 /* B-A - Block Allocate */
 static int fsdevice_flush_ba(vdrive_t *vdrive, char *realarg)
 {
@@ -396,6 +407,11 @@ static int fsdevice_flush_ba(vdrive_t *vdrive, char *realarg)
     log_message(LOG_DEFAULT,
             "Fsdevice: Warning - B-A: %u %u %u (block access needs disk image)",
             drv, trk, sec);
+
+    err = check_track_sector(dnr, trk, sec);
+    if (err != CBMDOS_IPE_OK) {
+        return err;
+    }
 
     bamptr = get_bamptr(trk, sec);
     bammask = get_bammask(trk, sec);
@@ -433,11 +449,17 @@ static int fsdevice_flush_bf(vdrive_t *vdrive, char *realarg)
     unsigned int dnr = vdrive->unit - DRIVE_UNIT_MIN;
     unsigned int drv, trk, sec;
     unsigned int bamptr, bammask;
+    int err;
 
     get4args(realarg, &drv, &trk, &sec, NULL);
     log_message(LOG_DEFAULT,
             "Fsdevice: Warning - B-F: %u %u %u (block access needs disk image)",
             drv, trk, sec);
+
+    err = check_track_sector(dnr, trk, sec);
+    if (err != CBMDOS_IPE_OK) {
+        return err;
+    }
 
     bamptr = get_bamptr(trk, sec);
     bammask = get_bammask(trk, sec);
