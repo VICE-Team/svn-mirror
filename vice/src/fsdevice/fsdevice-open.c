@@ -325,7 +325,8 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
     /* Prepare for buffered reads */
     bufinfo[secondary].isbuffered = 0;
     bufinfo[secondary].iseof = 0;
-    if (tape_image_open(tape) < 0) {
+    /* REL files can't be read from a tape image */
+    if (bufinfo[secondary].mode == Relative || tape_image_open(tape) < 0) {
         lib_free(tape->name);
         tape->name = NULL;
     } else {
