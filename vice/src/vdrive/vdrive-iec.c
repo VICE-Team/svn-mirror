@@ -694,6 +694,12 @@ int vdrive_iec_open(vdrive_t *vdrive, const uint8_t *name, unsigned int length,
             status = SERIAL_ERROR;
             goto out;
         }
+        /* record length 0 is invalid and the REL code would divide by it */
+        if (slot && slot[SLOT_RECORD_LENGTH] == 0) {
+            vdrive_command_set_error(vdrive, CBMDOS_IPE_NO_RECORD, 0, 0);
+            status = SERIAL_ERROR;
+            goto out;
+        }
         /* At this point the record lengths are the same (or will be), so set
             them equal. */
         if (slot) {
