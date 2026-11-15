@@ -564,6 +564,7 @@ int magicdeskplus_bin_attach(const char *filename, uint8_t *rawcart) {
 int magicdeskplus_crt_attach(FILE *fd, uint8_t *rawcart, uint8_t revision) {
     crt_chip_header_t chip;
     int lastbank = 0;
+    int old_revision;
 
     if (revision > MAGICDESKPLUS_MAX_REV) {
         log_error(LOG_DEFAULT, "Invalid Magic Desk Plus revision %u.", revision);
@@ -595,10 +596,13 @@ int magicdeskplus_crt_attach(FILE *fd, uint8_t *rawcart, uint8_t revision) {
         /* min 33, max 64 banks */
         bankmask = 0x3f;
     }
+    /* common_attach needs the correct revision, restore old one on failure */
+    old_revision = magicdeskplus_revision;
+    set_magicdeskplus_revision(revision, NULL);
     if (magicdeskplus_common_attach() < 0) {
+        set_magicdeskplus_revision(old_revision, NULL);
         return -1;
     }
-    set_magicdeskplus_revision(revision, NULL);
     return 0;
 }
 

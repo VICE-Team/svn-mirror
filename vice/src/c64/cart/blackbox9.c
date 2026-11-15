@@ -183,7 +183,7 @@ void blackbox9_config_setup(uint8_t *rawcart)
 {
     int i;
     DBG(("blackbox9_config_setup"));
-    for (i = 0; i <= 2; i++) {
+    for (i = 0; i < 2; i++) {
         memcpy(&roml_banks[0x2000 * i], &rawcart[0x0000 + (0x4000 * i)], 0x2000);
         memcpy(&romh_banks[0x2000 * i], &rawcart[0x2000 + (0x4000 * i)], 0x2000);
     }
@@ -219,12 +219,12 @@ int blackbox9_crt_attach(FILE *fd, uint8_t *rawcart)
     crt_chip_header_t chip;
     int i, banks = 0;
 
-    for (i = 0; i <= 2; i++) {
+    for (i = 0; i < 2; i++) {
         if (crt_read_chip_header(&chip, fd)) {
             break;
         }
 
-        if (chip.bank > 2 || chip.size != 0x4000) {
+        if (chip.bank > 1 || chip.size != 0x4000) {
             break;
         }
 

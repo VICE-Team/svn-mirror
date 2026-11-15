@@ -1109,6 +1109,11 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
         }
 
         if (type == EVENT_INITIAL) {
+            /* the start mode is the first data byte */
+            if (size == 0) {
+                snapshot_module_close(m);
+                return -1;
+            }
             if (data[0] == EVENT_START_MODE_RESET) {
                 next_timestamp_clk = 0;
             } else {

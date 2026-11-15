@@ -514,6 +514,12 @@ static int vdrive_command_u1a2b(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
         rc = vdrive_command_get_block_parameters((char*)cmd->file, &channel,
                                                  &drive, &track, &sector);
         if (rc < 0) {
+            if (channel < 0 || channel > 15) {
+                status = CBMDOS_IPE_NO_CHANNEL;
+                track = 0;
+                sector = 0;
+                goto out;
+            }
 #ifdef DEBUG_DRIVE
             log_debug(LOG_DEFAULT, "b-R/W parsed OK. (np=%d) channel %d mode %u, "
                       "drive=%d, track=%d sector=%d.", rc, channel,
@@ -623,6 +629,10 @@ static int vdrive_command_block(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
                                                     &drive, &track, &sector);
 
             if (l < 0) {
+                if (channel < 0 || channel > 15) {
+                    status = CBMDOS_IPE_NO_CHANNEL;
+                    goto out;
+                }
 #ifdef DEBUG_DRIVE
                 log_debug(LOG_DEFAULT, "b-r/w parsed OK. (l=%d) channel %d mode %u, "
                           "drive=%d, track=%d sector=%d.", l, channel,
@@ -720,6 +730,9 @@ static int vdrive_command_block(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
                 if (drive != 0 ) {
                     status = CBMDOS_IPE_NOT_READY;
                     goto out;
+                } else if (channel < 0 || channel > 15) {
+                    status = CBMDOS_IPE_NO_CHANNEL;
+                    goto out;
                 } else {
                     drive = vdrive->buffers[channel].partition;
                 }
@@ -767,7 +780,8 @@ static int vdrive_command_block(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
                 status = l;
                 goto out;
             }
-            if (vdrive->buffers[channel].mode != BUFFER_MEMORY_BUFFER) {
+            if (channel < 0 || channel > 15
+                || vdrive->buffers[channel].mode != BUFFER_MEMORY_BUFFER) {
                 status = CBMDOS_IPE_NO_CHANNEL;
                 goto out;
             }
@@ -1353,6 +1367,10 @@ static int vdrive_command_rename(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
         dest[0] = '=';
     }
     dest[destlen] = 0;
+    /* CBM DOS truncates names longer than 16 characters */
+    if (destlen > CBMDOS_SLOT_NAME_LENGTH) {
+        destlen = CBMDOS_SLOT_NAME_LENGTH;
+    }
 
     /* use parser to find source name */
     vdrive_cmdfree_full(cmd);
@@ -1559,6 +1577,10 @@ static int vdrive_command_renamepart(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *
         goto out;
     }
     dest[destlen] = 0;
+    /* HD DOS probably truncates names longer than 16 chars */
+    if (destlen > CBMDOS_SLOT_NAME_LENGTH) {
+        destlen = CBMDOS_SLOT_NAME_LENGTH;
+    }
 
     /* use parser to find source name */
     vdrive_cmdfree_full(cmd);
