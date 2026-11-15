@@ -336,37 +336,37 @@ static void get4args(char *realarg, unsigned int *a1, unsigned int *a2, unsigned
         cmd++;
     }
     cmd = realarg;
-    while ((*cmd == ' ') && (cmd != 0)) {
+    while ((*cmd == ' ') && (*cmd != 0)) {
         cmd++;
     }
     if (a1) {
         *a1 = atoi(cmd);
     }
 
-    while ((*cmd != ' ') && (cmd != 0)) {
+    while ((*cmd != ' ') && (*cmd != 0)) {
         cmd++;
     }
-    while ((*cmd == ' ') && (cmd != 0)) {
+    while ((*cmd == ' ') && (*cmd != 0)) {
         cmd++;
     }
     if (a2) {
         *a2 = atoi(cmd);
     }
 
-    while ((*cmd != ' ') && (cmd != 0)) {
+    while ((*cmd != ' ') && (*cmd != 0)) {
         cmd++;
     }
-    while ((*cmd == ' ') && (cmd != 0)) {
+    while ((*cmd == ' ') && (*cmd != 0)) {
         cmd++;
     }
     if (a3) {
         *a3 = atoi(cmd);
     }
 
-    while ((*cmd != ' ') && (cmd != 0)) {
+    while ((*cmd != ' ') && (*cmd != 0)) {
         cmd++;
     }
-    while ((*cmd == ' ') && (cmd != 0)) {
+    while ((*cmd == ' ') && (*cmd != 0)) {
         cmd++;
     }
     if (a4) {
