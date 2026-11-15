@@ -162,6 +162,9 @@ int fsimage_gcr_read_half_track(const disk_image_t *image, unsigned int half_tra
         raw->size = track_len;
 
         if (fread(raw->data, track_len, 1, fsimage->fd) < 1) {
+            lib_free(raw->data);
+            raw->data = NULL;
+            raw->size = 0;
             log_error(fsimage_gcr_log, "Could not read GCR disk image.");
             return -1;
         }
