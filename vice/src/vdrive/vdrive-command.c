@@ -785,7 +785,8 @@ static int vdrive_command_block(vdrive_t *vdrive, cbmdos_cmd_parse_plus_t *cmd)
                 status = CBMDOS_IPE_NO_CHANNEL;
                 goto out;
             }
-            vdrive->buffers[channel].bufptr = position;
+            /* the position is a single byte on the real drive */
+            vdrive->buffers[channel].bufptr = position & 0xff;
             status = CBMDOS_IPE_OK;
             goto out;
             break;
