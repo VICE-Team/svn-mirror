@@ -626,6 +626,11 @@ static int fsdevice_flush_position(vdrive_t *vdrive, char *buf, int length)
     DBG(("fsdevice_flush_position: secadr=%d  recno=%d  pos=%d\n", channel, recno, position));
     bufinfo = &fsdevice_dev[dnr].bufinfo[channel];
 
+    /* the channel must be open (e.g. not a closed REL file) */
+    if (bufinfo->fileio_info == NULL) {
+        return CBMDOS_IPE_NO_CHANNEL;
+    }
+
     return fsdevice_relative_switch_record(vdrive, bufinfo, recno, position);
 }
 

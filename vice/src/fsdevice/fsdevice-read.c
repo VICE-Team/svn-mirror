@@ -295,6 +295,11 @@ int fsdevice_relative_switch_record(vdrive_t *vdrive, bufinfo_t *bufinfo,
 
 static int relative_read(vdrive_t *vdrive, bufinfo_t *bufinfo, uint8_t *data)
 {
+    /* the file isn't open (any more) */
+    if (bufinfo->fileio_info == NULL) {
+        return FLOPPY_ERROR;
+    }
+
     if (bufinfo->current_record >= bufinfo->num_records) {
         *data = 0x0d;
         DBG(("relative_read: store '%c' %02x CBMDOS_IPE_NO_RECORD", *data, *data));
