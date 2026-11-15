@@ -381,7 +381,7 @@ static unsigned int get_bamptr(unsigned int trk, unsigned int sec)
 
 static unsigned int get_bammask(unsigned int trk, unsigned int sec)
 {
-    return (((trk - 1) * FSDEVICE_SECTOR_MAX) + sec) & 7;
+    return 1U << ((((trk - 1) * FSDEVICE_SECTOR_MAX) + sec) & 7);
 }
 
 /* B-A - Block Allocate */
