@@ -54,6 +54,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mem_bank_dynamic.h"
 #include "monitor.h"
 #include "monitor_network.h"
 #include "monitor_binary.h"
@@ -398,6 +399,7 @@ void machine_shutdown(void)
     keyboard_shutdown();
 
     monitor_shutdown();
+    mem_bank_dynamic_shutdown();
 
     console_close_all();
 

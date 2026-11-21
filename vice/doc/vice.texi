@@ -21173,6 +21173,14 @@ bank. If a bank is not completely filled (ROM banks for example)
 normally the @code{ram} bank is used where the bank has holes.
 The @code{cpu} bank uses the bank currently used by the CPU.
 
+Cartridges and internal expansions that hold memory which is not always
+visible in the CPU address space (for example RAM behind an I/O window
+or a paged ROM that exposes only one bank at a time) may register
+additional bank arrays.  Each registered region is shown as a named
+group of 64KiB banks (e.g. @code{XX00}--@code{XXNN}); the prefix
+and bank count come from the cartridge.  A cartridge with separate ROM
+and RAM regions registers two such groups.
+
 @item cpuhistory [<count>] [c:] [8:] [9:] [10:] [11:]
 @itemx chis [<count>] [c:] [8:] [9:] [10:] [11:]
 Show <count> last executed commands on up to five devices.

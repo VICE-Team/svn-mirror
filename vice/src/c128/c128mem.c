@@ -32,7 +32,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "c128-resources.h"
 #include "c128.h"
@@ -57,6 +56,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "mem_bank_dynamic.h"
 #include "monitor.h"
 #include "ram.h"
 #include "reu.h"
@@ -2439,81 +2439,51 @@ static const int bankflags256[MAXBANKS + 1] = {
     -1
 };
 
+static const mem_bank_dynamic_config_t bank_dyn_config_128 = {
+    .base_banknames   = banknames128,
+    .base_banknums    = banknums128,
+    .base_bankindex   = bankindex128,
+    .base_bankflags   = bankflags128,
+};
+static const mem_bank_dynamic_config_t bank_dyn_config_256 = {
+    .base_banknames   = banknames256,
+    .base_banknums    = banknums256,
+    .base_bankindex   = bankindex256,
+    .base_bankflags   = bankflags256,
+};
+static mem_bank_dynamic_t bank_dyn_128 = { .cfg = &bank_dyn_config_128 };
+static mem_bank_dynamic_t bank_dyn_256 = { .cfg = &bank_dyn_config_256 };
+
+/* Return the instance for the current c128_full_banks mode. */
+static mem_bank_dynamic_t *get_bank_dyn(void)
+{
+    return c128_full_banks ? &bank_dyn_256 : &bank_dyn_128;
+}
+
 const char **mem_bank_list(void)
 {
-    return (c128_full_banks) ? banknames256 : banknames128;
+    return mem_bank_dynamic_list(get_bank_dyn());
 }
 
 const int *mem_bank_list_nos(void) {
-    return (c128_full_banks) ? banknums256 : banknums128;
+    return mem_bank_dynamic_list_nos(get_bank_dyn());
 }
 
 /* return bank number for a given literal bank name */
 int mem_bank_from_name(const char *name)
 {
-    int i = 0;
-
-    if (c128_full_banks) {
-        while (banknames256[i]) {
-            if (!strcmp(name, banknames256[i])) {
-                return banknums256[i];
-            }
-            i++;
-        }
-    } else {
-        while (banknames128[i]) {
-            if (!strcmp(name, banknames128[i])) {
-                return banknums128[i];
-            }
-            i++;
-        }
-    }
-    return -1;
+    return mem_bank_dynamic_from_name(get_bank_dyn(), name);
 }
 
 /* return current index for a given bank */
 int mem_bank_index_from_bank(int bank)
 {
-    int i = 0;
-
-    if (c128_full_banks) {
-        while (banknums256[i] > -1) {
-            if (banknums256[i] == bank) {
-                return bankindex256[i];
-            }
-            i++;
-        }
-    } else {
-        while (banknums128[i] > -1) {
-            if (banknums128[i] == bank) {
-                return bankindex128[i];
-            }
-            i++;
-        }
-    }
-    return -1;
+    return mem_bank_dynamic_index_from_bank(get_bank_dyn(), bank);
 }
 
 int mem_bank_flags_from_bank(int bank)
 {
-    int i = 0;
-
-    if (c128_full_banks) {
-        while (banknums256[i] > -1) {
-            if (banknums256[i] == bank) {
-                return bankflags256[i];
-            }
-            i++;
-        }
-    } else {
-        while (banknums128[i] > -1) {
-            if (banknums128[i] == bank) {
-                return bankflags128[i];
-            }
-            i++;
-        }
-    }
-    return -1;
+    return mem_bank_dynamic_flags_from_bank(get_bank_dyn(), bank);
 }
 
 static int mem_bank_translate_128_to_256(int bank)
@@ -2548,6 +2518,12 @@ static int mem_bank_translate_128_to_256(int bank)
 uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 {
     int real_bank = bank;
+    uint8_t v;
+
+    /* Cartridge banks -- dispatch before 128->256 translation. */
+    if (mem_bank_dynamic_try_read(get_bank_dyn(), bank, addr, &v)) {
+        return v;
+    }
 
     if (!c128_full_banks) {
         real_bank = mem_bank_translate_128_to_256(bank);

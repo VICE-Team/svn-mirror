@@ -29,7 +29,6 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <string.h>
 
 #include "cartridge.h"
 #include "cartio.h"
@@ -39,6 +38,7 @@
 #include "log.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mem_bank_dynamic.h"
 #include "monitor.h"
 #include "plus4iec.h"
 #include "plus4cart.h"
@@ -1260,54 +1260,38 @@ static const int banknums[MAXBANKS + 1] = { 0, 0, 1, 2, 6, 3, 4, 5, -1 };
 static const int bankindex[MAXBANKS + 1] = { -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 static const int bankflags[MAXBANKS + 1] = { 0, 0, 0, 0, 0, 0, 0, 0, -1 };
 
+static const mem_bank_dynamic_config_t bank_dyn_config = {
+    .base_banknames   = banknames,
+    .base_banknums    = banknums,
+    .base_bankindex   = bankindex,
+    .base_bankflags   = bankflags,
+};
+static mem_bank_dynamic_t bank_dyn = { .cfg = &bank_dyn_config };
+
 const char **mem_bank_list(void)
 {
-    return banknames;
+    return mem_bank_dynamic_list(&bank_dyn);
 }
 
 const int *mem_bank_list_nos(void) {
-    return banknums;
+    return mem_bank_dynamic_list_nos(&bank_dyn);
 }
 
 /* return bank number for a given literal bank name */
 int mem_bank_from_name(const char *name)
 {
-    int i = 0;
-
-    while (banknames[i]) {
-        if (!strcmp(name, banknames[i])) {
-            return banknums[i];
-        }
-        i++;
-    }
-    return -1;
+    return mem_bank_dynamic_from_name(&bank_dyn, name);
 }
 
 /* return current index for a given bank */
 int mem_bank_index_from_bank(int bank)
 {
-    int i = 0;
-
-    while (banknums[i] > -1) {
-        if (banknums[i] == bank) {
-            return bankindex[i];
-        }
-        i++;
-    }
-    return -1;
+    return mem_bank_dynamic_index_from_bank(&bank_dyn, bank);
 }
 
 int mem_bank_flags_from_bank(int bank)
 {
-    int i = 0;
-
-    while (banknums[i] > -1) {
-        if (banknums[i] == bank) {
-            return bankflags[i];
-        }
-        i++;
-    }
-    return -1;
+    return mem_bank_dynamic_flags_from_bank(&bank_dyn, bank);
 }
 
 void store_bank_io(uint16_t addr, uint8_t byte)
@@ -1365,6 +1349,12 @@ static uint8_t read_bank_io(uint16_t addr)
 /* read memory without side-effects */
 uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
+    uint8_t v;
+
+    if (mem_bank_dynamic_try_read(&bank_dyn, bank, addr, &v)) {
+        return v;
+    }
+
     switch (bank) {
         case 0:                   /* current */
             /* FIXME: we must check for which bank is currently active, and only use peek_bank_io
@@ -1456,6 +1446,12 @@ uint8_t mem_peek_with_config(int config, uint16_t addr, void *context) {
 /* read memory with side-effects */
 uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 {
+    uint8_t v;
+
+    if (mem_bank_dynamic_try_read(&bank_dyn, bank, addr, &v)) {
+        return v;
+    }
+
     switch (bank) {
         case 0:                   /* current */
             return mem_read(addr);
@@ -1508,6 +1504,10 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 
 void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
 {
+    if (mem_bank_dynamic_try_write(&bank_dyn, bank, addr, byte)) {
+        return;
+    }
+
     switch (bank) {
         case 0:                 /* current */
             mem_store(addr, byte);
