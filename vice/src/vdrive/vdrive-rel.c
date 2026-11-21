@@ -662,8 +662,7 @@ static int vdrive_rel_open_existing(vdrive_t *vdrive, unsigned int secondary)
 
     if (vdrive_read_sector(vdrive, p->super_side_sector, track, sector) != 0) {
         log_error(vdrive_rel_log, "Cannot read side sector.");
-        lib_free((char *)p->super_side_sector);
-        return -1;
+        goto fail;
     }
 
     /* check to see if this is a super side sector.  If not, create an
@@ -719,11 +718,11 @@ static int vdrive_rel_open_existing(vdrive_t *vdrive, unsigned int secondary)
 
             if (vdrive_read_sector(vdrive, &(p->side_sector[o]), track, sector) != 0) {
                 log_error(vdrive_rel_log, "Cannot read side sector.");
-                return -1;
+                goto fail;
             }
             if (p->side_sector[o + OFFSET_SECTOR_NUM] != i) {
                 log_error(vdrive_rel_log, "Side sector number do not match.");
-                return -1;
+                goto fail;
             }
 
             track = p->side_sector[o + OFFSET_NEXT_TRACK];
@@ -736,6 +735,13 @@ static int vdrive_rel_open_existing(vdrive_t *vdrive, unsigned int secondary)
     }
 
     return 0;
+
+fail:
+    /* clean up allocations */
+    vdrive_rel_shutdown_ss_buffers(vdrive, secondary);
+    lib_free(p->slot);
+    p->slot = NULL;
+    return -1;
 }
 
 int vdrive_rel_setup_ss_buffers(vdrive_t *vdrive, unsigned int secondary)
