@@ -1007,6 +1007,8 @@ FILE *zfile_fopen(const char *name, const char *mode)
     /* Open the uncompressed version of the file.  */
     stream = fopen(tmp_name, mode);
     if (stream == NULL) {
+        archdep_remove(tmp_name);
+        lib_free(tmp_name);
         return NULL;
     }
 
