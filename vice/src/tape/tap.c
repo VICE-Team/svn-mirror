@@ -720,7 +720,8 @@ static int tap_cbm_read_block_once(tap_t *tap, int *pass, uint8_t *buffer, int *
                 while (ecount < *error_count && error_buf[ecount] < count) {
                     ecount++;
                 }
-                if ((*error_count < 0) || (error_buf[ecount] == count)) {
+                if ((*error_count < 0)
+                    || (ecount < *error_count && error_buf[ecount] == count)) {
                     return -6; /* error: double read error  */
                 }
             }
