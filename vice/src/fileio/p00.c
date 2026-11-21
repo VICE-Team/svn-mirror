@@ -116,6 +116,8 @@ static int p00_read_header(struct rawfile_info_s *info, uint8_t *cbmname_return,
     }
 
     memcpy(cbmname_return, hdr + P00_HDR_CBMNAME_OFFSET, P00_HDR_CBMNAME_LEN);
+    /* do not trust the file to properly terminate the CBM name */
+    cbmname_return[P00_HDR_CBMNAME_LEN - 1] = 0;
 
     if (recsize_return != NULL) {
         *recsize_return = (int)hdr[P00_HDR_RECORDSIZE_OFFSET];
@@ -451,6 +453,7 @@ fileio_info_t *p00_open(const char *file_name, const char *path,
             /* The given record length does not match the stored record
              * length */
             log_verbose(LOG_DEFAULT, "p00_open: record size: found %d != expected %d => record size mismatch\n", reclen, *reclenp);
+            rawfile_destroy(rawfile);
             return NULL;
         }
     }
