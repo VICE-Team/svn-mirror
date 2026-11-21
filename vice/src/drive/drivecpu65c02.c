@@ -76,8 +76,10 @@ void drivecpu65c02_setup_context(struct diskunit_context_s *drv, int i)
     drivecpu_int_status_ptr[drv->mynumber] = cpu->int_status;
 
     cpu->rmw_flag = 0;
+#if USE_MMU_TRANSLATE
     cpu->d_bank_limit = 0;
     cpu->d_bank_start = 0;
+#endif
     cpu->pageone = NULL;
     if (i) {
         cpu->snap_module_name = lib_msprintf("DRIVECPU%u", drv->mynumber);
@@ -124,6 +126,7 @@ void drivecpu65c02_setup_context(struct diskunit_context_s *drv, int i)
 #define STORE(a, b)       (*drv->cpud->store_func_ptr[(a) >> 8])(drv, (uint16_t)(a), (uint8_t)(b))
 #define STORE_ZERO(a, b)  (*drv->cpud->store_func_ptr[0])(drv, (uint16_t)(a), (uint8_t)(b))
 
+#if USE_MMU_TRANSLATE
 #define JUMP(addr)                                                         \
     do {                                                                   \
         reg_pc = (unsigned int)(addr);                                     \
@@ -141,7 +144,12 @@ void drivecpu65c02_setup_context(struct diskunit_context_s *drv, int i)
             }                                                              \
         }                                                                  \
     } while (0)
-
+#else
+#define JUMP(addr)                                                         \
+    do {                                                                   \
+        reg_pc = (unsigned int)(addr);                                     \
+    } while (0)
+#endif
 /* ------------------------------------------------------------------------- */
 
 static void cpu_reset(diskunit_context_t *drv)
@@ -403,9 +411,12 @@ void drivecpu65c02_execute(diskunit_context_t *drv, CLOCK clk_value)
 #define DMA_ON_RESET
 
 #define cpu_reset() (cpu_reset)(drv)
+
+#if USE_MMU_TRANSLATE
 #define bank_limit (cpu->d_bank_limit)
 #define bank_start (cpu->d_bank_start)
 #define bank_base (cpu->d_bank_base)
+#endif
 
 /* WDC_STP() and WDC_WAI() are not used on the R65C02. */
 #define WDC_STP()

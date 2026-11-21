@@ -35,8 +35,9 @@ uint8_t atomicpower_roml_read(uint16_t addr);
 void atomicpower_roml_store(uint16_t addr, uint8_t value);
 uint8_t atomicpower_romh_read(uint16_t addr);
 void atomicpower_romh_store(uint16_t addr, uint8_t value);
+#if USE_MMU_TRANSLATE
 void atomicpower_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 void atomicpower_freeze(void);
 void atomicpower_reset(void);
 void atomicpower_powerup(void);

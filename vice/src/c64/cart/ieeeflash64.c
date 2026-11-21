@@ -528,6 +528,7 @@ void ieeeflash64_passthrough_changed(export_t *ex)
     cart_port_config_changed_slot0();
 }
 
+#if USE_MMU_TRANSLATE
 int ieeeflash64_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     if (addr >= 0xe000) {
@@ -540,6 +541,7 @@ int ieeeflash64_mmu_translate(unsigned int addr, uint8_t **base, int *start, int
         return CART_READ_THROUGH;
     }
 }
+#endif
 
 void ieeeflash64_config_init(export_t *ex)
 {

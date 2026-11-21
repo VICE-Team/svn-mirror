@@ -1292,6 +1292,7 @@ static void mv_ack_nmi(void)
 }
 #endif
 
+#if USE_MMU_TRANSLATE
 int magicvoice_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
@@ -1360,6 +1361,7 @@ int magicvoice_mmu_translate(unsigned int addr, uint8_t **base, int *start, int 
     }
     return CART_READ_THROUGH;
 }
+#endif
 
 /* called at reset */
 void magicvoice_config_init(export_t *ex)

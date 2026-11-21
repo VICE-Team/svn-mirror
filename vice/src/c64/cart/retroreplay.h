@@ -49,8 +49,9 @@ int retroreplay_roml_no_ultimax_store(uint16_t addr, uint8_t value);
 uint8_t retroreplay_romh_read(uint16_t addr);
 void retroreplay_romh_store(uint16_t addr, uint8_t value);
 int retroreplay_peek_mem(export_t *export, uint16_t addr, uint8_t *value);
+#if USE_MMU_TRANSLATE
 void retroreplay_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 void retroreplay_freeze(void);
 int retroreplay_freeze_allowed(void);
 

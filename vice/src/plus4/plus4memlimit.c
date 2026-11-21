@@ -32,6 +32,7 @@
 #include "plus4memlimit.h"
 
 
+#if USE_MMU_TRANSLATE
 static const int mstart[NUM_SEGMENTS] = { 0x00, 0x40, 0x80, 0xc0, 0xfc, 0xfd };
 
 static const int mend[NUM_SEGMENTS] = { 0x3f, 0x7f, 0xbf, 0xfb, 0xfc, 0xff };
@@ -75,7 +76,6 @@ static const int limit_tab[NUM_SEGMENTS][NUM_CONFIGS] = {
            0,      0,      0,      0,      0,      0,      0,      0 }
 };
 
-
 void mem_limit_init(int mem_read_limit_tab[NUM_CONFIGS][0x101])
 {
     int i, j, k;
@@ -100,3 +100,4 @@ void mem_limit_init(int mem_read_limit_tab[NUM_CONFIGS][0x101])
         mem_read_limit_tab[i][0x100] = 0;
     }
 }
+#endif

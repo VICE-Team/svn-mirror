@@ -409,6 +409,7 @@ void easyflash_romh_store(uint16_t addr, uint8_t value)
     flash040core_store(easyflash_state_high, (easyflash_register_00 * 0x2000) + (addr & 0x1fff), value);
 }
 
+#if USE_MMU_TRANSLATE
 void easyflash_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     if (easyflash_state_high && easyflash_state_high->flash_data &&
@@ -446,6 +447,7 @@ void easyflash_mmu_translate(unsigned int addr, uint8_t **base, int *start, int 
     *start = 0;
     *limit = 0;
 }
+#endif
 
 /* ---------------------------------------------------------------------*/
 

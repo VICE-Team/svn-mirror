@@ -582,6 +582,7 @@ void tpi_config_setup(uint8_t *rawcart)
     memcpy(tpi_rom, rawcart, TPI_ROM_SIZE);
 }
 
+#if USE_MMU_TRANSLATE
 int tpi_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     if (rom_enabled) {
@@ -602,6 +603,7 @@ int tpi_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
     }
     return CART_READ_THROUGH;
 }
+#endif
 
 void tpi_config_init(export_t *ex)
 {

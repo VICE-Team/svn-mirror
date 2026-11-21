@@ -49,7 +49,9 @@ struct monitor_interface_s;
 extern struct alarm_context_s *maincpu_alarm_context;
 extern struct monitor_interface_s *maincpu_monitor_interface;
 
+#if USE_MMU_TRANSLATE
 void maincpu_resync_limits(void);
+#endif
 void maincpu_init(void);
 void maincpu_early_init(void);
 void maincpu_shutdown(void);

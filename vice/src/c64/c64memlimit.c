@@ -30,6 +30,8 @@
 #include "c64memlimit.h"
 #include "c64mem.h"
 
+#if USE_MMU_TRANSLATE
+
 #define NUM_CONFIGS 32
 #define NUM_SEGMENTS 7
 
@@ -149,3 +151,4 @@ void mem_limit_max_init(void)
         mem_read_limit_set(i, 0x100, 0);
     }
 }
+#endif

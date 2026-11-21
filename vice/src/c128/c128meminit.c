@@ -67,11 +67,12 @@ void c128meminit(int base)
     unsigned int i, j;
 
     for (j = 0; j < NUM_CONFIGS128; j++) {
+#if USE_MMU_TRANSLATE
         for (i = 0; i <= 0x100; i++) {
             mem_read_base_set(j + base, i, NULL);
             mem_read_limit_set(j + base, i, 0);
         }
-
+#endif
         /* 0x0000 - 0x00ff */
         mem_read_tab_set(j + base, 0, zero_read);
         mem_set_write_hook(j + base, 0, zero_store);
@@ -86,8 +87,10 @@ void c128meminit(int base)
                 /* bank 0 */
                 mem_read_tab_set(j + base, i, ram_read);
                 mem_set_write_hook(j + base, i, ram_store);
+#if USE_MMU_TRANSLATE
                 mem_read_base_set(j + base, i, NULL /* mem_ram */);
 /*                mem_read_limit_set(j + base, i, 0x00023fff - 2); */
+#endif
             } else {
                 /* other banks, ie. shared RAM */
                 mem_read_tab_set(j + base, i, lo_read);
@@ -100,6 +103,7 @@ void c128meminit(int base)
             if ((j & 0x2) == 0) {
                 mem_read_tab_set(j + base, i, basic_lo_read);
                 mem_set_write_hook(j + base, i, basic_lo_store);
+#if USE_MMU_TRANSLATE
 #if 1
                 mem_read_base_set(j + base, i, (uint8_t*)((uintptr_t)c128memrom_basic_rom - (uintptr_t)0x4000));
 #else
@@ -107,11 +111,14 @@ void c128meminit(int base)
                 mem_read_addr_set(j + base, i, (uintptr_t)c128memrom_basic_rom);
 #endif
                 mem_read_limit_set(j + base, i, 0x40007fff - 2);
+#endif
             } else {
                 mem_read_tab_set(j + base, i, ram_read);
                 mem_set_write_hook(j + base, i, ram_store);
+#if USE_MMU_TRANSLATE
 /*                mem_read_base_set(j + base, i, mem_ram + 0x10000 * (j >> 6) ); */
 /*                mem_read_limit_set(j + base, i, 0x40007fff - 2); */
+#endif
             }
         }
 
@@ -121,6 +128,7 @@ void c128meminit(int base)
             case 0:
                 mem_read_tab_set(j + base, i, basic_hi_read);
                 mem_set_write_hook(j + base, i, basic_hi_store);
+#if USE_MMU_TRANSLATE
 #if 1
                 mem_read_base_set(j + base, i, (uint8_t*)((uintptr_t)c128memrom_basic_rom - (uintptr_t)0x4000));
 #else
@@ -128,6 +136,7 @@ void c128meminit(int base)
                 mem_read_addr_set(j + base, i, (uintptr_t)c128memrom_basic_rom);
 #endif
                 mem_read_limit_set(j + base, i, 0x8000bfff - 2);
+#endif
                 break;
             case 1:
                 mem_read_tab_set(j + base, i, internal_function_rom_read);
@@ -140,8 +149,10 @@ void c128meminit(int base)
             case 3:
                 mem_read_tab_set(j + base, i, ram_read);
                 mem_set_write_hook(j + base, i, ram_store);
+#if USE_MMU_TRANSLATE
 /*                mem_read_base_set(j + base, i, mem_ram + 0x10000 * (j >> 6) ); */
 /*                mem_read_limit_set(j + base, i, 0x8000bfff - 2); */
+#endif
                 break;
             default:
                 break;
@@ -154,6 +165,7 @@ void c128meminit(int base)
             case 0:
                 mem_read_tab_set(j + base, i, editor_read);
                 mem_set_write_hook(j + base, i, editor_store);
+#if USE_MMU_TRANSLATE
 #if 1
                 mem_read_base_set(j + base, i, (uint8_t*)((uintptr_t)c128memrom_basic_rom - (uintptr_t)0x4000));
 #else
@@ -161,6 +173,7 @@ void c128meminit(int base)
                 mem_read_addr_set(j + base, i, (uintptr_t)c128memrom_basic_rom);
 #endif
                 mem_read_limit_set(j + base, i, 0xc000cfff - 2);
+#endif
                 break;
             case 1:
                 mem_read_tab_set(j + base, i, internal_function_rom_read);
@@ -187,8 +200,10 @@ void c128meminit(int base)
                     /* bank 0 */
                     mem_read_tab_set(j + base, i, ram_read);
                     mem_set_write_hook(j + base, i, ram_store);
+#if USE_MMU_TRANSLATE
                     mem_read_base_set(j + base, i, mem_ram);
                     mem_read_limit_set(j + base, i, 0xc000cfff - 2);
+#endif
                 } else {
                     /* other banks, ie. shared RAM */
                     mem_read_tab_set(j + base, i, top_shared_read);
@@ -236,8 +251,10 @@ void c128meminit(int base)
                         /* bank 0 */
                         mem_read_tab_set(j + base, i, ram_read);
                         mem_set_write_hook(j + base, i, ram_store);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(j + base, i, mem_ram);
                         mem_read_limit_set(j + base, i, 0xd000dfff - 2);
+#endif
                     } else {
                         /* other banks, ie. shared RAM */
                         mem_read_tab_set(j + base, i, top_shared_read);
@@ -294,6 +311,7 @@ void c128meminit(int base)
             case 0:
                 mem_read_tab_set(j + base, i, hi_read);
                 mem_set_write_hook(j + base, i, hi_store);
+#if USE_MMU_TRANSLATE
 #if 1
                 mem_read_base_set(j + base, i, (uint8_t*)((uintptr_t)c128memrom_kernal_trap_rom - (uintptr_t)0xe000));
 #else
@@ -301,6 +319,7 @@ void c128meminit(int base)
                 mem_read_addr_set(j + base, i, (uintptr_t)c128memrom_kernal_trap_rom);
 #endif
                 mem_read_limit_set(j + base, i, 0xe000feff - 2);
+#endif
                 break;
             case 1:
                 if ((j & 0xc0) == 0) {
@@ -329,8 +348,10 @@ void c128meminit(int base)
                     /* bank 0 */
                     mem_read_tab_set(j + base, i, ram_read);
                     mem_set_write_hook(j + base, i, ram_store);
+#if USE_MMU_TRANSLATE
 /*                    mem_read_base_set(j + base, i, mem_ram); */
 /*                    mem_read_limit_set(j + base, i, 0xe000feff - 2); */
+#endif
                 } else {
                     /* other banks, ie. shared RAM */
                     mem_read_tab_set(j + base, i, top_shared_read);
@@ -349,6 +370,8 @@ void c128meminit(int base)
         /* 0x10000 - 0x100ff */
         mem_read_tab_set(j + base, 0x100, zero_read);
         mem_set_write_hook(j + base, 0x100, zero_store);
+#if USE_MMU_TRANSLATE
         mem_read_base_set(j + base, 0x100, NULL);
+#endif
     }
 }

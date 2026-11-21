@@ -119,7 +119,7 @@ static export_resource_t export_res_ultimax = {
 };
 
 /* ---------------------------------------------------------------------*/
-
+#if USE_MMU_TRANSLATE
 void generic_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
@@ -151,6 +151,7 @@ void generic_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *l
             *limit = 0;
     }
 }
+#endif
 
 void generic_8kb_config_init(void)
 {

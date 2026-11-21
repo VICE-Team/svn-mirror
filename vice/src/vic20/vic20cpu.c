@@ -110,6 +110,7 @@ CLOCK maincpu_clk_limit = 0L;
 
 
 /* FETCH_OPCODE implementation(s) */
+#if USE_MMU_TRANSLATE
 /* FIXME: update last_read on "< bank_limit" case */
 #if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
 #define FETCH_OPCODE(o) \
@@ -160,6 +161,33 @@ CLOCK maincpu_clk_limit = 0L;
     } while (0)
 
 #endif /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
+#else
+#if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
+#define FETCH_OPCODE(o) \
+    do { \
+            o = LOAD(reg_pc);                                   \
+            CLK_INC();                                          \
+            o |= LOAD(reg_pc + 1) << 8;                         \
+            CLK_INC();                                          \
+            if (fetch_tab[o & 0xff]) {                          \
+                o |= (LOAD(reg_pc + 2) << 16);                  \
+                CLK_INC();                                      \
+            }                                                   \
+    } while (0)
 
+#else /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
+#define FETCH_OPCODE(o) \
+    do { \
+            (o).ins = LOAD(reg_pc);                               \
+            CLK_INC();                                            \
+            (o).op.op16 = LOAD(reg_pc + 1);                       \
+            CLK_INC();                                            \
+            if (fetch_tab[(o).ins]) {                             \
+                (o).op.op16 |= (LOAD(reg_pc + 2) << 8);           \
+                CLK_INC();                                        \
+            }                                                     \
+    } while (0)
+#endif /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
+#endif
 
 #include "../mainviccpu.c"

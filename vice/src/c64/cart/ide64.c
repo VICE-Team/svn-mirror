@@ -1432,6 +1432,7 @@ void ide64_ram_store(uint16_t addr, uint8_t value)
     export_ram0[addr & 0x7fff] = value;
 }
 
+#if USE_MMU_TRANSLATE
 void ide64_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
@@ -1475,6 +1476,7 @@ void ide64_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *lim
             *limit = 0;
     }
 }
+#endif
 
 void ide64_config_init(void)
 {

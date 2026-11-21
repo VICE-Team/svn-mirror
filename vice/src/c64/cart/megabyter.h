@@ -36,8 +36,9 @@ extern int megabyter_cmdline_options_init(void);
 
 extern uint8_t megabyter_roml_read(uint16_t addr);
 extern void megabyter_roml_store(uint16_t addr, uint8_t value);
+#if USE_MMU_TRANSLATE
 extern void megabyter_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 extern void megabyter_config_init(void);
 extern void megabyter_config_setup(uint8_t *rawcart);
 extern int megabyter_bin_attach(const char *filename, uint8_t *rawcart);

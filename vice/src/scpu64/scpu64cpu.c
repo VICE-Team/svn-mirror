@@ -99,12 +99,14 @@ void maincpu_steal_cycles(void)
     }
 }
 
+#if USE_MMU_TRANSLATE
 inline static void check_ba(void)
 {
     if (!scpu64_fastmode && maincpu_ba_low_flags) {
         maincpu_steal_cycles();
     }
 }
+#endif
 
 static inline void scpu64_maincpu_inc(void)
 {
@@ -261,7 +263,9 @@ void scpu64_set_fastmode(int mode)
             maincpu_accu = 17700000 + SHIFT; /* measured */
         }
         scpu64_fastmode = mode;
+#if USE_MMU_TRANSLATE
         maincpu_resync_limits();
+#endif
     }
 }
 
@@ -269,7 +273,9 @@ void scpu64_set_fastmode_nosync(int mode)
 {
     if (scpu64_fastmode != mode) {
         scpu64_fastmode = mode;
+#if USE_MMU_TRANSLATE
         maincpu_resync_limits();
+#endif
     }
 }
 
@@ -402,7 +408,12 @@ int scpu64_snapshot_read_cpu_state(snapshot_module_t *m)
 
 #define CPU_ADDITIONAL_RESET() (buffer_finish = maincpu_clk, buffer_finish_half = 0, maincpu_accu = 0, maincpu_diff = (CLOCK)machine_get_cycles_per_second())
 
+#if USE_MMU_TRANSLATE
 #define FETCH_PARAM(addr) ((((int)(addr)) < bank_limit) ? (check_ba(), scpu64_clock_inc(0), bank_base[addr]) : LOAD_PBR(addr))
+#else
+#define FETCH_PARAM(addr) (LOAD_PBR(addr))
+#endif
+
 #define FETCH_PARAM_DUMMY(addr) scpu64_clock_inc(0)
 #define LOAD_LONG_DUMMY(addr) scpu64_clock_inc(0)
 

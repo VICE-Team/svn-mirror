@@ -38,8 +38,9 @@ uint8_t easyflash_roml_read(uint16_t addr);
 void easyflash_roml_store(uint16_t addr, uint8_t value);
 uint8_t easyflash_romh_read(uint16_t addr);
 void easyflash_romh_store(uint16_t addr, uint8_t value);
+#if USE_MMU_TRANSLATE
 void easyflash_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 void easyflash_config_init(void);
 void easyflash_config_setup(uint8_t *rawcart);
 int easyflash_bin_attach(const char *filename, uint8_t *rawcart);

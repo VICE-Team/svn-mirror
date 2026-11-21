@@ -288,6 +288,7 @@
   } while (0)
 
 /* Import the public version of the registers.  */
+#if USE_MMU_TRANSLATE
 #define IMPORT_REGISTERS()                               \
   do {                                                   \
       reg_a = GLOBAL_REGS.a;                             \
@@ -311,6 +312,30 @@
       EMULATION_MODE_CHANGED;                            \
       JUMP(GLOBAL_REGS.pc);                              \
   } while (0)
+#else
+#define IMPORT_REGISTERS()                               \
+  do {                                                   \
+      reg_a = GLOBAL_REGS.a;                             \
+      reg_b = GLOBAL_REGS.b;                             \
+      reg_x = GLOBAL_REGS.x;                             \
+      reg_y = GLOBAL_REGS.y;                             \
+      reg_emul = GLOBAL_REGS.emul;                       \
+      reg_dpr = GLOBAL_REGS.dpr;                         \
+      reg_pbr = GLOBAL_REGS.pbr;                         \
+      reg_dbr = GLOBAL_REGS.dbr;                         \
+      reg_sp = GLOBAL_REGS.sp;                           \
+      reg_p = GLOBAL_REGS.p;                             \
+      flag_n = GLOBAL_REGS.n;                            \
+      flag_z = GLOBAL_REGS.z;                            \
+      if (reg_emul) { /* fixup emulation mode */         \
+          reg_x &= 0xff;                                 \
+          reg_y &= 0xff;                                 \
+          reg_sp = 0x100 | (reg_sp & 0xff);              \
+      }                                                  \
+      EMULATION_MODE_CHANGED;                            \
+      JUMP(GLOBAL_REGS.pc);                              \
+  } while (0)
+#endif
 
 /* Stack operations. */
 
@@ -402,7 +427,11 @@
       }                                                \
 
 #ifndef FETCH_PARAM
+#if USE_MMU_TRANSLATE
 #define FETCH_PARAM(addr) ((((int)(addr)) < bank_limit) ? (CLK_INC(CLK), bank_base[addr]) : LOAD_PBR(addr))
+#else
+#define FETCH_PARAM(addr) (LOAD_PBR(addr))
+#endif
 #endif
 
 /* s */
@@ -2180,6 +2209,7 @@
 
 #define REP(load_func) REPSEP(load_func, 0)
 
+#if USE_MMU_TRANSLATE
 #define RES()                                            \
   do {                                                   \
       interrupt_ack_reset(CPU_INT_STATUS);               \
@@ -2209,6 +2239,36 @@
       JUMP(reg_pc);                                      \
       DMA_ON_RESET;                                      \
   } while (0)
+#else
+#define RES()                                            \
+  do {                                                   \
+      interrupt_ack_reset(CPU_INT_STATUS);               \
+      cpu_reset();                                       \
+      FETCH_PARAM(reg_pc);                               \
+      FETCH_PARAM_DUMMY(reg_pc);                         \
+      LOCAL_SET_BREAK(0);                                \
+      reg_emul = 1;                                      \
+      reg_x &= 0xff;                                     \
+      reg_y &= 0xff;                                     \
+      reg_sp = 0x100 | (reg_sp & 0xff);                  \
+      reg_dpr = 0;                                       \
+      reg_dbr = 0;                                       \
+      reg_pbr = 0;                                       \
+      EMULATION_MODE_CHANGED;                            \
+      LOAD_LONG(reg_sp);                                 \
+      reg_sp = 0x100 | ((reg_sp - 1) & 0xff);            \
+      LOAD_LONG(reg_sp);                                 \
+      reg_sp = 0x100 | ((reg_sp - 1) & 0xff);            \
+      LOAD_LONG(reg_sp);                                 \
+      reg_sp = 0x100 | ((reg_sp - 1) & 0xff);            \
+      LOCAL_SET_INTERRUPT(1);                            \
+      LOCAL_SET_DECIMAL(0);                              \
+      CHECK_INTERRUPT();                                 \
+      LOAD_INT_ADDR(0xfffc);                             \
+      JUMP(reg_pc);                                      \
+      DMA_ON_RESET;                                      \
+  } while (0)
+#endif
 
 #define ROL(load_func, store_func) ASLROL(load_func, store_func, LOCAL_CARRY())
 

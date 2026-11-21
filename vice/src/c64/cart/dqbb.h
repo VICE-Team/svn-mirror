@@ -56,8 +56,9 @@ void dqbb_roml_store(uint16_t addr, uint8_t byte);
 uint8_t dqbb_romh_read(uint16_t addr);
 void dqbb_romh_store(uint16_t addr, uint8_t byte);
 int dqbb_peek_mem(uint16_t addr, uint8_t *value);
+#if USE_MMU_TRANSLATE
 void dqbb_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 int dqbb_c128_read(uint16_t addr, uint8_t *value);
 int dqbb_c128_store(uint16_t addr, uint8_t value);
 

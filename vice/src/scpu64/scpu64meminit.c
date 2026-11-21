@@ -37,6 +37,15 @@
 #include "cartio.h"
 #include "sid.h"
 #include "vicii-mem.h"
+#include "log.h"
+
+/* #define DEBUG_SCPUMEMINIT */
+
+#ifdef DEBUG_SCPUMEMINIT
+#define DBG(x)  log_printf x
+#else
+#define DBG(x)
+#endif
 
 /*
 
@@ -257,6 +266,7 @@ static const uint8_t config[AREAS][256] =
         UM, UM, UM, UM, UM, UM, UM, UM,  F8, F8, F8, F8, F8, F8, F8, F8 }
 };
 
+/* FIXME: why does this completely override mem_initialize_memory() ? */
 void scpu64meminit(void)
 {
     unsigned int i, j, k;
@@ -267,162 +277,218 @@ void scpu64meminit(void)
                 switch (config[i][k]) {
                 case R0:
                     mem_read_tab_set(k, j, ram_read);
+#if USE_MMU_TRANSLATE
                     mem_read_base_set(k, j, mem_sram);
+#endif
                     /* write hook preset, ram */
                     break;
                 case R1:
                     mem_read_tab_set(k, j, ram1_read);
+#if USE_MMU_TRANSLATE
                     mem_read_base_set(k, j, mem_sram + 0x10000);
+#endif
                     /* write hook preset, ram */
                     break;
                 case KT:
                     mem_read_tab_set(k, j, ram1_read);
+#if USE_MMU_TRANSLATE
 #if 1
                     mem_read_base_set(k, j, (uint8_t*)((uintptr_t)mem_trap_ram - (uintptr_t)0xe000));
 #else
                     mem_read_base_set(k, j, (uint8_t*)(0 - 0xe000));
                     mem_read_addr_set(k, j, (uintptr_t)mem_trap_ram);
 #endif
+#endif
                     /* write hook preset, ram */
                     break;
                 case KS:
                     mem_read_tab_set(k, j, scpu64_kernalshadow_read);
+#if USE_MMU_TRANSLATE
                     mem_read_base_set(k, j, mem_sram + 0x8000);
+#endif
                     /* write hook preset, ram */
                     break;
                 case RC:
                     mem_read_tab_set(k, j, ram_read_int);
+#if USE_MMU_TRANSLATE
                     mem_read_base_set(k, j, mem_ram);
+#endif
                     mem_set_write_hook(k, i, ram_store_int);
                     break;
                 case UM:
                     switch (j & 0xf0) {
                     default:
                         mem_read_tab_set(k, j, scpu64_ultimax_1000_7fff_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, NULL);
+#endif
                         mem_set_write_hook(k, i, scpu64_ultimax_1000_7fff_store);
                         break;
                     case 0x80:
                     case 0x90:
                         mem_read_tab_set(k, j, scpu64_roml_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, NULL);
+#endif
                         mem_set_write_hook(k, j, scpu64_roml_store);
                         break;
                     case 0xa0:
                     case 0xb0:
                         mem_read_tab_set(k, j, scpu64_ultimax_a000_bfff_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, NULL);
+#endif
                         mem_set_write_hook(k, i, scpu64_ultimax_a000_bfff_store);
                         break;
                     case 0xc0:
                         mem_read_tab_set(k, j, scpu64_ultimax_c000_cfff_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, NULL);
+#endif
                         mem_set_write_hook(k, i, scpu64_ultimax_c000_cfff_store);
                         break;
                     case 0xe0:
                     case 0xf0:
                         mem_read_tab_set(k, j, scpu64_romh_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, NULL);
+#endif
                         mem_set_write_hook(k, j, scpu64_romh_store);
                         break;
                     }
                     break;
                 case RL:
                     mem_read_tab_set(k, j, scpu64_roml_read);
+#if USE_MMU_TRANSLATE
                     mem_read_base_set(k, j, NULL);
+#endif
                     /* write hook preset, ram */
                     break;
                 case RH:
                     mem_read_tab_set(k, j, scpu64_romh_read);
+#if USE_MMU_TRANSLATE
                     mem_read_base_set(k, j, NULL);
+#endif
                     /* write hook preset, ram */
                     break;
                 case IO:
                     switch (j) {
                     case 0xd0:
                         mem_read_tab_set(k, j, scpu64io_d000_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, NULL);
+#endif
                         mem_set_write_hook(k, j, scpu64io_d000_store);
                         break;
                     case 0xd1:
                         mem_read_tab_set(k, j, scpu64io_d100_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, NULL);
+#endif
                         mem_set_write_hook(k, j, scpu64io_d100_store);
                         break;
                     case 0xd2:
                         mem_read_tab_set(k, j, scpu64io_d200_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, mem_sram + 0x10000);
+#endif
                         mem_set_write_hook(k, j, scpu64io_d200_store);
                         break;
                     case 0xd3:
                         mem_read_tab_set(k, j, scpu64io_d300_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, mem_sram + 0x10000);
+#endif
                         mem_set_write_hook(k, j, scpu64io_d300_store);
                         break;
                     case 0xd4:
                         mem_read_tab_set(k, j, scpu64io_d400_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, NULL);
+#endif
                         mem_set_write_hook(k, j, scpu64io_d400_store);
                         break;
                     case 0xd5:
                         mem_read_tab_set(k, j, scpu64io_d500_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, NULL);
+#endif
                         mem_set_write_hook(k, j, scpu64io_d500_store);
                         break;
                     case 0xd6:
                         mem_read_tab_set(k, j, scpu64io_d600_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, NULL);
+#endif
                         mem_set_write_hook(k, j, scpu64io_d600_store);
                         break;
                     case 0xd7:
                         mem_read_tab_set(k, j, scpu64io_d700_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, NULL);
+#endif
                         mem_set_write_hook(k, j, scpu64io_d700_store);
                         break;
                     case 0xdc:
                         mem_read_tab_set(k, j, scpu64_cia1_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, NULL);
+#endif
                         mem_set_write_hook(k, j, scpu64_cia1_store);
                         break;
                     case 0xdd:
                         mem_read_tab_set(k, j, scpu64_cia2_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, NULL);
+#endif
                         mem_set_write_hook(k, j, scpu64_cia2_store);
                         break;
                     case 0xde:
                         mem_read_tab_set(k, j, scpu64io_de00_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, NULL);
+#endif
                         mem_set_write_hook(k, j, scpu64io_de00_store);
                         break;
                     case 0xdf:
                         mem_read_tab_set(k, j, scpu64io_df00_read);
+#if USE_MMU_TRANSLATE
                         mem_read_base_set(k, j, NULL);
+#endif
                         mem_set_write_hook(k, j, scpu64io_df00_store);
                         break;
                     }
                     break;
                 case CO:
                     mem_read_tab_set(k, j, scpu64io_colorram_read);
+#if USE_MMU_TRANSLATE
                     mem_read_base_set(k, j, mem_sram + 0x10000);
+#endif
                     mem_set_write_hook(k, j, scpu64io_colorram_store);
                     break;
                 case OP:
                     mem_read_tab_set(k, j, scpu64io_colorram_read_int);
+#if USE_MMU_TRANSLATE
                     mem_read_base_set(k, j, NULL);
+#endif
                     mem_set_write_hook(k, j, scpu64io_colorram_store_int);
                     break;
                 case F8:
                     mem_read_tab_set(k, j, scpu64rom_scpu64_read);
+#if USE_MMU_TRANSLATE
                     mem_read_base_set(k, j, scpu64rom_scpu64_rom);
+#endif
                     /* write hook preset, ram */
                     break;
                 case CR:
                     mem_read_tab_set(k, j, chargen_read);
+#if USE_MMU_TRANSLATE
 #if 1
                     mem_read_base_set(k, j, (uint8_t*)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000));
 #else
                     mem_read_base_set(k, j, (uint8_t*)(0 - 0xd000));
                     mem_read_addr_set(k, j, (uintptr_t)mem_chargen_rom);
+#endif
 #endif
                     /* write hook preset, ram */
                     break;

@@ -873,8 +873,10 @@ void turbomaster_mainloop(interrupt_cpu_status_t *cpu_int_status, alarm_context_
        least, on gcc 2.7.2.x).  */
     BYTE *bank_base = NULL;
     WORD tmp_address;
+#if USE_MMU_TRANSLATE
     int bank_start = 0;
     int bank_limit = -1;
+#endif
     int cpu_type = CPU_R65C02;
 
     import_registers();

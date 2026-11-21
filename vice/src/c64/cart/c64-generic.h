@@ -53,8 +53,9 @@ uint8_t generic_romh_read(uint16_t addr);
 int generic_romh_phi1_read(uint16_t addr, uint8_t *value);
 int generic_romh_phi2_read(uint16_t addr, uint8_t *value);
 int generic_peek_mem(export_t *export, uint16_t addr, uint8_t *value);
+#if USE_MMU_TRANSLATE
 void generic_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 int generic_snapshot_write_module(struct snapshot_s *s, int type);
 int generic_snapshot_read_module(struct snapshot_s *s, int type);
 

@@ -638,6 +638,7 @@ static int set_mmc64_image_filename(const char *name, void *param)
 
 /* ---------------------------------------------------------------------*/
 
+#if USE_MMU_TRANSLATE
 int mmc64_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     if (!mmc64_active && !mmc64_biossel) {
@@ -654,6 +655,7 @@ int mmc64_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limi
     }
     return CART_READ_THROUGH;
 }
+#endif
 
 void mmc64_config_init(export_t *ex)
 {

@@ -113,10 +113,13 @@ static uint8_t memmap_mem_read(unsigned int addr)
     return (*_mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr));
 }
 
+/* FIXME: is this really only needed for the MMU-Translate stuff? */
+#if USE_MMU_TRANSLATE
 static void memmap_mark_read(unsigned int addr)
 {
     memmap_mem_update(addr, 0);
 }
+#endif
 
 static void memmap_mem_store_dummy(unsigned int addr, unsigned int value)
 {

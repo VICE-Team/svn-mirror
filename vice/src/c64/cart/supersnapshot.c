@@ -191,6 +191,7 @@ void supersnapshot_v5_roml_store(uint16_t addr, uint8_t value)
     }
 }
 
+#if USE_MMU_TRANSLATE
 void supersnapshot_v5_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     switch (addr & 0xe000) {
@@ -210,7 +211,7 @@ void supersnapshot_v5_mmu_translate(unsigned int addr, uint8_t **base, int *star
     *start = 0;
     *limit = 0;
 }
-
+#endif
 /* ---------------------------------------------------------------------*/
 
 /* FIXME: this still needs to be tweaked to match the hardware */

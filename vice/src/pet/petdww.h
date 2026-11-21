@@ -59,8 +59,13 @@ void petdww_init(void);
 void petdww_powerup(void);
 void petdww_reset(void);
 void petdww_shutdown(void);
+#if USE_MMU_TRANSLATE
 void petdww_override_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *mem_write_tab, uint8_t **mem_base_tab, int *mem_limit_tab);
 void petdww_restore_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *mem_write_tab, uint8_t **mem_base_tab, int *mem_limit_tab);
+#else
+void petdww_override_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *mem_write_tab);
+void petdww_restore_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *mem_write_tab);
+#endif
 void petdww_signal(int line, int edge);
 
 int petdww_snapshot_read_module(struct snapshot_s *);

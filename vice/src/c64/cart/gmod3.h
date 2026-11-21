@@ -45,8 +45,9 @@ int gmod3_romh_phi1_read(uint16_t addr, uint8_t *value);
 int gmod3_romh_phi2_read(uint16_t addr, uint8_t *value);
 
 int gmod3_peek_mem(export_t *export, uint16_t addr, uint8_t *value);
+#if USE_MMU_TRANSLATE
 void gmod3_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 void gmod3_config_init(void);
 void gmod3_reset(void);
 void gmod3_config_setup(uint8_t *rawcart);

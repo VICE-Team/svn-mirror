@@ -266,6 +266,7 @@ void megabyter_roml_store(uint16_t addr, uint8_t value)
    flash800core_store(megabyter_state, (megabyter_register_00 * MEGABYTER_BANK_SIZE) + (addr & 0x1fff), value);
 }
 
+#if USE_MMU_TRANSLATE
 void megabyter_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     if (megabyter_state && megabyter_state->flash_data) {
@@ -286,6 +287,7 @@ void megabyter_mmu_translate(unsigned int addr, uint8_t **base, int *start, int 
     *start = 0;
     *limit = 0;
 }
+#endif
 
 /* ---------------------------------------------------------------------*/
 

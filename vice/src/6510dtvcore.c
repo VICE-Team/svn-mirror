@@ -179,6 +179,7 @@
     } while (0)
 
 /* Import the public version of the registers.  */
+#if USE_MMU_TRANSLATE
 #define IMPORT_REGISTERS()                                 \
     do {                                                   \
         reg_a_write = GLOBAL_REGS.a;                       \
@@ -191,6 +192,19 @@
         bank_start = bank_limit = 0; /* prevent caching */ \
         JUMP(GLOBAL_REGS.pc);                              \
     } while (0)
+#else
+#define IMPORT_REGISTERS()                                 \
+    do {                                                   \
+        reg_a_write = GLOBAL_REGS.a;                       \
+        reg_x = GLOBAL_REGS.x;                             \
+        reg_y = GLOBAL_REGS.y;                             \
+        reg_sp = GLOBAL_REGS.sp;                           \
+        reg_p = GLOBAL_REGS.p;                             \
+        flag_n = GLOBAL_REGS.n;                            \
+        flag_z = GLOBAL_REGS.z;                            \
+        JUMP(GLOBAL_REGS.pc);                              \
+    } while (0)
+#endif
 
 #else  /* C64DTV */
 
@@ -223,6 +237,7 @@
     } while (0)
 
 /* Import the public version of the registers.  */
+#if USE_MMU_TRANSLATE
 #define IMPORT_REGISTERS()                                 \
     do {                                                   \
         dtv_registers[0] = GLOBAL_REGS.a;                  \
@@ -252,7 +267,36 @@
         bank_start = bank_limit = 0; /* prevent caching */ \
         JUMP(GLOBAL_REGS.pc);                              \
     } while (0)
-
+#else
+#define IMPORT_REGISTERS()                                 \
+    do {                                                   \
+        dtv_registers[0] = GLOBAL_REGS.a;                  \
+        dtv_registers[2] = GLOBAL_REGS.x;                  \
+        dtv_registers[1] = GLOBAL_REGS.y;                  \
+        reg_sp = GLOBAL_REGS.sp;                           \
+        reg_p = GLOBAL_REGS.p;                             \
+        flag_n = GLOBAL_REGS.n;                            \
+        flag_z = GLOBAL_REGS.z;                            \
+        dtv_registers[3] = GLOBAL_REGS.r3;                 \
+        dtv_registers[4] = GLOBAL_REGS.r4;                 \
+        dtv_registers[5] = GLOBAL_REGS.r5;                 \
+        dtv_registers[6] = GLOBAL_REGS.r6;                 \
+        dtv_registers[7] = GLOBAL_REGS.r7;                 \
+        dtv_registers[8] = GLOBAL_REGS.r8;                 \
+        dtv_registers[9] = GLOBAL_REGS.r9;                 \
+        dtv_registers[10] = GLOBAL_REGS.r10;               \
+        dtv_registers[11] = GLOBAL_REGS.r11;               \
+        dtv_registers[12] = GLOBAL_REGS.r12;               \
+        dtv_registers[13] = GLOBAL_REGS.r13;               \
+        dtv_registers[14] = GLOBAL_REGS.r14;               \
+        dtv_registers[15] = GLOBAL_REGS.r15;               \
+        reg_a_write_idx = GLOBAL_REGS.acm >> 4;            \
+        reg_a_read_idx = GLOBAL_REGS.acm & 0xf;            \
+        reg_y_idx = GLOBAL_REGS.yxm >> 4;                  \
+        reg_x_idx = GLOBAL_REGS.yxm & 0xf;                 \
+        JUMP(GLOBAL_REGS.pc);                              \
+    } while (0)
+#endif
 #endif /* C64DTV */
 
 #if !defined(DRIVE_CPU)
@@ -351,6 +395,7 @@
 /* Perform the interrupts in `int_kind'.  If we have both NMI and IRQ,
    execute NMI.  */
 /* FIXME: LOCAL_STATUS() should check byte ready first.  */
+#if USE_MMU_TRANSLATE
 #define DO_INTERRUPT(int_kind)                                                 \
     do {                                                                       \
         uint8_t ik = (int_kind);                                               \
@@ -455,7 +500,111 @@
             }                                                                  \
         }                                                                      \
     } while (0)
-
+#else
+#define DO_INTERRUPT(int_kind)                                                 \
+    do {                                                                       \
+        uint8_t ik = (int_kind);                                               \
+        uint16_t addr;                                                         \
+                                                                               \
+        if (ik & (IK_IRQ | IK_IRQPEND | IK_NMI)) {                             \
+            if ((ik & IK_NMI)                                                  \
+                && interrupt_check_nmi_delay(CPU_INT_STATUS, CLK)) {           \
+                TRACE_NMI();                                                   \
+                if (monitor_mask[CALLER] & (MI_STEP)) {                        \
+                    monitor_check_icount_interrupt();                          \
+                }                                                              \
+                interrupt_ack_nmi(CPU_INT_STATUS);                             \
+                if (!SKIP_CYCLE) {                                             \
+                    LOAD_DUMMY(reg_pc);     /* dummy reads */                  \
+                    CLK_INC();                                                 \
+                    LOAD_DUMMY(reg_pc);                                        \
+                    CLK_INC();                                                 \
+                }                                                              \
+                LOCAL_SET_BREAK(0);                                            \
+                PUSH(reg_pc >> 8);                                             \
+                CLK_INC();                                                     \
+                PUSH(reg_pc & 0xff);                                           \
+                CLK_INC();                                                     \
+                PUSH(LOCAL_STATUS());                                          \
+                CLK_INC();                                                     \
+                addr = LOAD(0xfffa);                                           \
+                CLK_INC();                                                     \
+                addr |= (LOAD(0xfffb) << 8);                                   \
+                CLK_INC();                                                     \
+                LOCAL_SET_INTERRUPT(1);                                        \
+                CHECK_PROFILE_INTERRUPT(addr, 0xfffb);                         \
+                JUMP(addr);                                                    \
+                SET_LAST_OPCODE(0);                                            \
+            } else if ((ik & (IK_IRQ | IK_IRQPEND))                            \
+                     && (!LOCAL_INTERRUPT()                                    \
+                         || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))             \
+                     && interrupt_check_irq_delay(CPU_INT_STATUS, CLK)) {      \
+                TRACE_IRQ();                                                   \
+                if (monitor_mask[CALLER] & (MI_STEP)) {                        \
+                    monitor_check_icount_interrupt();                          \
+                }                                                              \
+                interrupt_ack_irq(CPU_INT_STATUS);                             \
+                if (!SKIP_CYCLE) {                                             \
+                    LOAD_DUMMY(reg_pc);     /* dummy reads */                  \
+                    CLK_INC();                                                 \
+                    LOAD_DUMMY(reg_pc);                                        \
+                    CLK_INC();                                                 \
+                }                                                              \
+                LOCAL_SET_BREAK(0);                                            \
+                DO_IRQBRK();                                                   \
+                SET_LAST_OPCODE(0);                                            \
+            }                                                                  \
+        }                                                                      \
+        if (ik & (IK_TRAP | IK_RESET)) {                                       \
+            if (ik & IK_TRAP) {                                                \
+                EXPORT_REGISTERS();                                            \
+                interrupt_do_trap(CPU_INT_STATUS, (uint16_t)reg_pc);           \
+                IMPORT_REGISTERS();                                            \
+                if (CPU_INT_STATUS->global_pending_int & IK_RESET) {           \
+                    ik |= IK_RESET;                                            \
+                }                                                              \
+            }                                                                  \
+            if (ik & IK_RESET) {                                               \
+                interrupt_ack_reset(CPU_INT_STATUS);                           \
+                cpu_reset();                                                   \
+                addr = LOAD(0xfffc);                                           \
+                addr |= (LOAD(0xfffd) << 8);                                   \
+                LOCAL_SET_INTERRUPT(1);                                        \
+                CPU_IS_JAMMED = 0;                                             \
+                CHECK_PROFILE_INTERRUPT(addr, 0xfffc);                         \
+                JUMP(addr);                                                    \
+                DMA_ON_RESET;                                                  \
+            }                                                                  \
+        }                                                                      \
+        if (ik & (IK_MONITOR | IK_DMA)) {                                      \
+            if (ik & IK_MONITOR) {                                             \
+                if (monitor_mask[CALLER] & (MI_STEP)) {                        \
+                    EXPORT_REGISTERS();                                        \
+                    monitor_check_icount((uint16_t)reg_pc);                    \
+                    IMPORT_REGISTERS();                                        \
+                }                                                              \
+                if (monitor_mask[CALLER] & (MI_BREAK)) {                       \
+                    EXPORT_REGISTERS();                                        \
+                    if (monitor_check_breakpoints(CALLER, (uint16_t)reg_pc)) { \
+                        monitor_startup(CALLER);                               \
+                    }                                                          \
+                    IMPORT_REGISTERS();                                        \
+                }                                                              \
+                if (monitor_mask[CALLER] & (MI_WATCH)) {                       \
+                    EXPORT_REGISTERS();                                        \
+                    monitor_check_watchpoints(ORIGIN_MEMSPACE, LAST_OPCODE_ADDR, (uint16_t)reg_pc); \
+                    IMPORT_REGISTERS();                                        \
+                }                                                              \
+            }                                                                  \
+            if (ik & IK_DMA) {                                                 \
+                EXPORT_REGISTERS();                                            \
+                DMA_FUNC;                                                      \
+                interrupt_ack_dma(CPU_INT_STATUS);                             \
+                IMPORT_REGISTERS();                                            \
+            }                                                                  \
+        }                                                                      \
+    } while (0)
+#endif
 /* ------------------------------------------------------------------------- */
 
 /* Addressing modes.  For convenience, page boundary crossing cycles and

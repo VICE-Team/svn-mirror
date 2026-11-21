@@ -108,15 +108,19 @@ static read_func_ptr_t _mem_read_tab[0x101];
 static store_func_ptr_t _mem_write_tab[0x101];
 static read_func_ptr_t _mem_read_tab_watch[0x101];
 static store_func_ptr_t _mem_write_tab_watch[0x101];
+#if USE_MMU_TRANSLATE
 static uint8_t *_mem_read_base_tab[0x101];
 static int mem_read_limit_tab[0x101];
+#endif
 
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 read_func_ptr_t *_mem_read_tab_ptr_dummy;
 store_func_ptr_t *_mem_write_tab_ptr_dummy;
+#if USE_MMU_TRANSLATE
 static uint8_t **_mem_read_base_tab_ptr;
 static int *mem_read_limit_tab_ptr;
+#endif
 
 /* 8x96 mapping register */
 uint8_t petmem_map_reg = 0;
@@ -1120,8 +1124,10 @@ static void set_std_9tof(void)
         for (i = 0x90; i < 0xa0; i++) {
             _mem_read_tab[i] = read_super_9;
             _mem_write_tab[i] = store_super_9;
+#if USE_MMU_TRANSLATE
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = 0;
+#endif
         }
     } else {
         /*
@@ -1139,8 +1145,10 @@ static void set_std_9tof(void)
         for (i = 0x90; i < 0xa0; i++) {
             _mem_read_tab[i] = fetch;
             _mem_write_tab[i] = store9;
+#if USE_MMU_TRANSLATE
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = 0;
+#endif
         }
     }
 
@@ -1151,14 +1159,20 @@ static void set_std_9tof(void)
     for (i = 0xa0; i < 0xb0; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
+#if USE_MMU_TRANSLATE
         _mem_read_base_tab[i] = NULL;
         mem_read_limit_tab[i] = 0;
+#endif
     }
 
     /* Possibly set up the Double-W HiRes board at $9000 - $AFFF. */
     if (petdww_enabled && petdww_mem_at_9000()) {
+#if USE_MMU_TRANSLATE
         petdww_override_std_9toa(_mem_read_tab, _mem_write_tab,
                                  _mem_read_base_tab, mem_read_limit_tab);
+#else
+        petdww_override_std_9toa(_mem_read_tab, _mem_write_tab);
+#endif
     }
 
     /* Setup RAM/ROM at $B000 - $BFFF: Basic 4.0 or EPROM socket. */
@@ -1168,8 +1182,10 @@ static void set_std_9tof(void)
     for (i = 0xb0; i < 0xc0; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
+#if USE_MMU_TRANSLATE
         _mem_read_base_tab[i] = NULL;
         mem_read_limit_tab[i] = 0;
+#endif
     }
 
     /* Setup RAM/ROM at $C000 - $DFFF: Basic. */
@@ -1177,8 +1193,10 @@ static void set_std_9tof(void)
     for (i = 0xc0; i <= 0xdf; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
+#if USE_MMU_TRANSLATE
         _mem_read_base_tab[i] = NULL;
         mem_read_limit_tab[i] = 0;
+#endif
     }
 
     /* Setup RAM/ROM at $E000 - $E7FF: Editor. */
@@ -1186,8 +1204,10 @@ static void set_std_9tof(void)
     for (i = 0xe0; i <= 0xe7; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
+#if USE_MMU_TRANSLATE
         _mem_read_base_tab[i] = NULL;
         mem_read_limit_tab[i] = 0;
+#endif
     }
 
     /* End of I/O address space */
@@ -1198,23 +1218,29 @@ static void set_std_9tof(void)
         for (i = 0xe0; i < l; i++) {
             _mem_read_tab[i] = ram_read;
             _mem_write_tab[i] = store;
+#if USE_MMU_TRANSLATE
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = 0;
+#endif
         }
     } else {
         /* Setup I/O at $e800 - $e800 + petres.model.IOSize. */
         /* i.e. IO at $e800... */
         _mem_read_tab[0xe8] = read_io_e8;
         _mem_write_tab[0xe8] = store_io_e8;
+#if USE_MMU_TRANSLATE
         _mem_read_base_tab[0xe8] = NULL;
         mem_read_limit_tab[0xe8] = 0;
+#endif
 
         /* ... and unused address space following it, if any. */
         for (i = 0xe9; i < l; i++) {
             _mem_read_tab[i] = read_io_e9_ef;
             _mem_write_tab[i] = store_io_e9_ef;
+#if USE_MMU_TRANSLATE
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = 0;
+#endif
         }
     }
 
@@ -1223,8 +1249,10 @@ static void set_std_9tof(void)
     for (i = l; i <= 0xef; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
+#if USE_MMU_TRANSLATE
         _mem_read_base_tab[i] = NULL;
         mem_read_limit_tab[i] = 0;
+#endif
     }
 
     /*
@@ -1234,13 +1262,17 @@ static void set_std_9tof(void)
     if (petres.model.superpet) {
         _mem_read_tab[0xef] = read_super_io;
         _mem_write_tab[0xef] = store_super_io;
+#if USE_MMU_TRANSLATE
         _mem_read_base_tab[0xef] = NULL;
         mem_read_limit_tab[0xef] = 0;
+#endif
     } else if (petres.rompatch) {
         _mem_read_tab[0xef] = mem_read_patchbuf;
         _mem_write_tab[0xef] = store_void;
+#if USE_MMU_TRANSLATE
         _mem_read_base_tab[0xef] = NULL;
         mem_read_limit_tab[0xef] = 0;
+#endif
     }
 
     /* Setup RAM/ROM at $f000 - $ffff: Kernal */
@@ -1248,12 +1280,16 @@ static void set_std_9tof(void)
     for (i = 0xf0; i <= 0xff; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
+#if USE_MMU_TRANSLATE
         _mem_read_base_tab[i] = NULL;
         mem_read_limit_tab[i] = 0;
+#endif
     }
 
+#if USE_MMU_TRANSLATE
     _mem_read_base_tab_ptr = _mem_read_base_tab;
     mem_read_limit_tab_ptr = mem_read_limit_tab;
+#endif
 
     /* Catch writes to $fff0 register */
     if (petres.map == PET_MAP_8296 || petres.map == PET_MAP_8096) {
@@ -1265,15 +1301,23 @@ static void set_std_9tof(void)
 void ramsel_changed(void)
 {
     set_std_9tof();
+#if USE_MMU_TRANSLATE
     maincpu_resync_limits();
+#endif
 }
 
+#if USE_MMU_TRANSLATE
 void get_mem_access_tables(read_func_ptr_t **read, store_func_ptr_t **write, uint8_t ***base, int **limit)
+#else
+void get_mem_access_tables(read_func_ptr_t **read, store_func_ptr_t **write)
+#endif
 {
     *read = _mem_read_tab;
     *write = _mem_write_tab;
+#if USE_MMU_TRANSLATE
     *base = _mem_read_base_tab;
     *limit = mem_read_limit_tab;
+#endif
 }
 
 /* called by mem_initialize_memory(), mem_toggle_watchpoints() */
@@ -1405,8 +1449,10 @@ static void store_8x96(uint16_t addr, uint8_t value)
                     for (; l < 0x90; l++) {
                         _mem_read_tab[l] = read_vmem;
                         _mem_write_tab[l] = store_vmem;
+#if USE_MMU_TRANSLATE
                         _mem_read_base_tab[l] = NULL;
                         mem_read_limit_tab[l] = 0;
+#endif
                     }
                 }
                 bank8offset = 0x8000 + ((value & FFF0_BANK_8) ? 0x8000 : 0);
@@ -1417,8 +1463,10 @@ static void store_8x96(uint16_t addr, uint8_t value)
                     } else {
                         _mem_write_tab[l] = store_ext8;
                     }
+#if USE_MMU_TRANSLATE
                     _mem_read_base_tab[l] = NULL;
                     mem_read_limit_tab[l] = 0;
+#endif
                 }
             }
 
@@ -1431,14 +1479,18 @@ static void store_8x96(uint16_t addr, uint8_t value)
                          * peek through is E800-EFFF. See note [1]. */
                         _mem_read_tab[l] = read_io_e8;
                         _mem_write_tab[l] = store_io_e8;
+#if USE_MMU_TRANSLATE
                         _mem_read_base_tab[l] = NULL;
                         mem_read_limit_tab[l] = 0;
+#endif
                     } else if ((l >= 0xe9) && (l <= 0xef) &&
                             (value & FFF0_IO_PEEK_THROUGH)) {
                         _mem_read_tab[l] = read_io_e9_ef;
                         _mem_write_tab[l] = store_io_e9_ef;
+#if USE_MMU_TRANSLATE
                         _mem_read_base_tab[l] = NULL;
                         mem_read_limit_tab[l] = 0;
+#endif
                     } else {
                         _mem_read_tab[l] = read_extC;
                         if (protected) {
@@ -1446,8 +1498,10 @@ static void store_8x96(uint16_t addr, uint8_t value)
                         } else {
                             _mem_write_tab[l] = store_extC;
                         }
+#if USE_MMU_TRANSLATE
                         _mem_read_base_tab[l] = NULL;
                         mem_read_limit_tab[l] = 0;
+#endif
                     }
                 }
                 store_ff = _mem_write_tab[0xff];
@@ -1458,7 +1512,9 @@ static void store_8x96(uint16_t addr, uint8_t value)
             petmem_set_vidmem();
             set_std_9tof();
         }
+#if USE_MMU_TRANSLATE
         maincpu_resync_limits();
+#endif
     }
     petmem_map_reg = value;
 }
@@ -1514,8 +1570,10 @@ void petmem_set_vidmem(void)
     for (i = 0x80; i < l; i++) {
         _mem_read_tab[i] = read_vmem;
         _mem_write_tab[i] = store_vmem;
+#if USE_MMU_TRANSLATE
         _mem_read_base_tab[i] = NULL;
         mem_read_limit_tab[i] = 0;
+#endif
     }
 
     /* Setup video mirror from $8000 + petres.videoSize to $87ff */
@@ -1523,8 +1581,10 @@ void petmem_set_vidmem(void)
     for (; i < 0x88; i++) {
         _mem_read_tab[i] = read_vmirror;
         _mem_write_tab[i] = store_vmirror;
+#if USE_MMU_TRANSLATE
         _mem_read_base_tab[i] = NULL;
         mem_read_limit_tab[i] = 0;
+#endif
     }
 
     /*
@@ -1536,8 +1596,10 @@ void petmem_set_vidmem(void)
         for (; i < 0x90; i++) {
             _mem_read_tab[i] = read_vmirror_2001;
             _mem_write_tab[i] = store_vmirror_2001;
+#if USE_MMU_TRANSLATE
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = 0;
+#endif
         }
     } else if (pet_colour_type == PET_COLOUR_TYPE_OFF) {
         /* Setup unused from $8800 to $8FFF */
@@ -1545,8 +1607,10 @@ void petmem_set_vidmem(void)
         for (; i < 0x90; i++) {
             _mem_read_tab[i] = read_io_88_8f;
             _mem_write_tab[i] = store_io_88_8f;
+#if USE_MMU_TRANSLATE
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = 0;
+#endif
         }
     } else {
         /* Setup colour RAM from $8800 to $8BFF or $8FFF */
@@ -1560,8 +1624,10 @@ void petmem_set_vidmem(void)
         for (; i < l; i++) {
             _mem_read_tab[i] = ram_read;
             _mem_write_tab[i] = ram_store;
+#if USE_MMU_TRANSLATE
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = 0;
+#endif
         }
 
         /* Setup colour mirror from $8800 + petres.videoSize to $8FFF */
@@ -1569,8 +1635,10 @@ void petmem_set_vidmem(void)
         for (; i < 0x90; i++) {
             _mem_read_tab[i] = read_vmirror;
             _mem_write_tab[i] = store_vmirror;
+#if USE_MMU_TRANSLATE
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = 0;
+#endif
         }
     }
 }
@@ -1585,8 +1653,10 @@ static void mem_initialize_memory_6809_banked(void)
     for (i = 0x00; i < 0xa0; i++) {
         _mem6809_read_tab[i] = _mem_read_tab[i];
         _mem6809_write_tab[i] = _mem_write_tab[i];
+#if USE_MMU_TRANSLATE
         _mem6809_read_base_tab[i] = _mem_read_base_tab[i];
         mem6809_read_limit_tab[i] = mem_read_limit_tab[i];
+#endif
     }
     /*
      * Set up the ROMs.
@@ -1609,8 +1679,10 @@ static void mem_initialize_memory_6809_banked(void)
     for (i = 0xe8; i < 0xf0; i++) {
         _mem6809_read_tab[i] = _mem_read_tab[i];
         _mem6809_write_tab[i] = _mem_write_tab[i];
+#if USE_MMU_TRANSLATE
         _mem6809_read_base_tab[i] = _mem_read_base_tab[i];
         mem6809_read_limit_tab[i] = mem_read_limit_tab[i];
+#endif
     }
 
     _mem6809_read_tab[0x100] = _mem6809_read_tab[0];
@@ -1688,22 +1760,27 @@ void mem_initialize_memory(void)
     /* Setup RAM from $0000 to petres.model.ramSize */
     _mem_read_tab[0] = zero_read;
     _mem_write_tab[0] = zero_store;
+#if USE_MMU_TRANSLATE
     _mem_read_base_tab[0] = NULL;
     mem_read_limit_tab[0] = 0;
-
+#endif
     for (i = 0x01; i < l; i++) {
         _mem_read_tab[i] = ram_read;
         _mem_write_tab[i] = ram_store;
+#if USE_MMU_TRANSLATE
         _mem_read_base_tab[i] = NULL;
         mem_read_limit_tab[i] = 0;
+#endif
     }
 
     /* Setup unused from petres.model.ramSize to $7fff */
     for (i = l; i < 0x80; i++) {
         _mem_read_tab[i] = read_unused;
         _mem_write_tab[i] = store_void;
+#if USE_MMU_TRANSLATE
         _mem_read_base_tab[i] = NULL;
         mem_read_limit_tab[i] = 0;
+#endif
     }
 
     petmem_set_vidmem();
@@ -1712,8 +1789,10 @@ void mem_initialize_memory(void)
 
     _mem_read_tab[0x100] = _mem_read_tab[0];
     _mem_write_tab[0x100] = _mem_write_tab[0];
+#if USE_MMU_TRANSLATE
     _mem_read_base_tab[0x100] = _mem_read_base_tab[0];
     mem_read_limit_tab[0x100] = 0;
+#endif
 
     ram_size = petres.model.ramSize * 1024;
 
@@ -1753,10 +1832,12 @@ void mem_initialize_memory(void)
 
     /* Set memory access via watchpoints, if needed: _mem_read_tab_ptr etc */
     mem_toggle_watchpoints(watchpoints_active, NULL);
-
+#if USE_MMU_TRANSLATE
     maincpu_resync_limits();
+#endif
 }
 
+#if USE_MMU_TRANSLATE
 void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     uint8_t *p = _mem_read_base_tab_ptr[addr >> 8];
@@ -1765,6 +1846,7 @@ void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit
     *start = addr; /* TODO */
     *limit = mem_read_limit_tab_ptr[addr >> 8];
 }
+#endif
 
 void mem_powerup(void)
 {

@@ -43,8 +43,9 @@ uint8_t gmod2_roml_read(uint16_t addr);
 void gmod2_romh_store(uint16_t addr, uint8_t value);
 
 int gmod2_peek_mem(export_t *export, uint16_t addr, uint8_t *value);
+#if USE_MMU_TRANSLATE
 void gmod2_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 void gmod2_config_init(void);
 void gmod2_reset(void);
 void gmod2_config_setup(uint8_t *rawcart);

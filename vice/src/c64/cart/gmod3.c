@@ -310,6 +310,7 @@ int gmod3_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
     return CART_READ_THROUGH;
 }
 
+#if USE_MMU_TRANSLATE
 void gmod3_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     /* TODO */
@@ -317,7 +318,7 @@ void gmod3_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *lim
     *start = 0;
     *limit = 0;
 }
-
+#endif
 /* ---------------------------------------------------------------------*/
 
 static int gmod3_dump(void)

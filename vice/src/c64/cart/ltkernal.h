@@ -60,9 +60,12 @@ uint8_t ltkernal_romh_read(uint16_t addr);
 void ltkernal_roml_store(uint16_t addr, uint8_t value);
 void ltkernal_romh_store(uint16_t addr, uint8_t value);
 int ltkernal_peek_mem(export_t *export, uint16_t addr, uint8_t *value);
-int ltkernal_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
 
+#if USE_MMU_TRANSLATE
+int ltkernal_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
 int c128ltkernal_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit, int mem_config);
+#endif
+
 uint8_t c128ltkernal_roml_read(uint16_t addr, uint8_t *value);
 uint8_t c128ltkernal_roml_store(uint16_t addr, uint8_t value);
 uint8_t c128ltkernal_basic_hi_read(uint16_t addr, uint8_t *value);

@@ -47,8 +47,9 @@ uint8_t ide64_rom_read(uint16_t addr);
 uint8_t ide64_ram_read(uint16_t addr);
 void ide64_rom_store(uint16_t addr, uint8_t value);
 void ide64_ram_store(uint16_t addr, uint8_t value);
+#if USE_MMU_TRANSLATE
 void ide64_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 struct snapshot_s;
 
 int ide64_snapshot_read_module(struct snapshot_s *s);

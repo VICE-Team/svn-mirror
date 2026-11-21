@@ -31,8 +31,9 @@
 
 uint8_t supersnapshot_v5_roml_read(uint16_t addr);
 void supersnapshot_v5_roml_store(uint16_t addr, uint8_t value);
+#if USE_MMU_TRANSLATE
 void supersnapshot_v5_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 void supersnapshot_v5_freeze(void);
 
 void supersnapshot_v5_config_init(void);

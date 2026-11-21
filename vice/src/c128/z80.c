@@ -50,8 +50,10 @@
 
 static int dma_request = 0;
 
+#if USE_MMU_TRANSLATE
 static uint8_t *z80_bank_base;
 static int z80_bank_limit;
+#endif
 
 static void z80core_reset(void);
 
@@ -65,6 +67,7 @@ void z80_reset(void)
     z80core_reset();
 }
 
+#if USE_MMU_TRANSLATE
 inline static uint8_t *z80mem_read_base(int addr)
 {
     uint8_t *p = _z80mem_read_base_tab_ptr[addr >> 8];
@@ -80,7 +83,9 @@ inline static int z80mem_read_limit(int addr)
 {
     return z80mem_read_limit_tab_ptr[addr >> 8];
 }
+#endif
 
+#if USE_MMU_TRANSLATE
 #define JUMP(addr)                                      \
     do {                                                \
         z80_reg_pc = (addr);                            \
@@ -88,6 +93,13 @@ inline static int z80mem_read_limit(int addr)
         z80_bank_limit = z80mem_read_limit(z80_reg_pc); \
         reg_wz = addr;                                  \
     } while (0)
+#else
+#define JUMP(addr)                                      \
+    do {                                                \
+        z80_reg_pc = (addr);                            \
+        reg_wz = addr;                                  \
+    } while (0)
+#endif
 
 #define LOAD(addr) ((uint32_t)(*_z80mem_read_tab_ptr[(addr) >> 8])((uint16_t)(addr)))
 
@@ -143,11 +155,13 @@ void z80_clock_stretch(void)
 
 #include "z80core.c"
 
+#if USE_MMU_TRANSLATE
 void z80_resync_limits(void)
 {
     z80_bank_base = z80mem_read_base(z80_reg_pc);
     z80_bank_limit = z80mem_read_limit(z80_reg_pc);
 }
+#endif
 
 void z80_mainloop(interrupt_cpu_status_t *cpu_int_status, alarm_context_t *cpu_alarm_context)
 {

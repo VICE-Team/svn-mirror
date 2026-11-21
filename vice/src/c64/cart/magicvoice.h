@@ -69,8 +69,9 @@ int magicvoice_enable(void);
 int magicvoice_disable(void);
 void magicvoice_detach(void);
 const char *magicvoice_get_file_name(void);
+#if USE_MMU_TRANSLATE
 int magicvoice_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 void magicvoice_sound_chip_init(void);
 
 struct snapshot_s;

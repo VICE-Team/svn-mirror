@@ -120,6 +120,7 @@ int maincpu_ba_low_flags = 0;
 #endif
 
 /* FETCH_OPCODE implementation(s) */
+#if USE_MMU_TRANSLATE
 #if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
 #define FETCH_OPCODE(o)                                        \
     do {                                                       \
@@ -179,6 +180,38 @@ int maincpu_ba_low_flags = 0;
     } while (0)
 
 #endif /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
+#else
+#if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
+#define FETCH_OPCODE(o)                                        \
+    do {                                                       \
+            o = LOAD(reg_pc);                                  \
+            SET_LAST_OPCODE(p0);                               \
+            CLK_INC();                                         \
+            o |= LOAD(reg_pc + 1) << 8;                        \
+            CLK_INC();                                         \
+            if (fetch_tab[o & 0xff]) {                         \
+                o |= (LOAD(reg_pc + 2) << 16);                 \
+                CLK_INC();                                     \
+            }                                                  \
+    } while (0)
+
+#else /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
+#define FETCH_OPCODE(o)                                          \
+    do {                                                         \
+            (o).ins = LOAD(reg_pc);                              \
+            SET_LAST_OPCODE(p0);                                 \
+            CLK_INC();                                           \
+            (o).op.op16 = LOAD(reg_pc + 1);                      \
+            CLK_INC();                                           \
+            if (fetch_tab[(o).ins]) {                            \
+                (o).op.op16 |= (LOAD(reg_pc + 2) << 8);          \
+                CLK_INC();                                       \
+            }                                                    \
+    } while (0)
+
+#endif /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
+
+#endif
 
 static void check_and_run_alternate_cpu(void)
 {

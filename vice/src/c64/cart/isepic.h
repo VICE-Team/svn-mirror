@@ -55,8 +55,9 @@ void isepic_page_store(uint16_t addr, uint8_t byte);
 int isepic_romh_phi1_read(uint16_t addr, uint8_t *value);
 int isepic_romh_phi2_read(uint16_t addr, uint8_t *value);
 int isepic_peek_mem(uint16_t addr, uint8_t *value);
+#if USE_MMU_TRANSLATE
 void isepic_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 int isepic_bin_attach(const char *filename, uint8_t *rawcart);
 int isepic_bin_save(const char *filename);
 int isepic_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename);
