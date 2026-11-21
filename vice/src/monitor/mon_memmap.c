@@ -211,10 +211,13 @@ cpuhistory_t *mon_cpuhistory_next(cpuhistory_t *current, MEMSPACE filter1, MEMSP
     cpuhistory_t *wrap = &cpuhistory[cpuhistory_buffer_lines];
     cpuhistory_t *head = &cpuhistory[(cpuhistory_i + 1) % cpuhistory_buffer_lines];
     do {
-        current += 1;
+        current += 1; /* move to next */
+        /* if we are past the last entry, restart from first entry */
         if (current >= wrap) {
             current = &cpuhistory[0];
-        } else if (current == head) {
+        }
+        /* if we landed on the head entry, we are at the end of the list (max. entries) */
+        if (current == head) {
             return NULL;
         }
     /* make sure the record matches */
