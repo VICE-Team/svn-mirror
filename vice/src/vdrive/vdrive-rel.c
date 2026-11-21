@@ -562,7 +562,7 @@ static void vdrive_rel_flush_sidesectors(vdrive_t *vdrive, bufferinfo_t *p)
     }
 
     /* find the number of side sector groups */
-    for (side = 0; p->super_side_sector[OFFSET_SUPER_POINTER + side * 2] != 0; side++) {}
+    for (side = 0; side < SIDE_SUPER_MAX && p->super_side_sector[OFFSET_SUPER_POINTER + side * 2] != 0; side++) {}
 
     o = 0;
     for (j = 0; j < side; j++) {
@@ -689,7 +689,7 @@ static int vdrive_rel_open_existing(vdrive_t *vdrive, unsigned int secondary)
     p->super_side_sector_needsupdate = 0;
 
     /* find the number of side sector groups */
-    for (side = 0; p->super_side_sector[OFFSET_SUPER_POINTER + side * 2] != 0; side++) {}
+    for (side = 0; side < SIDE_SUPER_MAX && p->super_side_sector[OFFSET_SUPER_POINTER + side * 2] != 0; side++) {}
 
     /* allocate memory for side sectors */
     p->side_sector = lib_malloc(side * SIDE_SECTORS_MAX * 256);
@@ -997,10 +997,18 @@ static unsigned int vdrive_rel_record_max(vdrive_t *vdrive, unsigned int seconda
             break;
         }
     }
+    if (i == SIDE_SECTORS_MAX) {
+        log_error(vdrive_rel_log, "Relative file side sector chain is unterminated-");
+        return 0;
+    }
 
     /* obtain the last byte of the sector according to the index */
     j = ( p->side_sector[256 * ( i + side * SIDE_SECTORS_MAX) + OFFSET_NEXT_SECTOR]
           + 1 - OFFSET_POINTER ) / 2;
+    if (j < 1 || j > SIDE_INDEX_MAX) {
+        log_error(vdrive_rel_log, "Relative file side sector has an invalid last index.");
+        return 0;
+    }
 
 #if 0
     /* Scan last side sector for a null track and sector pointer;
