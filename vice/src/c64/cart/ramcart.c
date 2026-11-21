@@ -555,6 +555,7 @@ const char *ramcart_get_filename_by_type(void)
     return ramcart_filename;
 }
 
+#if USE_MMU_TRANSLATE
 void ramcart_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     if (ramcart_readonly == 1 && ramcart_size_kb == 128 && addr >= 0x8000 && addr <= 0x80ff) {
@@ -567,6 +568,7 @@ void ramcart_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *l
     *start = 0;
     *limit = -1;
 }
+#endif
 
 void ramcart_init_config(void)
 {

@@ -145,11 +145,14 @@ void c64meminit(unsigned int base)
             mem_read_tab_set(base + 11, i, c64memrom_basic64_read);
             mem_read_tab_set(base + 15, i, c64memrom_basic64_read);
 #if 1
+#if USE_MMU_TRANSLATE
             mem_read_base_set(base + 3, i, (uint8_t*)((uintptr_t)c64memrom_basic64_rom - (uintptr_t)0xa000));
             mem_read_base_set(base + 7, i, (uint8_t*)((uintptr_t)c64memrom_basic64_rom - (uintptr_t)0xa000));
             mem_read_base_set(base + 11, i, (uint8_t*)((uintptr_t)c64memrom_basic64_rom - (uintptr_t)0xa000));
             mem_read_base_set(base + 15, i, (uint8_t*)((uintptr_t)c64memrom_basic64_rom - (uintptr_t)0xa000));
+#endif
 #else
+#if USE_MMU_TRANSLATE
             mem_read_base_set(base + 3, i, (uint8_t*)addr);
             mem_read_base_set(base + 7, i, (uint8_t*)addr);
             mem_read_base_set(base + 11, i, (uint8_t*)addr);
@@ -159,6 +162,7 @@ void c64meminit(unsigned int base)
             mem_read_addr_set(base + 7, i, (uintptr_t)c64memrom_basic64_rom);
             mem_read_addr_set(base + 11, i, (uintptr_t)c64memrom_basic64_rom);
             mem_read_addr_set(base + 15, i, (uintptr_t)c64memrom_basic64_rom);
+#endif
 #endif
         }
     }
@@ -198,15 +202,19 @@ void c64meminit(unsigned int base)
             mem_read_tab_set(base + j, 0xdf, c64io_df00_read);
             mem_set_write_hook(base + j, 0xdf, c64io_df00_store);
 
+#if USE_MMU_TRANSLATE
             for (i = 0xd0; i <= 0xdf; i++) {
                 mem_read_base_set(base + j, i, NULL);
             }
+#endif
         }
         if (c64meminit_io_config[j] == 2) {
             for (i = 0xd0; i <= 0xdf; i++) {
                 mem_read_tab_set(base + j, i, ultimax_d000_dfff_read);
                 mem_set_write_hook(base + j, i, ultimax_d000_dfff_store);
+#if USE_MMU_TRANSLATE
                 mem_read_base_set(base + j, i, NULL);
+#endif
             }
         }
     }
@@ -229,6 +237,7 @@ void c64meminit(unsigned int base)
             mem_read_tab_set(base + 30, i, c64memrom_kernal64_read);
             mem_read_tab_set(base + 31, i, c64memrom_kernal64_read);
 #if 1
+#if USE_MMU_TRANSLATE
             mem_read_base_set(base + 2, i, (uint8_t*)((uintptr_t)c64memrom_kernal64_trap_rom - (uintptr_t)0xe000));
             mem_read_base_set(base + 3, i, (uint8_t*)((uintptr_t)c64memrom_kernal64_trap_rom - (uintptr_t)0xe000));
             mem_read_base_set(base + 6, i, (uint8_t*)((uintptr_t)c64memrom_kernal64_trap_rom - (uintptr_t)0xe000));
@@ -241,7 +250,9 @@ void c64meminit(unsigned int base)
             mem_read_base_set(base + 27, i, (uint8_t*)((uintptr_t)c64memrom_kernal64_trap_rom - (uintptr_t)0xe000));
             mem_read_base_set(base + 30, i, (uint8_t*)((uintptr_t)c64memrom_kernal64_trap_rom - (uintptr_t)0xe000));
             mem_read_base_set(base + 31, i, (uint8_t*)((uintptr_t)c64memrom_kernal64_trap_rom - (uintptr_t)0xe000));
+#endif
 #else
+#if USE_MMU_TRANSLATE
             mem_read_base_set(base + 2, i, (uint8_t*)addr);
             mem_read_base_set(base + 3, i, (uint8_t*)addr);
             mem_read_base_set(base + 6, i, (uint8_t*)addr);
@@ -268,6 +279,7 @@ void c64meminit(unsigned int base)
             mem_read_addr_set(base + 30, i, (uintptr_t)c64memrom_kernal64_trap_rom);
             mem_read_addr_set(base + 31, i, (uintptr_t)c64memrom_kernal64_trap_rom);
 #endif
+#endif
         }
     }
 
@@ -276,7 +288,9 @@ void c64meminit(unsigned int base)
         if (c64meminit_roml_config[j]) {
             for (i = 0x80; i <= 0x9f; i++) {
                 mem_read_tab_set(base + j, i, roml_read);
+#if USE_MMU_TRANSLATE
                 mem_read_base_set(base + j, i, NULL);
+#endif
                 mem_set_write_hook(base + j, i, roml_no_ultimax_store);
             }
         }
@@ -310,7 +324,9 @@ void c64meminit(unsigned int base)
         if (c64meminit_romh_config[j]) {
             for (i = c64meminit_romh_mapping[j]; i <= c64meminit_romh_mapping[j] + 0x1f; i++) {
                 mem_read_tab_set(base + j, i, romh_read);
+#if USE_MMU_TRANSLATE
                 mem_read_base_set(base + j, i, NULL);
+#endif
                 mem_set_write_hook(base + j, i, romh_no_ultimax_store);
             }
         }
@@ -340,7 +356,9 @@ void c64meminit(unsigned int base)
                 } else {
                     mem_read_tab_set(base + j, i, romh_read);
                 }
+#if USE_MMU_TRANSLATE
                 mem_read_base_set(base + j, i, NULL);
+#endif
             }
         }
     }
@@ -352,13 +370,17 @@ void c64meminit(unsigned int base)
             for (i = 0x08; i <= 0x0f; i++) {
                 mem_read_tab_set(base + j, i, ultimax_0800_0fff_read);
                 mem_set_write_hook(base + j, i, ultimax_0800_0fff_store);
+#if USE_MMU_TRANSLATE
                 mem_read_base_set(base + j, i, NULL);
+#endif
             }
         }
         for (i = 0x10; i <= 0x7f; i++) {
             mem_read_tab_set(base + j, i, ultimax_1000_7fff_read);
             mem_set_write_hook(base + j, i, ultimax_1000_7fff_store);
+#if USE_MMU_TRANSLATE
             mem_read_base_set(base + j, i, NULL);
+#endif
         }
         for (i = 0x80; i <= 0x9f; i++) {
             mem_set_write_hook(base + j, i, roml_store);
@@ -366,12 +388,16 @@ void c64meminit(unsigned int base)
         for (i = 0xa0; i <= 0xbf; i++) {
             mem_read_tab_set(base + j, i, ultimax_a000_bfff_read);
             mem_set_write_hook(base + j, i, ultimax_a000_bfff_store);
+#if USE_MMU_TRANSLATE
             mem_read_base_set(base + j, i, NULL);
+#endif
         }
         for (i = 0xc0; i <= 0xcf; i++) {
             mem_read_tab_set(base + j, i, ultimax_c000_cfff_read);
             mem_set_write_hook(base + j, i, ultimax_c000_cfff_store);
+#if USE_MMU_TRANSLATE
             mem_read_base_set(base + j, i, NULL);
+#endif
         }
         for (i = 0xe0; i <= 0xff; i++) {
             mem_set_write_hook(base + j, i, romh_store);

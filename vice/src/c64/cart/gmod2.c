@@ -192,9 +192,11 @@ uint8_t gmod2_roml_read(uint16_t addr)
 void gmod2_romh_store(uint16_t addr, uint8_t value)
 {
     flash040core_store(flashrom_state, (addr & 0x1fff) + (roml_bank << 13), value);
+#if USE_MMU_TRANSLATE
     if (flashrom_state->flash_state != FLASH040_STATE_READ) {
         maincpu_resync_limits();
     }
+#endif
 }
 
 int gmod2_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
@@ -206,6 +208,7 @@ int gmod2_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
     return CART_READ_THROUGH;
 }
 
+#if USE_MMU_TRANSLATE
 void gmod2_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     if (flashrom_state && flashrom_state->flash_data && gmod2_cmode == CMODE_8KGAME) {
@@ -226,6 +229,7 @@ void gmod2_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *lim
     *start = 0;
     *limit = 0;
 }
+#endif
 
 /* ---------------------------------------------------------------------*/
 

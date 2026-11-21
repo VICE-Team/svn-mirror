@@ -50,7 +50,11 @@ int pet_mem_init_resources(void);
 int pet_mem_init_cmdline_options(void);
 
 void mem_initialize_memory(void);
+#if USE_MMU_TRANSLATE
 void get_mem_access_tables(read_func_ptr_t **read, store_func_ptr_t **write, uint8_t ***base, int **limit);
+#else
+void get_mem_access_tables(read_func_ptr_t **read, store_func_ptr_t **write);
+#endif
 int petmem_get_screen_columns(void);
 int petmem_get_rom_columns(void);
 void petmem_check_info(struct petres_s *pi);

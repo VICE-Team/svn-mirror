@@ -118,14 +118,18 @@ read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 read_func_ptr_t *_mem_read_tab_ptr_dummy;
 store_func_ptr_t *_mem_write_tab_ptr_dummy;
+#if USE_MMU_TRANSLATE
 static uint8_t **_mem_read_base_tab_ptr;
 static uint32_t *mem_read_limit_tab_ptr;
+#endif
 
 /* Memory read and write tables.  */
 static store_func_ptr_t mem_write_tab[NUM_VBANKS][NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
+#if USE_MMU_TRANSLATE
 static uint8_t *mem_read_base_tab[NUM_CONFIGS][0x101];
 static uint32_t mem_read_limit_tab[NUM_CONFIGS][0x101];
+#endif
 
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
@@ -209,10 +213,11 @@ void mem_pla_config_changed(void)
 
     mem_update_tab_ptrs(watchpoints_active);
 
+#if USE_MMU_TRANSLATE
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
     mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
-
     maincpu_resync_limits();
+#endif
 }
 
 uint8_t zero_read(uint16_t addr)
@@ -299,7 +304,6 @@ void ram_hi_store(uint16_t addr, uint8_t value)
 }
 
 /* ------------------------------------------------------------------------- */
-
 void mem_set_write_hook(int config, int page, store_func_t *f)
 {
     int i;
@@ -315,10 +319,12 @@ void mem_read_tab_set(unsigned int base, unsigned int index,
     mem_read_tab[base][index] = read_func;
 }
 
+#if USE_MMU_TRANSLATE
 void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr)
 {
     mem_read_base_tab[base][index] = mem_ptr;
 }
+#endif
 
 void mem_initialize_memory(void)
 {
@@ -340,10 +346,14 @@ void mem_initialize_memory(void)
     for (i = 0; i < NUM_CONFIGS; i++) {
         mem_set_write_hook(i, 0, zero_store);
         mem_read_tab[i][0] = zero_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[i][0] = mem_ram;
+#endif
         for (j = 1; j <= 0xfe; j++) {
             mem_read_tab[i][j] = ram_read;
+#if USE_MMU_TRANSLATE
             mem_read_base_tab[i][j] = mem_ram + (j << 8);
+#endif
             for (k = 0; k < NUM_VBANKS; k++) {
                 if ((j & 0xc0) == (k << 6)) {
                     switch (j & 0x3f) {
@@ -362,7 +372,9 @@ void mem_initialize_memory(void)
             }
         }
         mem_read_tab[i][0xff] = ram_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[i][0xff] = mem_ram + 0xff00;
+#endif
 
         /* vbank access is handled within `ram_hi_store()'.  */
         mem_set_write_hook(i, 0xff, ram_hi_store);
@@ -374,27 +386,33 @@ void mem_initialize_memory(void)
         mem_read_tab[1][i] = chargen_read;
         mem_read_tab[2][i] = chargen_read;
         mem_read_tab[3][i] = chargen_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[1][i] = NULL;
         mem_read_base_tab[2][i] = NULL;
         mem_read_base_tab[3][i] = NULL;
+#endif
     }
 
     c64dtvmeminit(0);
+#if USE_MMU_TRANSLATE
     c64dtvmem_limit_init(mem_read_limit_tab);
-
+#endif
     for (i = 0; i < NUM_CONFIGS; i++) {
         mem_read_tab[i][0x100] = mem_read_tab[i][0];
         for (j = 0; j < NUM_VBANKS; j++) {
             mem_write_tab[j][i][0x100] = mem_write_tab[j][i][0];
         }
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[i][0x100] = mem_read_base_tab[i][0];
+#endif
     }
 
     _mem_read_tab_ptr = mem_read_tab[7];
     _mem_write_tab_ptr = mem_write_tab[vbank][7];
+#if USE_MMU_TRANSLATE
     _mem_read_base_tab_ptr = mem_read_base_tab[7];
     mem_read_limit_tab_ptr = mem_read_limit_tab[7];
-
+#endif
     vicii_set_chargen_addr_options(0x7000, 0x1000);
 
     c64pla_pport_reset();
@@ -404,6 +422,7 @@ void mem_initialize_memory(void)
     c64dtvmem_init_config();
 }
 
+#if USE_MMU_TRANSLATE
 void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
 #ifdef FEATURE_CPUMEMHISTORY
@@ -482,6 +501,7 @@ void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit
     }
 #endif
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -1017,14 +1037,18 @@ void c64dtv_mapper_store(uint16_t addr, uint8_t value)
             get_trapflags();
             clear_trapflags();
             c64dtvmem_memmapper[0] = value;
+#if USE_MMU_TRANSLATE
             maincpu_resync_limits();
+#endif
             if (restore_trapflags()) {
                 log_message(c64dtvmem_log, "Changed KERNAL segment - disable TrapDevices if you encounter problems");
             }
             break;
         case 0x01:
             c64dtvmem_memmapper[1] = value;
+#if USE_MMU_TRANSLATE
             maincpu_resync_limits();
+#endif
             break;
         default:
             break;

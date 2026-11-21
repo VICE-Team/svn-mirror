@@ -81,6 +81,7 @@ log_t maincpu_log = LOG_DEFAULT;
 /* ------------------------------------------------------------------------- */
 
 /* Implement the hack to make opcode fetches faster.  */
+#if USE_MMU_TRANSLATE
 #define JUMP(addr)                                                                         \
     do {                                                                                   \
         reg_pc = (unsigned int)(addr);                                                     \
@@ -88,7 +89,12 @@ log_t maincpu_log = LOG_DEFAULT;
             mem_mmu_translate((unsigned int)(addr), &bank_base, &bank_start, &bank_limit); \
         }                                                                                  \
     } while (0)
-
+#else
+#define JUMP(addr)                                                                         \
+    do {                                                                                   \
+        reg_pc = (unsigned int)(addr);                                                     \
+    } while (0)
+#endif
 /* ------------------------------------------------------------------------- */
 
 #ifdef FEATURE_CPUMEMHISTORY
@@ -512,6 +518,7 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 unsigned int reg_pc;
 #endif
 
+#if USE_MMU_TRANSLATE
 static bool bank_base_ready = false;
 static uint8_t *bank_base = NULL;
 static int bank_start = 0;
@@ -523,6 +530,7 @@ void maincpu_resync_limits(void)
         mem_mmu_translate(reg_pc, &bank_base, &bank_start, &bank_limit);
     }
 }
+#endif
 
 /* This doesn't return. The thread will directly exit when requested. */
 void maincpu_mainloop(void)
@@ -540,6 +548,7 @@ void maincpu_mainloop(void)
     int reg_x_idx = 2;
     int reg_y_idx = 1;
 
+#if USE_MMU_TRANSLATE
 #define reg_a_write(c)                      \
     do {                                    \
         dtv_registers[reg_a_write_idx] = c; \
@@ -547,7 +556,16 @@ void maincpu_mainloop(void)
             maincpu_resync_limits();        \
         }                                   \
     } while (0);
+#else
+#define reg_a_write(c)                      \
+    do {                                    \
+        dtv_registers[reg_a_write_idx] = c; \
+    } while (0);
+#endif
+
 #define reg_a_read dtv_registers[reg_a_read_idx]
+
+#if USE_MMU_TRANSLATE
 #define reg_x_write(c)                \
     do {                              \
         dtv_registers[reg_x_idx] = c; \
@@ -555,8 +573,16 @@ void maincpu_mainloop(void)
             maincpu_resync_limits();  \
         }                             \
     } while (0);
+#else
+#define reg_x_write(c)                \
+    do {                              \
+        dtv_registers[reg_x_idx] = c; \
+    } while (0);
+#endif
 
 #define reg_x_read dtv_registers[reg_x_idx]
+
+#if USE_MMU_TRANSLATE
 #define reg_y_write(c)                \
     do {                              \
         dtv_registers[reg_y_idx] = c; \
@@ -564,6 +590,13 @@ void maincpu_mainloop(void)
             maincpu_resync_limits();  \
         }                             \
     } while (0);
+#else
+#define reg_y_write(c)                \
+    do {                              \
+        dtv_registers[reg_y_idx] = c; \
+    } while (0);
+#endif
+
 #define reg_y_read dtv_registers[reg_y_idx]
 #endif
     uint8_t reg_p = 0;
@@ -574,13 +607,14 @@ void maincpu_mainloop(void)
     unsigned int reg_pc;
 #endif
 
+#if USE_MMU_TRANSLATE
     /*
      * Enable maincpu_resync_limits functionality .. in the old code
      * this is where the local stack var had its address copied to
      * the global.
      */
     bank_base_ready = true;
-
+#endif
     machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
 
     while (1) {

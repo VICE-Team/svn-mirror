@@ -65,8 +65,9 @@ void expert_powerup(void);
 
 int expert_freeze_allowed(void);
 int expert_cart_enabled(void);
+#if USE_MMU_TRANSLATE
 void expert_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 struct snapshot_s;
 
 int expert_snapshot_write_module(struct snapshot_s *s);

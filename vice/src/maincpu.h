@@ -84,7 +84,9 @@ extern struct monitor_interface_s *maincpu_monitor_interface;
 /* Return the number of write accesses in the last opcode emulated. */
 #define maincpu_num_write_cycles() maincpu_opcode_write_cycles[OPINFO_NUMBER(last_opcode_info)]
 
+#if USE_MMU_TRANSLATE
 void maincpu_resync_limits(void);
+#endif
 void maincpu_init(void);
 void maincpu_early_init(void);
 void maincpu_shutdown(void);

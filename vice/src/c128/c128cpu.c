@@ -75,8 +75,8 @@ int maincpu_stretch = 0;
 /* 8502 memory refresh alarm counter */
 CLOCK c128cpu_memory_refresh_clk;
 
+/* FIXME: this should go through mem access functions too */
 #define PAGE_ZERO mem_page_zero
-
 #define PAGE_ONE mem_page_one
 
 #define DMA_FUNC z80_mainloop(CPU_INT_STATUS, ALARM_CONTEXT)

@@ -499,6 +499,7 @@ void dqbb_reset(void)
     }
 }
 
+#if USE_MMU_TRANSLATE
 void dqbb_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     /* FIXME: this doesn't incorporate the banking, nor C128 */
@@ -520,6 +521,7 @@ void dqbb_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limi
     *start = 0;
     *limit = 0;
 }
+#endif
 
 void dqbb_init_config(void)
 {

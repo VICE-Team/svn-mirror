@@ -37,7 +37,10 @@ extern struct z80_regs_s z80_regs;
 struct interrupt_cpu_status_s;
 struct alarm_context_s;
 
+#if USE_MMU_TRANSLATE
 void z80_resync_limits(void);
+#endif
+
 void z80_reset(void);
 void z80_mainloop(struct interrupt_cpu_status_s *cpu_int_status, struct alarm_context_s *cpu_alarm_context);
 void z80_trigger_dma(void);

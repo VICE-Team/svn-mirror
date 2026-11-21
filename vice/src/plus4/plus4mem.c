@@ -84,14 +84,18 @@ read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 read_func_ptr_t *_mem_read_tab_ptr_dummy;
 store_func_ptr_t *_mem_write_tab_ptr_dummy;
+#if USE_MMU_TRANSLATE
 static uint8_t **_mem_read_base_tab_ptr;
 static int *mem_read_limit_tab_ptr;
+#endif
 
 /* Memory read and write tables.  */
 static store_func_ptr_t mem_write_tab[NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
+#if USE_MMU_TRANSLATE
 static uint8_t *mem_read_base_tab[NUM_CONFIGS][0x101];
 static int mem_read_limit_tab[NUM_CONFIGS][0x101];
+#endif
 
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
@@ -417,10 +421,11 @@ static void mem_config_set(unsigned int config)
 
     mem_update_tab_ptrs(watchpoints_active);
 
+#if USE_MMU_TRANSLATE
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
     mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
-
     maincpu_resync_limits();
+#endif
 }
 
 void mem_config_ram_set(unsigned int config)
@@ -790,7 +795,9 @@ void mem_initialize_memory(void)
             break;
     }
 
+#if USE_MMU_TRANSLATE
     mem_limit_init(mem_read_limit_tab);
+#endif
 
     /* setup watchpoint tables */
     mem_read_tab_watch[0] = zero_read_watch;
@@ -804,7 +811,9 @@ void mem_initialize_memory(void)
     for (i = 0; i < NUM_CONFIGS; i++) {
         set_write_hook(i, 0, zero_store);
         mem_read_tab[i][0] = zero_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[i][0] = mem_ram;
+#endif
         for (j = 1; j <= 0xff; j++) {
             switch (ram_size) {
                 case 4096:
@@ -822,22 +831,30 @@ void mem_initialize_memory(void)
                         mem_read_tab[i][j] = cs256k_read;
                         mem_write_tab[i][j] = cs256k_store;
                     }
+#if USE_MMU_TRANSLATE
                     mem_read_base_tab[i][j] = mem_ram + (j << 8);
+#endif
                     break;
                 default:
                 case 64:
                     mem_read_tab[i][j] = ram_read;
+#if USE_MMU_TRANSLATE
                     mem_read_base_tab[i][j] = mem_ram + (j << 8);
+#endif
                     mem_write_tab[i][j] = ted_mem_vbank_store;
                     break;
                 case 32:
                     mem_read_tab[i][j] = ram_read_32k;
+#if USE_MMU_TRANSLATE
                     mem_read_base_tab[i][j] = mem_ram + ((j & 0x7f) << 8);
+#endif
                     mem_write_tab[i][j] = ted_mem_vbank_store_32k;
                     break;
                 case 16:
                     mem_read_tab[i][j] = ram_read_16k;
+#if USE_MMU_TRANSLATE
                     mem_read_base_tab[i][j] = mem_ram + ((j & 0x3f) << 8);
+#endif
                     mem_write_tab[i][j] = ted_mem_vbank_store_16k;
                     break;
             }
@@ -869,44 +886,75 @@ void mem_initialize_memory(void)
     /* Setup BASIC ROM and extension ROMs at $8000-$BFFF.  */
     for (i = 0x80; i <= 0xbf; i++) {
         mem_read_tab[1][i] = plus4memrom_basic_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[1][i] = plus4memrom_basic_rom + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[3][i] = plus4memrom_extromlo1_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[3][i] = extromlo1 + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[5][i] = plus4cart_c1lo_read;
+#if USE_MMU_TRANSLATE
         /*mem_read_base_tab[5][i] = extromlo2 + ((i & 0x3f) << 8);*/
         mem_read_base_tab[5][i] = NULL;
+#endif
         mem_read_tab[7][i] = plus4memrom_extromlo3_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[7][i] = extromlo3 + ((i & 0x3f) << 8);
-
+#endif
         mem_read_tab[9][i] = plus4memrom_basic_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[9][i] = plus4memrom_basic_rom + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[11][i] = plus4memrom_extromlo1_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[11][i] = extromlo1 + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[13][i] = plus4cart_c1lo_read;
+#if USE_MMU_TRANSLATE
         /*mem_read_base_tab[13][i] = extromlo2 + ((i & 0x3f) << 8);*/
         mem_read_base_tab[13][i] = NULL;
+#endif
         mem_read_tab[15][i] = plus4memrom_extromlo3_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[15][i] = extromlo3 + ((i & 0x3f) << 8);
+#endif
 
         mem_read_tab[17][i] = plus4memrom_basic_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[17][i] = plus4memrom_basic_rom + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[19][i] = plus4memrom_extromlo1_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[19][i] = extromlo1 + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[21][i] = plus4cart_c1lo_read;
+#if USE_MMU_TRANSLATE
         /*mem_read_base_tab[21][i] = extromlo2 + ((i & 0x3f) << 8);*/
         mem_read_base_tab[21][i] = NULL;
+#endif
         mem_read_tab[23][i] = plus4memrom_extromlo3_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[23][i] = extromlo3 + ((i & 0x3f) << 8);
+#endif
 
         mem_read_tab[25][i] = plus4memrom_basic_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[25][i] = plus4memrom_basic_rom + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[27][i] = plus4memrom_extromlo1_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[27][i] = extromlo1 + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[29][i] = plus4cart_c1lo_read;
+#if USE_MMU_TRANSLATE
         /*mem_read_base_tab[29][i] = extromlo2 + ((i & 0x3f) << 8);*/
         mem_read_base_tab[29][i] = NULL;
+#endif
         mem_read_tab[31][i] = plus4memrom_extromlo3_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[31][i] = extromlo3 + ((i & 0x3f) << 8);
+#endif
     }
 
     /* Setup Kernal ROM and extension ROMs at $E000-$FFFF.  */
@@ -923,64 +971,102 @@ void mem_initialize_memory(void)
 #else
         /* redirect kernal to cartridge port */
         mem_read_tab[1][i] = plus4cart_kernal_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[1][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[3][i] = plus4cart_kernal_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[3][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[5][i] = plus4cart_kernal_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[5][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[7][i] = plus4cart_kernal_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[7][i] = plus4memrom_kernal_trap_rom + ((i & 0x3f) << 8);
 #endif
+#endif
         mem_read_tab[9][i] = plus4memrom_extromhi1_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[9][i] = extromhi1 + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[11][i] = plus4memrom_extromhi1_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[11][i] = extromhi1 + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[13][i] = plus4memrom_extromhi1_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[13][i] = extromhi1 + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[15][i] = plus4memrom_extromhi1_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[15][i] = extromhi1 + ((i & 0x3f) << 8);
-
+#endif
         mem_read_tab[17][i] = plus4cart_c1hi_read;
+#if USE_MMU_TRANSLATE
         /*mem_read_base_tab[17][i] = extromhi2 + ((i & 0x3f) << 8);*/
         mem_read_base_tab[17][i] = NULL;
+#endif
         mem_read_tab[19][i] = plus4cart_c1hi_read;
+#if USE_MMU_TRANSLATE
         /*mem_read_base_tab[19][i] = extromhi2 + ((i & 0x3f) << 8);*/
         mem_read_base_tab[19][i] = NULL;
+#endif
         mem_read_tab[21][i] = plus4cart_c1hi_read;
+#if USE_MMU_TRANSLATE
         /*mem_read_base_tab[21][i] = extromhi2 + ((i & 0x3f) << 8);*/
         mem_read_base_tab[21][i] = NULL;
+#endif
         mem_read_tab[23][i] = plus4cart_c1hi_read;
+#if USE_MMU_TRANSLATE
         /*mem_read_base_tab[23][i] = extromhi2 + ((i & 0x3f) << 8);*/
         mem_read_base_tab[23][i] = NULL;
-
+#endif
         mem_read_tab[25][i] = plus4memrom_extromhi3_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[25][i] = extromhi3 + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[27][i] = plus4memrom_extromhi3_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[27][i] = extromhi3 + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[29][i] = plus4memrom_extromhi3_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[29][i] = extromhi3 + ((i & 0x3f) << 8);
+#endif
         mem_read_tab[31][i] = plus4memrom_extromhi3_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[31][i] = extromhi3 + ((i & 0x3f) << 8);
+#endif
     }
 
     for (i = 0; i < NUM_CONFIGS; i += 2) {
         mem_read_tab[i + 1][0xfc] = plus4memrom_kernal_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[i + 1][0xfc] = plus4memrom_kernal_trap_rom
                                          + ((0xfc & 0x3f) << 8);
-
+#endif
         mem_read_tab[i + 0][0xfd] = plus4io_fd00_read;
         mem_write_tab[i + 0][0xfd] = plus4io_fd00_store;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[i + 0][0xfd] = NULL;
+#endif
         mem_read_tab[i + 1][0xfd] = plus4io_fd00_read;
         mem_write_tab[i + 1][0xfd] = plus4io_fd00_store;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[i + 1][0xfd] = NULL;
-
+#endif
         mem_read_tab[i + 0][0xfe] = plus4io_fe00_read;
         mem_write_tab[i + 0][0xfe] = plus4io_fe00_store;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[i + 0][0xfe] = NULL;
+#endif
         mem_read_tab[i + 1][0xfe] = plus4io_fe00_read;
         mem_write_tab[i + 1][0xfe] = plus4io_fe00_store;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[i + 1][0xfe] = NULL;
+#endif
 
         switch (ram_size) {
             case 4096:
@@ -996,43 +1082,63 @@ void mem_initialize_memory(void)
                     mem_write_tab[i + 0][0xff] = cs256k_ram_ffxx_store;
                     mem_write_tab[i + 1][0xff] = cs256k_rom_ffxx_store;
                 }
+#if USE_MMU_TRANSLATE
                 mem_read_base_tab[i + 0][0xff] = NULL;
+#endif
                 mem_read_tab[i + 1][0xff] = rom_ffxx_read;
+#if USE_MMU_TRANSLATE
                 mem_read_base_tab[i + 1][0xff] = NULL;
+#endif
                 break;
             default:
             case 64:
                 mem_read_tab[i + 0][0xff] = ram_ffxx_read;
                 mem_write_tab[i + 0][0xff] = ram_ffxx_store;
+#if USE_MMU_TRANSLATE
                 mem_read_base_tab[i + 0][0xff] = NULL;
+#endif
                 mem_read_tab[i + 1][0xff] = rom_ffxx_read;
                 mem_write_tab[i + 1][0xff] = rom_ffxx_store;
+#if USE_MMU_TRANSLATE
                 mem_read_base_tab[i + 1][0xff] = NULL;
+#endif
                 break;
             case 32:
                 mem_read_tab[i + 0][0xff] = ram_ffxx_read_32k;
                 mem_write_tab[i + 0][0xff] = ram_ffxx_store_32k;
+#if USE_MMU_TRANSLATE
                 mem_read_base_tab[i + 0][0xff] = NULL;
+#endif
                 mem_read_tab[i + 1][0xff] = rom_ffxx_read;
                 mem_write_tab[i + 1][0xff] = rom_ffxx_store_32k;
+#if USE_MMU_TRANSLATE
                 mem_read_base_tab[i + 1][0xff] = NULL;
+#endif
                 break;
             case 16:
                 mem_read_tab[i + 0][0xff] = ram_ffxx_read_16k;
                 mem_write_tab[i + 0][0xff] = ram_ffxx_store_16k;
+#if USE_MMU_TRANSLATE
                 mem_read_base_tab[i + 0][0xff] = NULL;
+#endif
                 mem_read_tab[i + 1][0xff] = rom_ffxx_read;
                 mem_write_tab[i + 1][0xff] = rom_ffxx_store_16k;
+#if USE_MMU_TRANSLATE
                 mem_read_base_tab[i + 1][0xff] = NULL;
+#endif
                 break;
         }
 
         mem_read_tab[i + 0][0x100] = mem_read_tab[i + 0][0];
         mem_write_tab[i + 0][0x100] = mem_write_tab[i + 0][0];
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[i + 0][0x100] = mem_read_base_tab[i + 0][0];
+#endif
         mem_read_tab[i + 1][0x100] = mem_read_tab[i + 1][0];
         mem_write_tab[i + 1][0x100] = mem_write_tab[i + 1][0];
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[i + 1][0x100] = mem_read_base_tab[i + 1][0];
+#endif
     }
     if (hard_reset_flag) {
         hard_reset_flag = 0;
@@ -1040,10 +1146,13 @@ void mem_initialize_memory(void)
     }
     _mem_read_tab_ptr = mem_read_tab[mem_config];
     _mem_write_tab_ptr = mem_write_tab[mem_config];
+#if USE_MMU_TRANSLATE
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
     mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
+#endif
 }
 
+#if USE_MMU_TRANSLATE
 void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     uint8_t *p = _mem_read_base_tab_ptr[addr >> 8];
@@ -1056,6 +1165,7 @@ void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit
         cartridge_mmu_translate(addr, base, start, limit);
     }
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 

@@ -56,8 +56,9 @@ int rrnetmk3_cmdline_options_init(void);
 void rrnetmk3_init(void);
 void rrnetmk3_detach(void);
 void rrnetmk3_reset(void);
+#if USE_MMU_TRANSLATE
 int rrnetmk3_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 struct snapshot_s;
 
 int rrnetmk3_snapshot_read_module(struct snapshot_s *s);

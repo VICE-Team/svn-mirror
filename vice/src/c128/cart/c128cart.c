@@ -956,6 +956,7 @@ uint8_t c128cartridge_ram_store(uint16_t addr, uint8_t value)
     return ret;
 }
 
+#if USE_MMU_TRANSLATE
 /* mmu translation: return 0 if no translation applied, leave it for the tables */
 int c128cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit, int mem_config)
 {
@@ -983,6 +984,7 @@ int c128cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, i
     }
     return 0;
 }
+#endif
 
 /* notify cartridge of mode change */
 void c128cartridge_switch_mode(int mode)

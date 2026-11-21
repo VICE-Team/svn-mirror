@@ -83,10 +83,11 @@ typedef struct drivecpu_context_s {
     CLOCK stop_clk;
 
     CLOCK cycle_accum;
+#if USE_MMU_TRANSLATE
     uint8_t *d_bank_base;
     unsigned int d_bank_start;
     unsigned int d_bank_limit;
-
+#endif
     /* Information about the last executed opcode.  */
     unsigned int last_opcode_info;
 

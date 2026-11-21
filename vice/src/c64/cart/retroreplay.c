@@ -551,9 +551,11 @@ void retroreplay_roml_store(uint16_t addr, uint8_t value)
         /* writes to flash are completely disabled if the flash jumper is not set */
         if (rr_hw_flashjumper) {
             flash040core_store(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13), value);
+#if USE_MMU_TRANSLATE
             if (flashrom_state->flash_state != FLASH040_STATE_READ) {
                 maincpu_resync_limits();
             }
+#endif
         }
     }
 }
@@ -568,9 +570,11 @@ int retroreplay_roml_no_ultimax_store(uint16_t addr, uint8_t value)
         } else {
             /* writes to flash are completely disabled if the flash jumper is not set */
             flash040core_store(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13), value);
+#if USE_MMU_TRANSLATE
             if (flashrom_state->flash_state != FLASH040_STATE_READ) {
                 maincpu_resync_limits();
             }
+#endif
         }
     } else {
         /* Nordic Replay has RAM always writeable */
@@ -674,6 +678,7 @@ int retroreplay_peek_mem(export_t *ex, uint16_t addr, uint8_t *value)
     return CART_READ_THROUGH;
 }
 
+#if USE_MMU_TRANSLATE
 void retroreplay_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
 #if 0
@@ -730,6 +735,7 @@ void retroreplay_mmu_translate(unsigned int addr, uint8_t **base, int *start, in
     *start = 0;
     *limit = 0;
 }
+#endif
 
 static int retroreplay_dump(void)
 {
@@ -881,10 +887,11 @@ static int set_rr_revision(int val, void *param)
 {
     rr_revision = val ? 1 : 0;
     DBG(("set_rr_revision: %d", rr_revision));
-
+#if USE_MMU_TRANSLATE
     if (rr_active) {
         maincpu_resync_limits();
     }
+#endif
     return 0;
 }
 
@@ -909,9 +916,11 @@ static int set_rr_bankjumper(int val, void *param)
     } else {
         rom_offset = 0x10000;
     }
+#if USE_MMU_TRANSLATE
     if (rr_active) {
         maincpu_resync_limits();
     }
+#endif
     DBG(("set_rr_bankjumper bank jumper: %d offset: %08x", rr_hw_bankjumper, rom_offset));
     return 0;
 }

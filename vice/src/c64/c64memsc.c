@@ -103,14 +103,18 @@ read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 read_func_ptr_t *_mem_read_tab_ptr_dummy;
 store_func_ptr_t *_mem_write_tab_ptr_dummy;
+#if USE_MMU_TRANSLATE
 static uint8_t **_mem_read_base_tab_ptr;
 static uint32_t *mem_read_limit_tab_ptr;
+#endif
 
 /* Memory read and write tables.  */
 static store_func_ptr_t mem_write_tab[NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
+#if USE_MMU_TRANSLATE
 static uint8_t *mem_read_base_tab[NUM_CONFIGS][0x101];
 static uint32_t mem_read_limit_tab[NUM_CONFIGS][0x101];
+#endif
 
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
@@ -236,10 +240,11 @@ void mem_pla_config_changed(void)
 
     mem_update_tab_ptrs(watchpoints_active);
 
+#if USE_MMU_TRANSLATE
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
     mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
-
     maincpu_resync_limits();
+#endif
 }
 
 /* reads zeropage, 0/1 comes from RAM */
@@ -636,7 +641,9 @@ static void c64_256k_init_config(void)
     int i, j;
 
     if (c64_256k_enabled) {
+#if USE_MMU_TRANSLATE
         mem_limit_256k_init();
+#endif
         for (i = 0; i < NUM_CONFIGS; i++) {
             for (j = 1; j <= 0xff; j++) {
                 if (check_256k_ram_write(i, j) == 1) {
@@ -681,7 +688,9 @@ static void plus256k_init_config(void)
     int i, j;
 
     if (plus256k_enabled) {
+#if USE_MMU_TRANSLATE
         mem_limit_256k_init();
+#endif
         for (i = 0; i < NUM_CONFIGS; i++) {
             for (j = 1; j <= 0xff; j++) {
                 if (check_256k_ram_write(i, j) == 1) {
@@ -711,7 +720,9 @@ static void plus60k_init_config(void)
     int i, j;
 
     if (plus60k_enabled) {
+#if USE_MMU_TRANSLATE
         mem_limit_plus60k_init();
+#endif
         for (i = 0; i < NUM_CONFIGS; i++) {
             for (j = 0x10; j <= 0xff; j++) {
                 if (mem_write_tab[i][j] == ram_hi_store) {
@@ -753,6 +764,7 @@ void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t rea
     mem_read_tab[base][index] = read_func;
 }
 
+#if USE_MMU_TRANSLATE
 /* set c64 base */
 void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr)
 {
@@ -770,6 +782,7 @@ void mem_read_limit_set(unsigned int base, unsigned int index, uint32_t limit)
 {
     mem_read_limit_tab[base][index] = limit;
 }
+#endif
 
 void mem_initialize_memory(void)
 {
@@ -779,9 +792,9 @@ void mem_initialize_memory(void)
     mem_chargen_rom_ptr = mem_chargen_rom;
     mem_color_ram_cpu = mem_color_ram;
     mem_color_ram_vicii = mem_color_ram;
-
+#if USE_MMU_TRANSLATE
     mem_limit_init();
-
+#endif
     /* setup watchpoint tables */
     mem_read_tab_watch[0] = zero_read_watch;
     mem_write_tab_watch[0] = zero_store_watch;
@@ -796,7 +809,9 @@ void mem_initialize_memory(void)
     for (i = 0; i < NUM_CONFIGS; i++) {
         for (j = 0; j <= 0xff; j++) {
             mem_read_tab[i][j] = void_read;
+#if USE_MMU_TRANSLATE
             mem_read_base_tab[i][j] = NULL;
+#endif
             mem_set_write_hook(i, j, void_store);
         }
     }
@@ -805,7 +820,9 @@ void mem_initialize_memory(void)
     for (i = 0; i < NUM_CONFIGS; i++) {
         mem_set_write_hook(i, 0, zero_store);
         mem_read_tab[i][0] = zero_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[i][0] = mem_ram;
+#endif
         for (j = 1; j <= 0xfe; j++) {
             if (board == BOARD_MAX && j >= 0x08) {
                 /* mem_read_tab[i][j] = void_read;
@@ -814,7 +831,9 @@ void mem_initialize_memory(void)
                 continue;
             }
             mem_read_tab[i][j] = ram_read;
+#if USE_MMU_TRANSLATE
             mem_read_base_tab[i][j] = mem_ram;
+#endif
             mem_write_tab[i][j] = ram_store;
         }
         if (board == BOARD_MAX) {
@@ -823,7 +842,9 @@ void mem_initialize_memory(void)
             mem_set_write_hook(0, 0xff, void_store); */
         } else {
             mem_read_tab[i][0xff] = ram_read;
+#if USE_MMU_TRANSLATE
             mem_read_base_tab[i][0xff] = mem_ram;
+#endif
 
             /* REU $ff00 trigger is handled within `ram_hi_store()'.  */
             mem_set_write_hook(i, 0xff, ram_hi_store);
@@ -844,6 +865,7 @@ void mem_initialize_memory(void)
         mem_read_tab[26][i] = chargen_read;
         mem_read_tab[27][i] = chargen_read;
 
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[1][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
         mem_read_base_tab[2][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
         mem_read_base_tab[3][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
@@ -852,6 +874,7 @@ void mem_initialize_memory(void)
         mem_read_base_tab[11][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
         mem_read_base_tab[26][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
         mem_read_base_tab[27][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
+#endif
 #else
         mem_read_tab_set(1, i, chargen_read);
         mem_read_tab_set(2, i, chargen_read);
@@ -861,7 +884,7 @@ void mem_initialize_memory(void)
         mem_read_tab_set(11, i, chargen_read);
         mem_read_tab_set(26, i, chargen_read);
         mem_read_tab_set(27, i, chargen_read);
-
+#if USE_MMU_TRANSLATE
         mem_read_base_set(1, i, (uint8_t*)addr);
         mem_read_base_set(2, i, (uint8_t*)addr);
         mem_read_base_set(3, i, (uint8_t*)addr);
@@ -880,6 +903,7 @@ void mem_initialize_memory(void)
         mem_read_addr_set(26, i, (uintptr_t)mem_chargen_rom);
         mem_read_addr_set(27, i, (uintptr_t)mem_chargen_rom);
 #endif
+#endif
     }
 
     c64meminit(0);
@@ -887,7 +911,9 @@ void mem_initialize_memory(void)
     for (i = 0; i < NUM_CONFIGS; i++) {
         mem_read_tab[i][0x100] = mem_read_tab[i][0];
         mem_write_tab[i][0x100] = mem_write_tab[i][0];
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[i][0x100] = mem_read_base_tab[i][0];
+#endif
     }
 
     vicii_set_chargen_addr_options(0x7000, 0x1000);
@@ -906,11 +932,14 @@ void mem_initialize_memory(void)
     plus256k_init_config();
     c64_256k_init_config();
 
+#if USE_MMU_TRANSLATE
     if (board == BOARD_MAX) {
         mem_limit_max_init();
     }
+#endif
 }
 
+#if USE_MMU_TRANSLATE
 void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     uint8_t *p = _mem_read_base_tab_ptr[addr >> 8];
@@ -925,7 +954,7 @@ void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit
         cartridge_mmu_translate(addr, base, start, limit);
     }
 }
-
+#endif
 /* ------------------------------------------------------------------------- */
 
 /* Initialize RAM for power-up.  */

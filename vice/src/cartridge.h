@@ -148,8 +148,10 @@ void cartridge_setup_context(struct machine_context_s *machine_context);
 /* generic cartridge memory peek for the monitor */
 uint8_t cartridge_peek_mem(uint16_t addr);
 
+#if USE_MMU_TRANSLATE
 /* mmu translation */
 void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
+#endif
 
 /* Initialize RAM for power-up.  */
 void cartridge_ram_init(void);

@@ -81,8 +81,8 @@ static int reu_dma_triggered = 0;
 #define NEED_REG_PC
 
 /* ------------------------------------------------------------------------- */
-
 /* Implement the hack to make opcode fetches faster.  */
+#if USE_MMU_TRANSLATE
 #define JUMP(addr)                                                                         \
     do {                                                                                   \
         reg_pc = (unsigned int)(addr);                                                     \
@@ -90,7 +90,12 @@ static int reu_dma_triggered = 0;
             mem_mmu_translate((unsigned int)(addr), &bank_base, &bank_start, &bank_limit); \
         }                                                                                  \
     } while (0)
-
+#else
+#define JUMP(addr)                                                                         \
+    do {                                                                                   \
+        reg_pc = (unsigned int)(addr);                                                     \
+    } while (0)
+#endif
 /* ------------------------------------------------------------------------- */
 
 int check_ba_low = 0;
@@ -717,6 +722,7 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 unsigned int reg_pc;
 #endif
 
+#if USE_MMU_TRANSLATE
 static bool bank_base_ready = false;
 static uint8_t *bank_base = NULL;
 static int bank_start = 0;
@@ -728,6 +734,7 @@ void maincpu_resync_limits(void)
         mem_mmu_translate(reg_pc, &bank_base, &bank_start, &bank_limit);
     }
 }
+#endif
 
 /* This doesn't return. The thread will directly exit when requested. */
 void maincpu_mainloop(void)
@@ -747,12 +754,14 @@ void maincpu_mainloop(void)
     unsigned int reg_pc;
 #endif
 
+#if USE_MMU_TRANSLATE
     /*
      * Enable maincpu_resync_limits functionality .. in the old code
      * this is where the local stack var had its address copied to
      * the global.
      */
     bank_base_ready = true;
+#endif
 
     machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);
 

@@ -42,6 +42,7 @@
 #define NUM_SEGMENTS 7
 #define NUM_CONFIGS 8
 
+#if USE_MMU_TRANSLATE
 static const int mstart[NUM_SEGMENTS] = {
     0x00, 0x40, 0x80,
     0xa0, 0xc0, 0xd0, 0xe0
@@ -74,6 +75,7 @@ static const uint32_t limit_tab[NUM_SEGMENTS][NUM_CONFIGS] = {
     /* e000-ffff */
     { 0xc000fffd, 0xe000fffd, 0xe000fffd, 0xe000fffd, 0xc000fffd, 0xe000fffd, 0xe000fffd, 0xe000fffd }
 };
+#endif
 
 /* IO is enabled at memory configs 5, 6, 7 */
 const unsigned int c64dtvmeminit_io_config[8] = { 0, 0, 0, 0, 0, 1, 1, 1 };
@@ -92,8 +94,10 @@ void c64dtvmeminit(unsigned int base)
     for (i = 0xa0; i <= 0xbf; i++) {
         mem_read_tab_set(base + 3, i, c64memrom_basic64_read);
         mem_read_tab_set(base + 7, i, c64memrom_basic64_read);
+#if USE_MMU_TRANSLATE
         mem_read_base_set(base + 3, i, NULL);
         mem_read_base_set(base + 7, i, NULL);
+#endif
     }
 
     /* Setup I/O at $D000-$DFFF (memory configs 5, 6, 7).  */
@@ -123,9 +127,11 @@ void c64dtvmeminit(unsigned int base)
             mem_read_tab_set(base + j, 0xdf, c64io2_read);
             mem_set_write_hook(base + j, 0xdf, c64io2_store);
 
+#if USE_MMU_TRANSLATE
             for (i = 0xd0; i <= 0xdf; i++) {
                 mem_read_base_set(base + j, i, NULL);
             }
+#endif
         }
     }
 
@@ -135,13 +141,16 @@ void c64dtvmeminit(unsigned int base)
         mem_read_tab_set(base + 3, i, c64memrom_kernal64_read);
         mem_read_tab_set(base + 6, i, c64memrom_kernal64_read);
         mem_read_tab_set(base + 7, i, c64memrom_kernal64_read);
+#if USE_MMU_TRANSLATE
         mem_read_base_set(base + 2, i, NULL);
         mem_read_base_set(base + 3, i, NULL);
         mem_read_base_set(base + 6, i, NULL);
         mem_read_base_set(base + 7, i, NULL);
+#endif
     }
 }
 
+#if USE_MMU_TRANSLATE
 void c64dtvmem_limit_init(uint32_t mem_read_limit_tab[NUM_CONFIGS][0x101])
 {
     int i, j, k;
@@ -155,3 +164,4 @@ void c64dtvmem_limit_init(uint32_t mem_read_limit_tab[NUM_CONFIGS][0x101])
         mem_read_limit_tab[i][0x100] = 0;
     }
 }
+#endif

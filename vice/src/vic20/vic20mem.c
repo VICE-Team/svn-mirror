@@ -84,9 +84,11 @@ uint8_t vic20_v_bus_last_data;
 /* Last read data on V-bus (VD8-VD11) */
 uint8_t vic20_v_bus_last_high;
 
+#if USE_MMU_TRANSLATE
 /* Memory read and write tables.  */
 static uint8_t *_mem_read_base_tab[0x101];
 static int mem_read_limit_tab[0x101];
+#endif
 
 /* These ones are used when watchpoints are turned on.  */
 static read_func_ptr_t _mem_read_tab_watch[0x101];
@@ -100,8 +102,10 @@ read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 read_func_ptr_t *_mem_read_tab_ptr_dummy;
 store_func_ptr_t *_mem_write_tab_ptr_dummy;
+#if USE_MMU_TRANSLATE
 static uint8_t **_mem_read_base_tab_ptr;
 static int *mem_read_limit_tab_ptr;
+#endif
 
 /* Current watchpoint state.
           0 = no watchpoints
@@ -316,16 +320,20 @@ static void set_mem(int start_page, int end_page,
             _mem_read_tab_nowatch[i] = read_func;
             _mem_write_tab_nowatch[i] = store_func;
             _mem_peek_tab[i] = peek_func;
+#if USE_MMU_TRANSLATE
             _mem_read_base_tab[i] = read_base + ((i << 8) & base_mask);
             mem_read_limit_tab[i] = (end_page << 8) + 0xfd;
+#endif
         }
     } else {
         for (i = start_page; i <= end_page; i++) {
             _mem_read_tab_nowatch[i] = read_func;
             _mem_write_tab_nowatch[i] = store_func;
             _mem_peek_tab[i] = peek_func;
+#if USE_MMU_TRANSLATE
             _mem_read_base_tab[i] = NULL;
             mem_read_limit_tab[i] = 0;
+#endif
         }
     }
 }
@@ -506,11 +514,12 @@ void mem_initialize_memory(void)
     _mem_read_tab_nowatch[0x100] = _mem_read_tab_nowatch[0];
     _mem_write_tab_nowatch[0x100] = _mem_write_tab_nowatch[0];
     _mem_peek_tab[0x100] = _mem_peek_tab[0];
+#if USE_MMU_TRANSLATE
     _mem_read_base_tab[0x100] = _mem_read_base_tab[0];
     mem_read_limit_tab[0x100] = 0;
-
     _mem_read_base_tab_ptr = _mem_read_base_tab;
     mem_read_limit_tab_ptr = mem_read_limit_tab;
+#endif
 
     /* setup watchpoint tables */
     _mem_read_tab_watch[0] = zero_read_watch;
@@ -521,9 +530,12 @@ void mem_initialize_memory(void)
     }
 
     mem_toggle_watchpoints(watchpoints_active, NULL);
+#if USE_MMU_TRANSLATE
     maincpu_resync_limits();
+#endif
 }
 
+#if USE_MMU_TRANSLATE
 void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     uint8_t *p = _mem_read_base_tab_ptr[addr >> 8];
@@ -532,6 +544,7 @@ void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit
     *start = addr; /* TODO */
     *limit = mem_read_limit_tab_ptr[addr >> 8];
 }
+#endif
 
 void mem_toggle_watchpoints(int flag, void *context)
 {

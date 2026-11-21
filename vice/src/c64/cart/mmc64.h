@@ -78,8 +78,9 @@ void mmc64_reset(void);
 int mmc64_enable(void);
 int mmc64_disable(void);
 const char *mmc64_get_file_name(void);
+#if USE_MMU_TRANSLATE
 int mmc64_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 struct snapshot_s;
 
 int mmc64_snapshot_read_module(struct snapshot_s *s);

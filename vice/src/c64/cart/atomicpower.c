@@ -296,6 +296,7 @@ void atomicpower_romh_store(uint16_t addr, uint8_t value)
     }
 }
 
+#if USE_MMU_TRANSLATE
 void atomicpower_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
 /* FIXME: this is broken, code-in-ram execution from AR "acid test" fails */
@@ -336,6 +337,7 @@ void atomicpower_mmu_translate(unsigned int addr, uint8_t **base, int *start, in
     *start = 0;
     *limit = 0;
 }
+#endif
 
 /* ---------------------------------------------------------------------*/
 

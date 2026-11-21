@@ -67,6 +67,7 @@ log_t maincpu_log = LOG_DEFAULT;
 
 /* ------------------------------------------------------------------------- */
 
+#if USE_MMU_TRANSLATE
 /* Implement the hack to make opcode fetches faster.  */
 #define JUMP(addr)                            \
     do {                                      \
@@ -76,7 +77,12 @@ log_t maincpu_log = LOG_DEFAULT;
             bank_bank = reg_pbr;              \
         }                                     \
     } while (0)
-
+#else
+#define JUMP(addr)                            \
+    do {                                      \
+        reg_pc = (unsigned int)(addr);        \
+    } while (0)
+#endif
 /* ------------------------------------------------------------------------- */
 
 /* FIXME: implementation of cpu-history and memmap is missing (see mainc64cpu.c) */
@@ -265,6 +271,7 @@ void maincpu_reset(void)
 unsigned int reg_pc;
 #endif
 
+#if USE_MMU_TRANSLATE
 static bool bank_base_ready = false;
 static uint8_t *bank_base = NULL;
 static int bank_start = 0;
@@ -277,6 +284,7 @@ void maincpu_resync_limits(void)
         mem_mmu_translate(reg_pc | (bank_bank << 16), &bank_base, &bank_start, &bank_limit);
     }
 }
+#endif
 
 void maincpu_mainloop(void)
 {
@@ -312,13 +320,14 @@ void maincpu_mainloop(void)
     unsigned int reg_pc;
 #endif
 
+#if USE_MMU_TRANSLATE
     /*
      * Enable maincpu_resync_limits functionality .. in the old code
      * this is where the local stack var had its address copied to
      * the global.
      */
     bank_base_ready = true;
-
+#endif
     reg_c = 0;
 
     machine_trigger_reset(MACHINE_RESET_MODE_RESET_CPU);

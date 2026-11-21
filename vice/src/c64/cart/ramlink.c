@@ -1596,6 +1596,7 @@ static int ramlink_io2_dump(void)
 }
 
 /* ---------------------------------------------------------------------*/
+#if USE_MMU_TRANSLATE
 int c128ramlink_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit, int mem_config)
 {
 #if 0
@@ -1692,6 +1693,7 @@ int c128ramlink_mmu_translate(unsigned int addr, uint8_t **base, int *start, int
 
     return 0;
 }
+#endif
 
 uint8_t c128ramlink_hi_read(uint16_t addr, uint8_t *value)
 {
@@ -1907,6 +1909,7 @@ int ramlink_romh_phi2_read(uint16_t addr, uint8_t *value)
 
 /* ---------------------------------------------------------------------*/
 
+#if USE_MMU_TRANSLATE
 int ramlink_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
 /*
@@ -1956,6 +1959,7 @@ int ramlink_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *li
 
     return CART_READ_THROUGH;
 }
+#endif
 
 void ramlink_passthrough_changed(export_t *ex)
 {

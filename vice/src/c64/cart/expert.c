@@ -617,7 +617,7 @@ void expert_reset(void)
 }
 
 /* ---------------------------------------------------------------------*/
-
+#if USE_MMU_TRANSLATE
 void expert_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
@@ -647,6 +647,7 @@ void expert_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *li
     *start = 0;
     *limit = 0;
 }
+#endif
 
 void expert_config_init(void)
 {

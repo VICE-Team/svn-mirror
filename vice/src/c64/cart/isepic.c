@@ -621,6 +621,7 @@ const char *isepic_get_file_name(void)
     return isepic_filename;
 }
 
+#if USE_MMU_TRANSLATE
 void isepic_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
 #if 0
@@ -649,6 +650,7 @@ void isepic_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *li
     *start = 0;
     *limit = 0;
 }
+#endif
 
 void isepic_config_init(void)
 {

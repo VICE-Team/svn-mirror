@@ -181,7 +181,7 @@ static int set_rrnetmk3_bios_write(int val, void *param)
 }
 
 /* ---------------------------------------------------------------------*/
-
+#if USE_MMU_TRANSLATE
 int rrnetmk3_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     if (!rrnetmk3_biossel) {
@@ -198,6 +198,7 @@ int rrnetmk3_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *l
     }
     return CART_READ_THROUGH;
 }
+#endif
 
 void rrnetmk3_config_init(void)
 {

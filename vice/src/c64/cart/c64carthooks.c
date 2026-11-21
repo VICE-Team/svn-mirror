@@ -3207,6 +3207,7 @@ void cartridge_sound_chip_init(void)
     shortbus_digimax_sound_chip_init();
 }
 
+#if USE_MMU_TRANSLATE
 /* ------------------------------------------------------------------------- */
 /* Perform MMU translation for simple cartridge RAM/ROM/FLASH mappings.
    This function returns a pointer to a continuous memory area where addr
@@ -3356,6 +3357,7 @@ void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int 
             return;
     }
 }
+#endif
 
 /* ------------------------------------------------------------------------- */
 

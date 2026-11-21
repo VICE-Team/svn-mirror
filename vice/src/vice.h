@@ -162,4 +162,13 @@
 #define M_PI 3.14159265358979323846
 #endif
 
+/* NOTE: MMU-Translate was disabled by default (and deprecated) nov.2026
+ * FIXME: the entire old code should probably get removed after a year or so
+ */
+/* set to 1 to re-enable the old "mmu translate" code (only for debugging) */
+#define USE_MMU_TRANSLATE 0
+
+/* override the above, enable it only for CBM2 (only for debugging) */
+#define USE_MMU_TRANSLATE_CBM2 0
+
 #endif

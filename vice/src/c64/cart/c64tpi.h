@@ -59,8 +59,9 @@ void tpi_setup_context(struct machine_context_s *machine_context);
 int tpi_bin_attach(const char *filename, uint8_t *rawcart);
 int tpi_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename);
 const char *tpi_get_file_name(void);
+#if USE_MMU_TRANSLATE
 int tpi_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
-
+#endif
 void tpi_reset(void);
 void tpi_init(void);
 void tpi_shutdown(void);

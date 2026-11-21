@@ -29,9 +29,11 @@
 #define VICE_C64MEMLIMIT_H
 #include "types.h"
 
+#if USE_MMU_TRANSLATE
 extern void mem_limit_init(void);
 extern void mem_limit_plus60k_init(void);
 extern void mem_limit_256k_init(void);
 extern void mem_limit_max_init(void);
+#endif
 
 #endif

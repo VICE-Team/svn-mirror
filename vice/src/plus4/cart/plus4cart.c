@@ -512,12 +512,14 @@ uint8_t *plus4cart_get_tedmem_base(unsigned int segment)
     return base;
 }
 
+#if USE_MMU_TRANSLATE
 void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     *base = NULL;
     *start = 0;
     *limit = 0;
 }
+#endif
 
 /* ---------------------------------------------------------------------*/
 /*

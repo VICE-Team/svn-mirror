@@ -420,8 +420,10 @@ void petdww_shutdown(void)
 
 static read_func_ptr_t save_mem_read_tab[PET_DWW_RAM_SIZE >> 8];
 static store_func_ptr_t save_mem_write_tab[PET_DWW_RAM_SIZE >> 8];
+#if USE_MMU_TRANSLATE
 static uint8_t *save_mem_base_tab[PET_DWW_RAM_SIZE >> 8];
 static int save_mem_limit_tab[PET_DWW_RAM_SIZE >> 8];
+#endif
 
 static uint8_t dww_ram9000_read(uint16_t addr)
 {
@@ -443,7 +445,11 @@ static void dww_ram9000_store(uint16_t addr, uint8_t value)
     petdww_ram[min9000] = value;
 }
 
+#if USE_MMU_TRANSLATE
 void petdww_override_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *mem_write_tab, uint8_t **mem_base_tab, int *mem_limit_tab)
+#else
+void petdww_override_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *mem_write_tab)
+#endif
 {
     int i;
 
@@ -475,18 +481,27 @@ void petdww_override_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *m
     for (i = 0x90; i < 0xb0; i++) {
         save_mem_read_tab[i - 0x90] = mem_read_tab[i];
         save_mem_write_tab[i - 0x90] = mem_write_tab[i];
+#if USE_MMU_TRANSLATE
         save_mem_base_tab[i - 0x90] = mem_base_tab[i];
         save_mem_limit_tab[i - 0x90] = mem_limit_tab[i];
-
+#endif
         mem_read_tab[i] = dww_ram9000_read;
         mem_write_tab[i] = dww_ram9000_store;
+#if USE_MMU_TRANSLATE
         mem_base_tab[i] = NULL;
         mem_limit_tab[i] = 0;
+#endif
     }
+#if USE_MMU_TRANSLATE
     maincpu_resync_limits();
+#endif
 }
 
+#if USE_MMU_TRANSLATE
 void petdww_restore_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *mem_write_tab, uint8_t **mem_base_tab, int *mem_limit_tab)
+#else
+void petdww_restore_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *mem_write_tab)
+#endif
 {
     int i;
 
@@ -499,10 +514,14 @@ void petdww_restore_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *me
         for (i = 0x90; i < 0xb0; i++) {
             mem_read_tab[i] = save_mem_read_tab[i - 0x90];
             mem_write_tab[i] = save_mem_write_tab[i - 0x90];
+#if USE_MMU_TRANSLATE
             mem_base_tab[i] = save_mem_base_tab[i - 0x90];
             mem_limit_tab[i] = save_mem_limit_tab[i - 0x90];
+#endif
         }
+#if USE_MMU_TRANSLATE
         maincpu_resync_limits();
+#endif
     }
 #if DWW_DEBUG_RAM
     else {
@@ -741,6 +760,7 @@ static void store_pb(uint8_t byte)
     if (petdww_enabled) {
         read_func_ptr_t *read;
         store_func_ptr_t *write;
+#if USE_MMU_TRANSLATE
         uint8_t **base;
         int *limit;
 
@@ -751,6 +771,15 @@ static void store_pb(uint8_t byte)
         } else {
             petdww_restore_std_9toa(read, write, base, limit);
         }
+#else
+        get_mem_access_tables(&read, &write);
+
+        if (mem_at_9000) {
+            petdww_override_std_9toa(read, write);
+        } else {
+            petdww_restore_std_9toa(read, write);
+        }
+#endif
     }
 }
 

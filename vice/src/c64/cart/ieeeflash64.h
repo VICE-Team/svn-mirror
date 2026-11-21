@@ -41,8 +41,9 @@ int ieeeflash64_cmdline_options_init(void);
 void ieeeflash64_passthrough_changed(export_t *export);
 int ieeeflash64_enable(void);
 int ieeeflash64_disable(void);
-
+#if USE_MMU_TRANSLATE
 int ieeeflash64_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
+#endif
 uint8_t ieeeflash64_romh_read_hirom(uint16_t addr);
 int ieeeflash64_romh_phi1_read(uint16_t addr, uint8_t *value);
 int ieeeflash64_romh_phi2_read(uint16_t addr, uint8_t *value);

@@ -814,6 +814,7 @@ static int ltkernal_io_dump(void)
 }
 
 /* ---------------------------------------------------------------------*/
+#if USE_MMU_TRANSLATE
 int c128ltkernal_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit, int mem_config)
 {
     /* unlike the c64 mmu_translate, here we only apply what we can and move
@@ -846,6 +847,7 @@ int c128ltkernal_mmu_translate(unsigned int addr, uint8_t **base, int *start, in
     /* nothing to apply here */
     return 0;
 }
+#endif
 
 uint8_t c128ltkernal_ram_read(uint16_t addr, uint8_t *value)
 {
@@ -974,6 +976,7 @@ void c128ltkernal_switch_mode(int mode)
     }
 }
 
+#if USE_MMU_TRANSLATE
 int ltkernal_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     /* the callers take care of most stuff here, but since this is both a
@@ -1019,6 +1022,7 @@ int ltkernal_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *l
     *limit = 0;
     return CART_READ_THROUGH;
 }
+#endif
 
 uint8_t ltkernal_roml_read(uint16_t addr)
 {

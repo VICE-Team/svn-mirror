@@ -74,8 +74,15 @@
 #include "z80mem.h"
 #include "video.h"
 
+/* #define DEBUG_C128MEM */
 /* #define DEBUG_MMU */
 /* #define DEBUG_KEYS */
+
+#ifdef DEBUG_C128MEM
+#define DBG(x) log_printf  x
+#else
+#define DBG(x)
+#endif
 
 #ifdef DEBUG_MMU
 #define DEBUG_PRINT(x) log_printf  x
@@ -125,8 +132,10 @@ read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 read_func_ptr_t *_mem_read_tab_ptr_dummy;
 store_func_ptr_t *_mem_write_tab_ptr_dummy;
+#if USE_MMU_TRANSLATE
 static uint8_t **_mem_read_base_tab_ptr;
 static uint32_t *mem_read_limit_tab_ptr;
+#endif
 
 #define NUM_CONFIGS64  32
 #define NUM_CONFIGS128 256
@@ -135,8 +144,10 @@ static uint32_t *mem_read_limit_tab_ptr;
 /* Memory read and write tables.  */
 static store_func_ptr_t mem_write_tab[NUM_VBANKS][NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
+#if USE_MMU_TRANSLATE
 static uint8_t *mem_read_base_tab[NUM_CONFIGS][0x101];
 static uint32_t mem_read_limit_tab[NUM_CONFIGS][0x101];
+#endif
 
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
@@ -529,11 +540,11 @@ void mem_update_config(int config)
 
     mem_update_tab_ptrs(watchpoints_active);
 
+#if USE_MMU_TRANSLATE
     _mem_read_base_tab_ptr = mem_read_base_tab[config];
     mem_read_limit_tab_ptr = mem_read_limit_tab[config];
-
     maincpu_resync_limits();
-
+#endif
     if (config < NUM_CONFIGS64) {
         /* 64 mode */
         if (mem_machine_type == C128_MACHINE_INT) {
@@ -1536,6 +1547,7 @@ void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t rea
     mem_read_tab[base][index] = read_func;
 }
 
+#if USE_MMU_TRANSLATE
 /* set c128 base */
 void mem_read_base_set(unsigned int base, unsigned int index, uint8_t *mem_ptr)
 {
@@ -1554,6 +1566,7 @@ void mem_read_limit_set(unsigned int base, unsigned int index, uint32_t limit)
 {
     mem_read_limit_tab[base][index] = limit;
 }
+#endif
 
 static void c64mode_ffxx_store(uint16_t addr, uint8_t value)
 {
@@ -1572,7 +1585,9 @@ static void c64mode_ffxx_store(uint16_t addr, uint8_t value)
     }
 }
 
+#if USE_MMU_TRANSLATE
 static char c64mem_read_base_tab[32][0x101];
+#endif
 
 void mem_initialize_memory(void)
 {
@@ -1582,13 +1597,13 @@ void mem_initialize_memory(void)
     mem_chargen_rom_ptr = mem_chargen_rom;
     mem_color_ram_cpu = mem_color_ram;
     mem_color_ram_vicii = mem_color_ram;
-
+#if USE_MMU_TRANSLATE
     for (j = 0; j < NUM_CONFIGS; j++) {
         for (i = 0; i <= 0x100; i++) {
             mem_read_limit_tab[j][i] = 0;
         }
     }
-
+#endif
     for (i = 0; i <= 0x100; i++) {
         mem_read_tab_watch[i] = watch_read;
         mem_write_tab_watch[i] = watch_store;
@@ -1602,15 +1617,21 @@ void mem_initialize_memory(void)
     for (i = 0; i < 32; i++) {
         mem_set_write_hook(base + i, 0, zero_store);
         mem_read_tab[base + i][0] = zero_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[base + i][0] = mem_ram;
+#endif
         mem_set_write_hook(base + i, 1, one_store);
         mem_read_tab[base + i][1] = one_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[base + i][1] = mem_ram;
+#endif
 
         /* Use lo_read/lo_store for possibly shared bottom memory area in $0200-$3fff */
         for (j = 2; j <= 0x3f; j++) {
             mem_read_tab[base + i][j] = lo_read;
+#if USE_MMU_TRANSLATE
             mem_read_base_tab[base + i][j] = mem_ram;
+#endif
             for (k = 0; k < NUM_VBANKS; k++) {
                 if ((j & 0xc0) == (k << 6)) {
                     switch (j & 0x3f) {
@@ -1632,7 +1653,9 @@ void mem_initialize_memory(void)
         /* use normal ram_read/ram_store for $4000-$bfff */
         for (j = 0x40; j <= 0xbf; j++) {
             mem_read_tab[base + i][j] = ram_read;
+#if USE_MMU_TRANSLATE
             mem_read_base_tab[base + i][j] = mem_ram;
+#endif
             for (k = 0; k < NUM_VBANKS; k++) {
                 if ((j & 0xc0) == (k << 6)) {
                     switch (j & 0x3f) {
@@ -1653,7 +1676,9 @@ void mem_initialize_memory(void)
 
         for (j = 0xc0; j <= 0xfe; j++) {
             mem_read_tab[base + i][j] = top_shared_read;
+#if USE_MMU_TRANSLATE
             mem_read_base_tab[base + i][j] = mem_ram;
+#endif
             for (k = 0; k < NUM_VBANKS; k++) {
                 if ((j & 0xc0) == (k << 6)) {
                     switch (j & 0x3f) {
@@ -1672,7 +1697,9 @@ void mem_initialize_memory(void)
             }
         }
         mem_read_tab[base + i][0xff] = top_shared_read;
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[base + i][0xff] = mem_ram;
+#endif
 
         /* vbank access is handled within `ram_hi_store()'.  */
         mem_set_write_hook(base + i, 0xff, c64mode_ffxx_store);
@@ -1691,6 +1718,7 @@ void mem_initialize_memory(void)
         mem_read_tab[base + 11][i] = chargen_read;
         mem_read_tab[base + 26][i] = chargen_read;
         mem_read_tab[base + 27][i] = chargen_read;
+#if USE_MMU_TRANSLATE
 #if 1
         mem_read_base_tab[base + 1][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
         mem_read_base_tab[base + 2][i] = (uint8_t *)((uintptr_t)mem_chargen_rom - (uintptr_t)0xd000);
@@ -1719,11 +1747,13 @@ void mem_initialize_memory(void)
         mem_read_addr_set(base + 26, i, (uintptr_t)mem_chargen_rom);
         mem_read_addr_set(base + 27, i, (uintptr_t)mem_chargen_rom);
 #endif
+#endif
     }
 
     c64meminit(base);
+#if USE_MMU_TRANSLATE
     mem_limit_init();
-
+#endif
     /* Setup C128 specific I/O at $D000-$DFFF.  */
     /* FIXME: no support for ultimax at $D000 - see c64 code */
     for (j = 0; j < 32; j++) {
@@ -1768,9 +1798,12 @@ void mem_initialize_memory(void)
         for (j = 0; j < NUM_VBANKS; j++) {
             mem_write_tab[j][i][0x100] = mem_write_tab[j][i][0];
         }
+#if USE_MMU_TRANSLATE
         mem_read_base_tab[i][0x100] = mem_read_base_tab[i][0];
+#endif
     }
 
+#if USE_MMU_TRANSLATE
     /* Keep track of which mem_read_base_tab entries are set to mem_ram so
        when we switch to c64 mode, we can update only those entries. */
     for (j = 0; j < 32; j++) {
@@ -1778,6 +1811,7 @@ void mem_initialize_memory(void)
             c64mem_read_base_tab[j][i] = (mem_read_base_tab[j][i] == mem_ram);
         }
     }
+#endif
 
     vicii_set_chargen_addr_options(0xffff, 0xffff);
 
@@ -1795,9 +1829,10 @@ void mem_initialize_memory(void)
     base = NUM_CONFIGS64;
     _mem_read_tab_ptr = mem_read_tab[base];
     _mem_write_tab_ptr = mem_write_tab[vbank][base];
+#if USE_MMU_TRANSLATE
     _mem_read_base_tab_ptr = mem_read_base_tab[base];
     mem_read_limit_tab_ptr = mem_read_limit_tab[base];
-
+#endif
     c64pla_pport_reset();
     /* the next function needs to be called to update the pport.data_read so
        that it reflects the impact the external pull up resistors have.
@@ -1807,7 +1842,7 @@ void mem_initialize_memory(void)
     cartridge_init_config();
 }
 
-
+#if USE_MMU_TRANSLATE
 void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     uint8_t *p = _mem_read_base_tab_ptr[addr >> 8];
@@ -1841,12 +1876,15 @@ void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit
         *limit = 0;
     }
 }
+#endif
 
 /* Set up the memory map for the c64 mode */
+/* NOTE: shared_mem is mmu[6] */
 void mem_initialize_go64_memory_bank(uint8_t shared_mem)
 {
-    int i, j;
     int base = 0;
+#if USE_MMU_TRANSLATE
+    int i, j;
     int shared_size = shared_mem & 3;
     int shared_loc = (shared_mem >> 2) & 3;
 
@@ -1957,6 +1995,7 @@ void mem_initialize_go64_memory_bank(uint8_t shared_mem)
             }
         }
     }
+#endif
 
 /* FIXME: Do we need this again? */
     c64meminit(base);
@@ -2191,6 +2230,7 @@ uint8_t read_bank_io(uint16_t addr)
 
 static uint8_t peek_bank_io(uint16_t addr)
 {
+    DBG(("peek_bank_io addr:%04x", addr));
     switch (addr & 0xff00) {
         case 0xd000:
             return c64io_d000_peek(addr);
@@ -2708,27 +2748,91 @@ static uint8_t mem_peek_with_config_c128(int config, uint16_t addr, void *contex
 }
 
 /* ram peek for c64 */
-/* dealing with all the cases while considering shared ram is a pain. instead
-   just use the CPU MMU tables to find the base and add the address. */
-static uint8_t ram_peek_c64(uint16_t addr)
-{
-    uint8_t *b = mem_read_base_tab[mem_config][addr >> 8];
 
+/* dealing with all the cases while considering shared ram is a pain. instead
+   just use the CPU MMU tables to find the base and add the address.
+
+   NOTE: this is only called from mem_peek_with_config_c64 below
+*/
+static uint8_t ram_peek_c64(int config, uint16_t addr)
+{
+    /* FIXME: we really can't use the base pointer for this */
+#if USE_MMU_TRANSLATE
+    uint8_t *b = mem_read_base_tab[config][addr >> 8];
+#endif
     if ((addr & 0xff00) == 0x0000) {
         return zero_peek(addr);
     } else if ((addr & 0xff00) == 0x0100) {
         return one_peek(addr);
     }
-
+#if USE_MMU_TRANSLATE
     return b[addr];
+#else
+    /* log_warning(LOG_DEFAULT, "FIXME: ram_peek_c64 mem_config:%02x addr:%04x", (unsigned)config, addr); */
+    /* return ram_peek(addr); */ /* this is wrong */
+{
+    /* this essentially does what mem_initialize_go64_memory_bank did before */
+
+    int shared_mem = mmu_peek(6);
+    int shared_size = shared_mem & 3;
+    int shared_loc = (shared_mem >> 2) & 3;
+
+    if ((addr >= 0x0000) && (addr <= 0x03ff)) {
+        /* check if $0000-$03ff is shared or not */
+        if (shared_loc == 1 || shared_loc == 3) {
+            return mem_ram[addr];   /* shared, so bank 0 */
+        }
+    } else if ((addr >= 0x0400) && (addr <= 0x0fff)) {
+        /* check if $0400-$0fff is shared or not */
+        if ((shared_loc == 1 || shared_loc == 3 ) && shared_size != 0) {
+            return mem_ram[addr];   /* shared, so bank 0 */
+        }
+    } else if ((addr >= 0x1000) && (addr <= 0x1fff)) {
+        /* check if $1000-$1fff is shared or not */
+        if ((shared_loc == 1 || shared_loc == 3 ) && (shared_size == 2 || shared_size == 3)) {
+            return mem_ram[addr];   /* shared, so bank 0 */
+        }
+    } else if ((addr >= 0x2000) && (addr <= 0x3fff)) {
+        /* check if $2000-$3fff is shared or not */
+        if ((shared_loc == 1 || shared_loc == 3 ) && shared_size == 3) {
+            return mem_ram[addr];   /* shared, so bank 0 */
+        }
+    } else if ((addr >= 0x4000) && (addr <= 0xbfff)) {
+        /* $4000-$bfff is always current ram bank*/
+    } else if ((addr >= 0xc000) && (addr <= 0xdfff)) {
+        /* check if $c000-$dfff is shared or not */
+        if ((shared_loc == 2 || shared_loc == 3 ) && shared_size == 3) {
+            return mem_ram[addr];   /* shared, so bank 0 */
+        }
+    } else if ((addr >= 0xe000) && (addr <= 0xefff)) {
+        /* check if $e000-$efff is shared or not */
+        if ((shared_loc == 2 || shared_loc == 3 ) && (shared_size == 2 || shared_size == 3)) {
+            return mem_ram[addr];   /* shared, so bank 0 */
+        }
+    } else if ((addr >= 0xf000) && (addr <= 0xfbff)) {
+        /* check if $f000-$fbff is shared or not */
+        if ((shared_loc == 2 || shared_loc == 3 ) && shared_size != 0) {
+            return mem_ram[addr];   /* shared, so bank 0 */
+        }
+    } else if ((addr >= 0xfc00) && (addr <= 0xffff)) {
+        /* check if $fc00-$ffff is shared or not */
+        if (shared_loc == 2 || shared_loc == 3) {
+            return mem_ram[addr];   /* shared, so bank 0 */
+        }
+    }
+}
+    /* not shared */
+    return ram_bank[addr];
+#endif
 }
 
 /* "config" here is between 0 and 31 */
 static uint8_t mem_peek_with_config_c64(int config, uint16_t addr, void *context)
 {
+    DBG(("mem_peek_with_config_c64 config:%d addr:%04x", config, addr));
     /* special case to read the CPU port of the 6510 */
     if (addr < 2) {
-        return ram_peek_c64(addr);
+        return ram_peek_c64(config, addr);
     }
 
     /* we must check for which bank is currently active */
@@ -2751,7 +2855,7 @@ static uint8_t mem_peek_with_config_c64(int config, uint16_t addr, void *context
     if (c64meminit_io_config[config] == 2) {
         /* ultimax mode */
         if (/*addr >= 0x0000 &&*/ addr <= 0x0fff) {
-            return ram_peek_c64(addr);
+            return ram_peek_c64(config, addr);
         }
         return cartridge_peek_mem(addr);
     }
@@ -2771,7 +2875,7 @@ static uint8_t mem_peek_with_config_c64(int config, uint16_t addr, void *context
             return mem_chargen_rom[addr & 0x0fff];
         }
     }
-    return ram_peek_c64(addr);
+    return ram_peek_c64(config, addr);
 }
 
 uint8_t mem_peek_with_config(int config, uint16_t addr, void *context)
@@ -2791,7 +2895,7 @@ uint8_t mem_peek_with_config(int config, uint16_t addr, void *context)
 uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
     int real_bank = bank;
-
+    DBG(("mem_bank_peek bank:%d addr:%04x", bank, addr));
     if (!c128_full_banks) {
         real_bank = mem_bank_translate_128_to_256(bank);
     }
@@ -2826,7 +2930,7 @@ uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
 {
     int real_bank = bank;
-
+    DBG(("mem_bank_write bank:%d addr:%04x", bank, addr));
     if (!c128_full_banks) {
         real_bank = mem_bank_translate_128_to_256(bank);
     }

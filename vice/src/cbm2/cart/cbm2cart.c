@@ -28,6 +28,11 @@
 
 #include "vice.h"
 
+#if USE_MMU_TRANSLATE_CBM2
+#undef USE_MMU_TRANSLATE
+#define USE_MMU_TRANSLATE 1
+#endif
+
 #include <string.h>
 
 #include "cartridge.h"
@@ -450,12 +455,14 @@ void cartridge_resources_shutdown(void)
 
 /* ---------------------------------------------------------------------*/
 
+#if USE_MMU_TRANSLATE
 void cartridge_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
     *base = NULL;
     *start = 0;
     *limit = 0;
 }
+#endif
 
 /* ---------------------------------------------------------------------*/
 

@@ -57,7 +57,9 @@ void mem_get_basic_text(uint16_t *start, uint16_t *end);
 void mem_set_basic_text(uint16_t start, uint16_t end);
 void mem_toggle_watchpoints(int flag, void *context);
 int mem_rom_trap_allowed(uint16_t addr);
+#if USE_MMU_TRANSLATE
 void mem_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit);
+#endif
 void mem_color_ram_to_snapshot(uint8_t *color_ram);
 void mem_color_ram_from_snapshot(uint8_t *color_ram);
 

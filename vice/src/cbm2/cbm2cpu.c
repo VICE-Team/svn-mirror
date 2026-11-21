@@ -27,6 +27,11 @@
 
 #include "vice.h"
 
+#if USE_MMU_TRANSLATE_CBM2
+#undef USE_MMU_TRANSLATE
+#define USE_MMU_TRANSLATE 1
+#endif
+
 #include "cbm2.h"
 #include "mem.h"
 #include "types.h"
@@ -52,6 +57,7 @@
 
 /* ------------------------------------------------------------------------- */
 
+/* FIXME: this should go through mem access functions too */
 #define PAGE_ZERO mem_page_zero
 #define PAGE_ONE  mem_page_one
 

@@ -60,8 +60,10 @@ static log_t z80mem_log = LOG_DEFAULT;
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_z80mem_read_tab_ptr;
 store_func_ptr_t *_z80mem_write_tab_ptr;
+#if USE_MMU_TRANSLATE
 uint8_t **_z80mem_read_base_tab_ptr;
 int *z80mem_read_limit_tab_ptr;
+#endif
 
 int z80mem_config;
 
@@ -71,8 +73,10 @@ int z80mem_config;
 /* Memory read and write tables.  */
 static store_func_ptr_t mem_write_tab[NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
+#if USE_MMU_TRANSLATE
 static uint8_t *mem_read_base_tab[NUM_CONFIGS][0x101];
 static int mem_read_limit_tab[NUM_CONFIGS][0x101];
+#endif
 
 store_func_ptr_t io_write_tab[0x101];
 read_func_ptr_t io_read_tab[0x101];
@@ -618,13 +622,14 @@ void z80mem_initialize(void)
     int i, j;
 
     /* Memory addess space.  */
-
+#if USE_MMU_TRANSLATE
     for (j = 0; j < NUM_CONFIGS; j++) {
         for (i = 0; i <= 0x100; i++) {
             mem_read_base_tab[j][i] = NULL;
             mem_read_limit_tab[j][i] = -1;
         }
     }
+#endif
 
     /* z80 c128 mode memory map for the zero page */
     mem_read_tab[0][0] = bios_read;
@@ -1055,8 +1060,10 @@ void z80mem_update_config(int config)
 
     _z80mem_read_tab_ptr = mem_read_tab[config];
     _z80mem_write_tab_ptr = mem_write_tab[config];
+#if USE_MMU_TRANSLATE
     _z80mem_read_base_tab_ptr = mem_read_base_tab[config];
     z80mem_read_limit_tab_ptr = mem_read_limit_tab[config];
+#endif
 
     /* when switching to c64 mode, disable mmu i/o access */
     if (!c64mode_bit && (config & 8)) {
@@ -1071,8 +1078,9 @@ void z80mem_update_config(int config)
         io_write_tab[0xd5] = z80_mmu_store;
         c64mode_bit = 0;
     }
-
+#if USE_MMU_TRANSLATE
     z80_resync_limits();
+#endif
 }
 
 int z80mem_load(void)

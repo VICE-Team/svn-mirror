@@ -175,9 +175,11 @@ uint8_t c128gmod2_roml_read(uint16_t addr)
 void c128gmod2_roml_store(uint16_t addr, uint8_t value)
 {
     flash040core_store(flashrom_state, (addr & 0x3fff) + (c128gmod2_bank << 14), value);
+#if USE_MMU_TRANSLATE
     if (flashrom_state->flash_state != FLASH040_STATE_READ) {
         maincpu_resync_limits();
     }
+#endif
 }
 
 /* ---------------------------------------------------------------------*/

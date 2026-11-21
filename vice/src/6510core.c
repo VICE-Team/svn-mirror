@@ -276,6 +276,7 @@
     } while (0)
 
 /* Import the public version of the registers.  */
+#if USE_MMU_TRANSLATE
 #define IMPORT_REGISTERS()                                 \
     do {                                                   \
         reg_a_write(GLOBAL_REGS.a); /*TODO*/               \
@@ -288,6 +289,19 @@
         bank_start = bank_limit = 0; /* prevent caching */ \
         JUMP(GLOBAL_REGS.pc);                              \
     } while (0)
+#else
+#define IMPORT_REGISTERS()                                 \
+    do {                                                   \
+        reg_a_write(GLOBAL_REGS.a); /*TODO*/               \
+        reg_x_write(GLOBAL_REGS.x);                        \
+        reg_y_write(GLOBAL_REGS.y);                        \
+        reg_sp = GLOBAL_REGS.sp;                           \
+        reg_p = GLOBAL_REGS.p;                             \
+        flag_n = GLOBAL_REGS.n;                            \
+        flag_z = GLOBAL_REGS.z;                            \
+        JUMP(GLOBAL_REGS.pc);                              \
+    } while (0)
+#endif
 #else  /* C64DTV */
 
 /* Export the local version of the registers.  */
@@ -319,6 +333,7 @@
     } while (0)
 
 /* Import the public version of the registers.  */
+#if USE_MMU_TRANSLATE
 #define IMPORT_REGISTERS()                                 \
     do {                                                   \
         dtv_registers[0] = GLOBAL_REGS.a;                  \
@@ -348,6 +363,36 @@
         bank_start = bank_limit = 0; /* prevent caching */ \
         JUMP(GLOBAL_REGS.pc);                              \
     } while (0)
+#else
+#define IMPORT_REGISTERS()                                 \
+    do {                                                   \
+        dtv_registers[0] = GLOBAL_REGS.a;                  \
+        dtv_registers[2] = GLOBAL_REGS.x;                  \
+        dtv_registers[1] = GLOBAL_REGS.y;                  \
+        reg_sp = GLOBAL_REGS.sp;                           \
+        reg_p = GLOBAL_REGS.p;                             \
+        flag_n = GLOBAL_REGS.n;                            \
+        flag_z = GLOBAL_REGS.z;                            \
+        dtv_registers[3] = GLOBAL_REGS.r3;                 \
+        dtv_registers[4] = GLOBAL_REGS.r4;                 \
+        dtv_registers[5] = GLOBAL_REGS.r5;                 \
+        dtv_registers[6] = GLOBAL_REGS.r6;                 \
+        dtv_registers[7] = GLOBAL_REGS.r7;                 \
+        dtv_registers[8] = GLOBAL_REGS.r8;                 \
+        dtv_registers[9] = GLOBAL_REGS.r9;                 \
+        dtv_registers[10] = GLOBAL_REGS.r10;               \
+        dtv_registers[11] = GLOBAL_REGS.r11;               \
+        dtv_registers[12] = GLOBAL_REGS.r12;               \
+        dtv_registers[13] = GLOBAL_REGS.r13;               \
+        dtv_registers[14] = GLOBAL_REGS.r14;               \
+        dtv_registers[15] = GLOBAL_REGS.r15;               \
+        reg_a_write_idx = GLOBAL_REGS.acm >> 4;            \
+        reg_a_read_idx = GLOBAL_REGS.acm & 0xf;            \
+        reg_y_idx = GLOBAL_REGS.yxm >> 4;                  \
+        reg_x_idx = GLOBAL_REGS.yxm & 0xf;                 \
+        JUMP(GLOBAL_REGS.pc);                              \
+    } while (0)
+#endif
 
 #endif /* C64DTV */
 #else  /* DRIVE_CPU */
@@ -433,6 +478,7 @@ do {                                                                   \
 /* Perform the interrupts in `int_kind'.  If we have both NMI and IRQ,
    execute NMI. NMI can take over an in progress IRQ.  */
 /* FIXME: LOCAL_STATUS() should check byte ready first.  */
+#if USE_MMU_TRANSLATE
 #define DO_INTERRUPT(int_kind)                                                                 \
     do {                                                                                       \
         uint8_t ik = (int_kind);                                                               \
@@ -528,7 +574,102 @@ do {                                                                   \
             }                                                                                  \
         }                                                                                      \
     } while (0)
-
+#else
+#define DO_INTERRUPT(int_kind)                                                                 \
+    do {                                                                                       \
+        uint8_t ik = (int_kind);                                                               \
+        uint16_t addr, handler_vector;                                                         \
+                                                                                               \
+        if (ik & (IK_IRQ | IK_IRQPEND | IK_NMI)) {                                             \
+            if (((ik & IK_NMI)                                                                 \
+                 && interrupt_check_nmi_delay(CPU_INT_STATUS, CLK))                            \
+                || ((ik & (IK_IRQ | IK_IRQPEND)) && (!LOCAL_INTERRUPT()                        \
+                                                     || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO)) \
+                    && interrupt_check_irq_delay(CPU_INT_STATUS, CLK))) {                      \
+                if (monitor_mask[CALLER] & (MI_STEP)) {                                        \
+                    monitor_check_icount_interrupt();                                          \
+                }                                                                              \
+                if (NMI_CYCLES == 7) {                                                         \
+                    FETCH_PARAM_DUMMY(reg_pc);   /* dummy reads */                             \
+                    CLK_ADD(CLK, 1);                                                           \
+                    FETCH_PARAM_DUMMY(reg_pc);                                                 \
+                    CLK_ADD(CLK, 1);                                                           \
+                }                                                                              \
+                LOCAL_SET_BREAK(0);                                                            \
+                PUSH(reg_pc >> 8);                                                             \
+                PUSH(reg_pc & 0xff);                                                           \
+                CLK_ADD(CLK, 2);                                                               \
+                PUSH(LOCAL_STATUS());                                                          \
+                CLK_ADD(CLK, 1);                                                               \
+                LOCAL_SET_INTERRUPT(1);                                                        \
+                CPU_DELAY_CLK; /* process alarms for cartridge freeze */                       \
+                PROCESS_ALARMS;                                                                \
+                if ((CPU_INT_STATUS->global_pending_int & IK_NMI)                              \
+                    && (CLK >= (CPU_INT_STATUS->nmi_clk + INTERRUPT_DELAY))) {                 \
+                    TRACE_NMI(CLK - NMI_CYCLES + 2);                                           \
+                    interrupt_ack_nmi(CPU_INT_STATUS);                                         \
+                    handler_vector = 0xfffa;                                                   \
+                } else {                                                                       \
+                    TRACE_IRQ(CLK - IRQ_CYCLES + 2);                                           \
+                    interrupt_ack_irq(CPU_INT_STATUS);                                         \
+                    handler_vector = 0xfffe;                                                   \
+                }                                                                              \
+                addr = LOAD_ADDR(handler_vector);                                              \
+                CHECK_PROFILE_INTERRUPT(addr, handler_vector);                                 \
+                JUMP(addr);                                                                    \
+                SET_LAST_OPCODE(0);                                                            \
+                CLK_ADD(CLK, 2);                                                               \
+            }                                                                                  \
+        }                                                                                      \
+        if (ik & (IK_TRAP | IK_RESET)) {                                                       \
+            if (ik & IK_TRAP) {                                                                \
+                EXPORT_REGISTERS();                                                            \
+                interrupt_do_trap(CPU_INT_STATUS, (uint16_t)reg_pc);                           \
+                IMPORT_REGISTERS();                                                            \
+                if (CPU_INT_STATUS->global_pending_int & IK_RESET) {                           \
+                    ik |= IK_RESET;                                                            \
+                }                                                                              \
+            }                                                                                  \
+            if (ik & IK_RESET) {                                                               \
+                cpu_reset();                                                                   \
+                interrupt_ack_reset(CPU_INT_STATUS);                                           \
+                LOCAL_SET_INTERRUPT(1);                                                        \
+                CPU_IS_JAMMED = 0;                                                             \
+                DMA_ON_RESET;                                                                  \
+                addr = LOAD_ADDR(0xfffc);                                                      \
+                CHECK_PROFILE_INTERRUPT(addr, 0xfffc);                                         \
+                JUMP(addr);                                                                    \
+            }                                                                                  \
+        }                                                                                      \
+        if (ik & (IK_MONITOR | IK_DMA)) {                                                      \
+            if (ik & IK_MONITOR) {                                                             \
+                if (monitor_mask[CALLER] & (MI_STEP)) {                                        \
+                    EXPORT_REGISTERS();                                                        \
+                    monitor_check_icount((uint16_t)reg_pc);                                    \
+                    IMPORT_REGISTERS();                                                        \
+                }                                                                              \
+                if (monitor_mask[CALLER] & (MI_BREAK)) {                                       \
+                    EXPORT_REGISTERS();                                                        \
+                    if (monitor_check_breakpoints(CALLER, (uint16_t)reg_pc)) {                 \
+                        monitor_startup(CALLER);                                               \
+                    }                                                                          \
+                    IMPORT_REGISTERS();                                                        \
+                }                                                                              \
+                if (monitor_mask[CALLER] & (MI_WATCH)) {                                       \
+                    EXPORT_REGISTERS();                                                        \
+                    monitor_check_watchpoints(ORIGIN_MEMSPACE, LAST_OPCODE_ADDR, (uint16_t)reg_pc);             \
+                    IMPORT_REGISTERS();                                                        \
+                }                                                                              \
+            }                                                                                  \
+            if (ik & IK_DMA) {                                                                 \
+                EXPORT_REGISTERS();                                                            \
+                DMA_FUNC;                                                                      \
+                interrupt_ack_dma(CPU_INT_STATUS);                                             \
+                IMPORT_REGISTERS();                                                            \
+            }                                                                                  \
+        }                                                                                      \
+    } while (0)
+#endif
 /* ------------------------------------------------------------------------- */
 
 /* FIXME: we need to check if this shortcut will not make checkpoints not
@@ -2058,6 +2199,7 @@ static const uint8_t rewind_fetch_tab[] = {
     /* $F0 */  0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* $F0 */
 };
 
+#if USE_MMU_TRANSLATE
 #if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
 
 #define opcode_t uint32_t
@@ -2178,9 +2320,98 @@ static const uint8_t rewind_fetch_tab[] = {
 #endif
 
 #endif /* !WORDS_BIGENDIAN */
+#else
+#if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
+
+#define opcode_t uint32_t
+
+#define FETCH_OPCODE(o)                                                \
+    do {                                                               \
+            maincpu_stretch = 0;                                       \
+            o = LOAD(reg_pc);                                          \
+            if (rewind_fetch_tab[o & 0xff]) {                          \
+                opcode_cycle[0] = maincpu_stretch;                     \
+                if (opcode_cycle[0] == 0) {                            \
+                    opcode_cycle[0] = vicii_check_memory_refresh(CLK); \
+                }                                                      \
+                CLK_ADD(CLK, 1);                                       \
+                maincpu_stretch = 0;                                   \
+                o |= LOAD(reg_pc + 1) << 8;                            \
+                opcode_cycle[1] = maincpu_stretch;                     \
+                if (opcode_cycle[1] == 0) {                            \
+                    opcode_cycle[1] = vicii_check_memory_refresh(CLK); \
+                }                                                      \
+                CLK_ADD(CLK, 1);                                       \
+            } else {                                                   \
+                CLK_ADD(CLK, 1);                                       \
+                o |= LOAD(reg_pc + 1) << 8;                            \
+                CLK_ADD(CLK, 1);                                       \
+            }                                                          \
+            if (fetch_tab[o & 0xff]) {                                 \
+                o |= (LOAD(reg_pc + 2) << 16);                         \
+                CLK_ADD(CLK, 1);                                       \
+            }                                                          \
+    } while (0)
+
+#define p0 (opcode & 0xff)
+#define p1 ((opcode >> 8) & 0xff)
+#define p2 (opcode >> 8)
+
+#else /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
+
+#define opcode_t         \
+    struct {             \
+        uint8_t ins;        \
+        union {          \
+            uint8_t op8[2]; \
+            uint16_t op16;   \
+        } op;            \
+    }
+
+#define FETCH_OPCODE(o)                                                                   \
+    do {                                                                                  \
+            maincpu_stretch = 0;                                                          \
+            (o).ins = LOAD(reg_pc);                                                       \
+            if (rewind_fetch_tab[(o).ins]) {                                              \
+                opcode_cycle[0] = maincpu_stretch;                                        \
+                if (opcode_cycle[0] == 0) {                                               \
+                    opcode_cycle[0] = vicii_check_memory_refresh(CLK);                    \
+                }                                                                         \
+                CLK_ADD(CLK, 1);                                                          \
+                maincpu_stretch = 0;                                                      \
+                (o).op.op16 = LOAD(reg_pc + 1);                                           \
+                opcode_cycle[1] = maincpu_stretch;                                        \
+                if (opcode_cycle[1] == 0) {                                               \
+                    opcode_cycle[1] = vicii_check_memory_refresh(CLK);                    \
+                }                                                                         \
+                CLK_ADD(CLK, 1);                                                          \
+            } else {                                                                      \
+                CLK_ADD(CLK, 1);                                                          \
+                (o).op.op16 = LOAD(reg_pc + 1);                                           \
+                CLK_ADD(CLK, 1);                                                          \
+            }                                                                             \
+            if (fetch_tab[(o).ins]) {                                                     \
+                (o).op.op16 |= (LOAD(reg_pc + 2) << 8);                                   \
+                CLK_ADD(CLK, 1);                                                          \
+            }                                                                             \
+    } while (0)
+
+#define p0 (opcode.ins)
+#define p2 (opcode.op.op16)
+
+#ifdef WORDS_BIGENDIAN
+#  define p1 (opcode.op.op8[1])
+#else
+#  define p1 (opcode.op.op8[0])
+#endif
+
+#endif /* !WORDS_BIGENDIAN */
+
+#endif
 
 #else /* !CPU_8502 */
 
+#if 0
 #if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
 
 #define opcode_t uint32_t
@@ -2251,7 +2482,64 @@ static const uint8_t rewind_fetch_tab[] = {
 #endif
 
 #endif /* !WORDS_BIGENDIAN */
+#else
+
+#if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
+
+#define opcode_t uint32_t
+
+#define FETCH_OPCODE(o)                                        \
+    do {                                                       \
+            o = LOAD(reg_pc);                                  \
+            CLK_ADD(CLK, 1);                                   \
+            o |= LOAD(reg_pc + 1) << 8;                        \
+            CLK_ADD(CLK, 1);                                   \
+            if (fetch_tab[o & 0xff]) {                         \
+                o |= (LOAD(reg_pc + 2) << 16);                 \
+                CLK_ADD(CLK, 1);                               \
+            }                                                  \
+    } while (0)
+
+#define p0 (opcode & 0xff)
+#define p1 ((opcode >> 8) & 0xff)
+#define p2 (opcode >> 8)
+
+#else /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
+
+#define opcode_t         \
+    struct {             \
+        uint8_t ins;        \
+        union {          \
+            uint8_t op8[2]; \
+            uint16_t op16;   \
+        } op;            \
+    }
+
+#define FETCH_OPCODE(o)                                                                   \
+    do {                                                                                  \
+            (o).ins = LOAD(reg_pc);                                                       \
+            CLK_ADD(CLK, 1);                                                              \
+            (o).op.op16 = LOAD(reg_pc + 1);                                               \
+            CLK_ADD(CLK, 1);                                                              \
+            if (fetch_tab[(o).ins]) {                                                     \
+                (o).op.op16 |= (LOAD(reg_pc + 2) << 8);                                   \
+                CLK_ADD(CLK, 1);                                                          \
+            }                                                                             \
+    } while (0)
+
+#define p0 (opcode.ins)
+#define p2 (opcode.op.op16)
+
+#ifdef WORDS_BIGENDIAN
+#  define p1 (opcode.op.op8[1])
+#else
+#  define p1 (opcode.op.op8[0])
 #endif
+
+#endif /* !WORDS_BIGENDIAN */
+
+#endif
+#endif /* !CPU_8502 */
 
 /*  SET_OPCODE for traps */
 #if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
@@ -2398,10 +2686,12 @@ static const uint8_t rewind_fetch_tab[] = {
 #ifdef FEATURE_CPUMEMHISTORY
 #ifndef DRIVE_CPU
 #ifndef C64DTV
+#if USE_MMU_TRANSLATE
         /* HACK to cope with FETCH_OPCODE optimization in x64 */
         if (((int)reg_pc) < bank_limit) {
             memmap_mark_read(reg_pc);
         }
+#endif
 #endif
 #endif
         /* If reg_pc >= bank_limit  then JSR (0x20) hasn't load p2 yet.
