@@ -30,7 +30,6 @@
 #include "vice.h"
 
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 
 #include "6809.h"
@@ -43,6 +42,7 @@
 #include "machine.h"
 #include "maincpu.h"
 #include "mem.h"
+#include "mem_bank_dynamic.h"
 #include "monitor.h"
 #include "pet.h"
 #include "pet-resources.h"
@@ -2040,63 +2040,61 @@ static const int banknums[MAXBANKS + 1] = {
 static const int bankindex[MAXBANKS + 1] = { -1, -1, -1, -1, -1, -1, -1, -1 };
 static const int bankflags[MAXBANKS + 1] = { 0, 0, 0, 0, 0, 0, 0, -1 };
 
+static const mem_bank_dynamic_config_t bank_dyn_config_regular = {
+    .base_banknames   = banknames_regular,
+    .base_banknums    = banknums,
+    .base_bankindex   = bankindex,
+    .base_bankflags   = bankflags,
+};
+static const mem_bank_dynamic_config_t bank_dyn_config_superpet = {
+    .base_banknames   = banknames_superpet,
+    .base_banknums    = banknums,
+    .base_bankindex   = bankindex,
+    .base_bankflags   = bankflags,
+};
+static mem_bank_dynamic_t bank_dyn_regular = { .cfg = &bank_dyn_config_regular };
+static mem_bank_dynamic_t bank_dyn_superpet = { .cfg = &bank_dyn_config_superpet };
+
+/* Return the instance for the current model's base bank tables. */
+static mem_bank_dynamic_t *get_bank_dyn(void)
+{
+    return petres.model.superpet ? &bank_dyn_superpet : &bank_dyn_regular;
+}
+
 const char **mem_bank_list(void)
 {
-    if (petres.model.superpet) {
-        return banknames_superpet;
-    } else {
-        return banknames_regular;
-    }
+    return mem_bank_dynamic_list(get_bank_dyn());
 }
 
 const int *mem_bank_list_nos(void) {
-    return banknums;
+    return mem_bank_dynamic_list_nos(get_bank_dyn());
 }
 
 /* return bank number for a given literal bank name */
 int mem_bank_from_name(const char *name)
 {
-    int i = 0;
-    const char **banknames = mem_bank_list();
-
-    while (banknames[i]) {
-        if (!strcmp(name, banknames[i])) {
-            return banknums[i];
-        }
-        i++;
-    }
-    return -1;
+    return mem_bank_dynamic_from_name(get_bank_dyn(), name);
 }
 
 /* return current index for a given bank */
 int mem_bank_index_from_bank(int bank)
 {
-    int i = 0;
-
-    while (banknums[i] > -1) {
-        if (banknums[i] == bank) {
-            return bankindex[i];
-        }
-        i++;
-    }
-    return -1;
+    return mem_bank_dynamic_index_from_bank(get_bank_dyn(), bank);
 }
 
 int mem_bank_flags_from_bank(int bank)
 {
-    int i = 0;
-
-    while (banknums[i] > -1) {
-        if (banknums[i] == bank) {
-            return bankflags[i];
-        }
-        i++;
-    }
-    return -1;
+    return mem_bank_dynamic_flags_from_bank(get_bank_dyn(), bank);
 }
 
 uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 {
+    uint8_t v;
+
+    if (mem_bank_dynamic_try_read(get_bank_dyn(), bank, addr, &v)) {
+        return v;
+    }
+
     switch (bank) {
         case bank_cpu:      /* current */
             return mem_read(addr);
@@ -2129,6 +2127,12 @@ uint8_t mem_bank_read(int bank, uint16_t addr, void *context)
 /* used by monitor if sfx off */
 uint8_t mem_bank_peek(int bank, uint16_t addr, void *context)
 {
+    uint8_t v;
+
+    if (mem_bank_dynamic_try_read(get_bank_dyn(), bank, addr, &v)) {
+        return v;
+    }
+
     switch (bank) {
         case bank_cpu:      /* current */
             /* Use these annoying exceptions just so we PEEK I/O instead of READ it */
@@ -2195,6 +2199,10 @@ uint8_t mem_peek_with_config(int config, uint16_t addr, void *context) {
 
 void mem_bank_write(int bank, uint16_t addr, uint8_t byte, void *context)
 {
+    if (mem_bank_dynamic_try_write(get_bank_dyn(), bank, addr, byte)) {
+        return;
+    }
+
     switch (bank) {
         case bank_cpu:      /* current */
             mem_store(addr, byte);
