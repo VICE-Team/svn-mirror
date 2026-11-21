@@ -33,6 +33,7 @@
 #include "archdep.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "cartridge_banks.h"
 #include "cmdline.h"
 #include "export.h"
 #include "lib.h"
@@ -187,6 +188,29 @@ int georam_cart_enabled(void)
     return georam_enabled;
 }
 
+/* Read a byte from GeoRAM DRAM at the given linear address.
+ * `addr` is (bank << 16) | offset. */
+static uint8_t georam_ram_read(unsigned int addr)
+{
+    return georam_ram[addr];
+}
+
+/* Write a byte to GeoRAM DRAM at the given linear address.
+ * `addr` is (bank << 16) | offset. */
+static void georam_ram_write(unsigned int addr, uint8_t value)
+{
+    georam_ram[addr] = value;
+}
+
+/* Bank registry entry for the GeoRAM DRAM. */
+static cart_bank_info_t georam_bank_info = {
+    "geo",              /* prefix */
+    0,                  /* num_banks -- set on enable/resize */
+    georam_ram_read,
+    georam_ram_write,
+    NULL                /* next -- managed by registry */
+};
+
 static uint8_t georam_io1_read(uint16_t addr)
 {
     uint8_t retval;
@@ -330,6 +354,7 @@ static int set_georam_enabled(int value, void *param)
         georam_io2_list_item = NULL;
         export_remove(&export_res);
         georam_enabled = 0;
+        cartridge_bank_unregister(&georam_bank_info);
     }
     if (!georam_enabled && val) {
         if (georam_activate() < 0) {
@@ -355,6 +380,8 @@ static int set_georam_enabled(int value, void *param)
         georam_io1_list_item = io_source_register(&georam_io1_device);
         georam_io2_list_item = io_source_register(&georam_io2_device);
         georam_enabled = 1;
+        georam_bank_info.num_banks = (int)((unsigned int)georam_size >> 16);
+        cartridge_bank_register(&georam_bank_info);
     }
     return 0;
 }
@@ -382,6 +409,8 @@ static int set_georam_size(int val, void *param)
         georam_size_kb = val;
         georam_size = georam_size_kb << 10;
         georam_activate();
+        georam_bank_info.num_banks = (int)((unsigned int)georam_size >> 16);
+        cartridge_bank_register(&georam_bank_info);
     } else {
         georam_size_kb = val;
         georam_size = georam_size_kb << 10;
@@ -478,6 +507,7 @@ int georam_resources_init(void)
 
 void georam_resources_shutdown(void)
 {
+    cartridge_bank_unregister(&georam_bank_info);
     lib_free(georam_filename);
     georam_filename = NULL;
 }

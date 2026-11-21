@@ -21186,6 +21186,8 @@ Bank groups registered by cartridges:
 @table @code
 @item reu00-NN
 REU RAM.
+@item geo00-NN
+GEORAM RAM.
 @end table
 
 @item cpuhistory [<count>] [c:] [8:] [9:] [10:] [11:]
