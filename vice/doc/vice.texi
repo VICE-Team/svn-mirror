@@ -21188,6 +21188,8 @@ Bank groups registered by cartridges:
 REU RAM.
 @item geo00-NN
 GEORAM RAM.
+@item mmcrf00-07, mmcrr00-07
+MMC Replay flash ROM and RAM.
 @end table
 
 @item cpuhistory [<count>] [c:] [8:] [9:] [10:] [11:]
