@@ -116,6 +116,8 @@ static int p00_read_header(struct rawfile_info_s *info, uint8_t *cbmname_return,
     }
 
     memcpy(cbmname_return, hdr + P00_HDR_CBMNAME_OFFSET, P00_HDR_CBMNAME_LEN);
+    /* do not trust the file to properly terminate the CBM name */
+    cbmname_return[P00_HDR_CBMNAME_LEN - 1] = 0;
 
     if (recsize_return != NULL) {
         *recsize_return = (int)hdr[P00_HDR_RECORDSIZE_OFFSET];
