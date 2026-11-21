@@ -37,6 +37,7 @@
 #include "c64mem.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "cartridge_banks.h"
 #include "cmdline.h"
 #include "crt.h"
 #include "easyflash.h"
@@ -409,6 +410,62 @@ void easyflash_romh_store(uint16_t addr, uint8_t value)
     flash040core_store(easyflash_state_high, (easyflash_register_00 * 0x2000) + (addr & 0x1fff), value);
 }
 
+/* ---------------------------------------------------------------------*/
+
+/* Linear memory view.
+ *
+ * Two cart_bank_info_t entries are registered with the bank registry,
+ * one per flash chip:
+ *
+ *   - efl00..efl07: low chip,  512 KiB as 8 banks of 64 KiB
+ *   - efh00..efh07: high chip, 512 KiB as 8 banks of 64 KiB
+ *
+ * Reads index directly into flash_data.  Writes set flash_data[addr]
+ * and mark the chip dirty; the flash command-sequence handling in the
+ * normal CPU write path is bypassed.
+ */
+
+#define EASYFLASH_FLASH_SIZE  0x80000  /* 512 KiB per chip */
+#define EASYFLASH_FLASH_BANKS (EASYFLASH_FLASH_SIZE / 0x10000)
+
+static uint8_t easyflash_low_read(unsigned int addr)
+{
+    return easyflash_state_low->flash_data[addr];
+}
+
+static void easyflash_low_write(unsigned int addr, uint8_t value)
+{
+    easyflash_state_low->flash_data[addr] = value;
+    easyflash_state_low->flash_dirty = 1;
+}
+
+static uint8_t easyflash_high_read(unsigned int addr)
+{
+    return easyflash_state_high->flash_data[addr];
+}
+
+static void easyflash_high_write(unsigned int addr, uint8_t value)
+{
+    easyflash_state_high->flash_data[addr] = value;
+    easyflash_state_high->flash_dirty = 1;
+}
+
+static cart_bank_info_t easyflash_low_bank_info = {
+    "efl",                          /* prefix -> efl00..efl07 */
+    EASYFLASH_FLASH_BANKS,
+    easyflash_low_read,
+    easyflash_low_write,
+    NULL                            /* next -- managed by registry */
+};
+
+static cart_bank_info_t easyflash_high_bank_info = {
+    "efh",                          /* prefix -> efh00..efh07 */
+    EASYFLASH_FLASH_BANKS,
+    easyflash_high_read,
+    easyflash_high_write,
+    NULL
+};
+
 #if USE_MMU_TRANSLATE
 void easyflash_mmu_translate(unsigned int addr, uint8_t **base, int *start, int *limit)
 {
@@ -525,6 +582,9 @@ static int easyflash_common_attach(const char *filename)
     easyflash_io1_list_item = io_source_register(&easyflash_io1_device);
     easyflash_io2_list_item = io_source_register(&easyflash_io2_device);
 
+    cartridge_bank_register(&easyflash_low_bank_info);
+    cartridge_bank_register(&easyflash_high_bank_info);
+
     easyflash_filename = lib_strdup(filename);
 
     return 0;
@@ -579,6 +639,8 @@ int easyflash_crt_attach(FILE *fd, uint8_t *rawcart, const char *filename)
 
 void easyflash_detach(void)
 {
+    cartridge_bank_unregister(&easyflash_low_bank_info);
+    cartridge_bank_unregister(&easyflash_high_bank_info);
     if (easyflash_crt_write) {
         easyflash_flush_image();
     }

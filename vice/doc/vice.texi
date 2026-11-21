@@ -21192,6 +21192,8 @@ GEORAM RAM.
 MMC Replay flash ROM and RAM.
 @item rrf00-01, rrr00
 Retro Replay flash ROM and RAM.
+@item efl00-07, efh00-07
+EasyFlash low and high flash chips.
 @end table
 
 @item cpuhistory [<count>] [c:] [8:] [9:] [10:] [11:]
