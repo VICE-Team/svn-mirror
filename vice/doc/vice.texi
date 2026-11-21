@@ -21181,6 +21181,13 @@ group of 64KiB banks (e.g. @code{XX00}--@code{XXNN}); the prefix
 and bank count come from the cartridge.  A cartridge with separate ROM
 and RAM regions registers two such groups.
 
+Bank groups registered by cartridges:
+
+@table @code
+@item reu00-NN
+REU RAM.
+@end table
+
 @item cpuhistory [<count>] [c:] [8:] [9:] [10:] [11:]
 @itemx chis [<count>] [c:] [8:] [9:] [10:] [11:]
 Show <count> last executed commands on up to five devices.
