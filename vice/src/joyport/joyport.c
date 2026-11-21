@@ -92,6 +92,11 @@ static joyport_port_props_t port_props[JOYPORT_MAX_PORTS];
 static int pot_port_mask = 1;
 static CLOCK pot_port_mask_clk = 0; /* time when the mask changed */
 
+/* time when a device using the POT lines was swapped directly for another one,
+   per port, and whether that "unplugged" period is still running */
+static CLOCK pot_unplug_clk[JOYPORT_MAX_PORTS];
+static int pot_unplug_active[JOYPORT_MAX_PORTS];
+
 static uint8_t joyport_dig_stored[JOYPORT_MAX_PORTS];
 
 static uint8_t joystick_adapter_id = JOYSTICK_ADAPTER_ID_NONE;
@@ -251,6 +256,55 @@ static int joyport_device_is_single_port(int id)
     return 1;
 }
 
+/** \brief  Check if a device uses the POT lines
+ *
+ * \param[in]   id  joyport device ID
+ *
+ * \return  non-zero if the device has a POT X or POT Y read function
+ */
+static int joyport_device_uses_pots(int id)
+{
+    if (id == JOYPORT_ID_NONE) {
+        return 0;
+    }
+    return joyport_device[id].read_potx != NULL || joyport_device[id].read_poty != NULL;
+}
+
+/** \brief  Check if the POT lines of a port still read as "unplugged"
+ *
+ * After one POT device was swapped directly for another, the POT lines of
+ * that port read as open ($ff) for about a tenth of a second, like they do on
+ * real hardware while the devices are being swapped.
+ *
+ * \param[in]   port    port number
+ *
+ * \return  non-zero while the port reads as unplugged
+ */
+static int joyport_pots_unplugged(int port)
+{
+    if (pot_unplug_active[port]) {
+        if (maincpu_clk < pot_unplug_clk[port]) {
+            /* still unplugged */
+            return 1;
+        }
+        DBG(("joyport_pots_unplugged port:%d plug in again", port));
+        /* time out, plug in again */
+        pot_unplug_active[port] = 0;
+    }
+    return 0;
+}
+
+static void joyport_set_plugged(int port, int plugged)
+{
+    if (plugged == 0) {
+        if (pot_unplug_active[port] == 0) {
+            DBG(("joyport_set_plugged port:%d unplug", port));
+        }
+        pot_unplug_clk[port] = maincpu_clk + ((CLOCK)(machine_get_cycles_per_second() / 10));
+        pot_unplug_active[port] = 1;
+    }
+}
+
 /* attach device 'id' to port 'port' */
 static int joyport_set_device(int port, int id)
 {
@@ -327,6 +381,16 @@ static int joyport_set_device(int port, int id)
             joystick_set_hook(port, 0, 0);
         }
     }
+    /* On real hardware one POT device can't be swapped for another without
+       unplugging it, and while nothing is plugged in the POT lines read $ff.
+       Some software (for example the 1351 driver in mousetest) relies on
+       seeing that value to reset its calibration, so emulate a short
+       "unplugged" period when one POT device is swapped directly for
+       another (from the settings, the command line or the monitor). */
+    if (joyport_device_uses_pots(joy_port[port]) && joyport_device_uses_pots(id)) {
+        joyport_set_plugged(port, 0); /* unplug */
+    }
+
     if (joyport_device[id].set_enabled) {
         joyport_device[id].set_enabled(port, id);
         if (joyport_device[id].hook) {
@@ -494,13 +558,13 @@ uint8_t read_joyport_potx(void)
     }
 
     if (pot_port_mask == 1 || pot_port_mask == 3) {
-        if (pot_port1 != POT_PORT_NOT_FOUND) {
+        if (pot_port1 != POT_PORT_NOT_FOUND && !joyport_pots_unplugged(pot_port1)) {
             id1 = joy_port[pot_port1];
         }
     }
 
     if (pot_port_mask == 2 || pot_port_mask == 3) {
-        if (pot_port2 != POT_PORT_NOT_FOUND) {
+        if (pot_port2 != POT_PORT_NOT_FOUND && !joyport_pots_unplugged(pot_port2)) {
             id2 = joy_port[pot_port2];
         }
     }
@@ -558,13 +622,13 @@ uint8_t read_joyport_poty(void)
     }
 
     if (pot_port_mask == 1 || pot_port_mask == 3) {
-        if (pot_port1 != POT_PORT_NOT_FOUND) {
+        if (pot_port1 != POT_PORT_NOT_FOUND && !joyport_pots_unplugged(pot_port1)) {
             id1 = joy_port[pot_port1];
         }
     }
 
     if (pot_port_mask == 2 || pot_port_mask == 3) {
-        if (pot_port2 != POT_PORT_NOT_FOUND) {
+        if (pot_port2 != POT_PORT_NOT_FOUND && !joyport_pots_unplugged(pot_port2)) {
             id2 = joy_port[pot_port2];
         }
     }
