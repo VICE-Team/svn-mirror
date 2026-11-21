@@ -48,6 +48,7 @@
 #include "archdep.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "cartridge_banks.h"
 #include "cmdline.h"
 #include "export.h"
 #include "interrupt.h"
@@ -309,6 +310,38 @@ int reu_cart_enabled(void)
     return reu_enabled;
 }
 
+/*! \internal \brief Read a byte from REU DRAM at the given linear address.
+
+ \param addr
+   linear byte address into REU DRAM (bank << 16 | offset).
+
+ \return the byte at that address. */
+static uint8_t reu_ram_read(unsigned int addr)
+{
+    return reu_ram[addr];
+}
+
+/*! \internal \brief Write a byte to REU DRAM at the given linear address.
+
+ \param addr
+   linear byte address into REU DRAM (bank << 16 | offset).
+
+ \param value
+   the byte value to write. */
+static void reu_ram_write(unsigned int addr, uint8_t value)
+{
+    reu_ram[addr] = value;
+}
+
+/*! \brief Bank registry entry for the REU DRAM. */
+static cart_bank_info_t reu_bank_info = {
+    "reu",          /* prefix */
+    0,              /* num_banks -- set by reu_activate() */
+    reu_ram_read,
+    reu_ram_write,
+    NULL            /* next -- managed by registry */
+};
+
 /*! \internal \brief set the reu to the enabled or disabled state
 
  \param val
@@ -523,6 +556,7 @@ int reu_resources_init(void)
 /*! \brief uninitialize the reu resources */
 void reu_resources_shutdown(void)
 {
+    cartridge_bank_unregister(&reu_bank_info);
     lib_free(reu_filename);
     reu_filename = NULL;
 }
@@ -682,6 +716,8 @@ static int reu_activate(void)
     }
 
     reu_ram = lib_realloc(reu_ram, reu_size);
+    reu_bank_info.num_banks = (int)(reu_size >> 16);
+    cartridge_bank_register(&reu_bank_info);
 
     /* Clear newly allocated RAM.  */
     reu_init_ram();
@@ -725,6 +761,7 @@ static int reu_deactivate(void)
         }
     }
 
+    cartridge_bank_unregister(&reu_bank_info);
     lib_free(reu_ram);
     reu_ram = NULL;
     old_reu_ram_size = 0;
