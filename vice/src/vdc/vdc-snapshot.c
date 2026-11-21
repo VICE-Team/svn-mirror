@@ -56,24 +56,24 @@ void vdc_snapshot_prepare(void)
    Type     | Name                  | Description
    --------------------------------------------------------
    WORD     | vdc.update_reg        |
-        
+
    WORD     | vdc.screen_adr        |
    WORD     | vdc.cursor_adr        |
    WORD     | vdc.update_adr        |
    WORD     | vdc.attribute_adr     |
    WORD     | vdc.chargen_adr       |
-        
+
    WORD     | vdc.mem_counter       |
    WORD     | vdc.bitmap_counter    |
    WORD     | vdc.bytes_per_char    |
    WORD     | vdc.charwidth         |
-        
+
    WORD     | vdc.skip_after_line   |
-        
+
    DWORD    | CLOCK offset          |
-        
+
    WORD     | vdc.frame_counter     |
-        
+
    WORD     | vdc.row_counter       |
    WORD     | vdc.row_counter_y     |
    WORD     | vdc.row_counter_latch |
@@ -114,27 +114,27 @@ int vdc_snapshot_write_module(snapshot_t *s)
     if (m == NULL) {
         return -1;
     }
-    
+
     if (0
         || SMW_W(m, (int16_t)vdc.update_reg) < 0
-        
+
         || SMW_W(m, (uint16_t)vdc.screen_adr) < 0
         || SMW_W(m, (uint16_t)vdc.cursor_adr) < 0
         || SMW_W(m, (uint16_t)vdc.update_adr) < 0
         || SMW_W(m, (uint16_t)vdc.attribute_adr) < 0
         || SMW_W(m, (uint16_t)vdc.chargen_adr) < 0
-        
+
         || SMW_W(m, (uint16_t)vdc.mem_counter) < 0
         || SMW_W(m, (uint16_t)vdc.bitmap_counter) < 0
         || SMW_W(m, (uint16_t)vdc.bytes_per_char) < 0
         || SMW_W(m, (uint16_t)vdc.charwidth) < 0
-        
+
         || SMW_W(m, (uint16_t)vdc.skip_after_line) < 0
-        
+
         || SMW_CLOCK(m, alarm_context_next_pending_clk(vdc.raster_draw_alarm->context) - maincpu_clk) < 0
-        
+
         || SMW_W(m, (int16_t)vdc.frame_counter) < 0
-        
+
         || SMW_W(m, (uint16_t)vdc.row_counter) < 0
         || SMW_W(m, (uint16_t)vdc.row_counter_y) < 0
         || SMW_W(m, (uint16_t)vdc.row_counter_latch) < 0
@@ -156,7 +156,7 @@ int vdc_snapshot_write_module(snapshot_t *s)
         || SMW_W(m, (uint16_t)vdc.interlaced) < 0 ) {
         goto fail;
     }
-    
+
     /* VDC Registers */
     for (i = 0; i < 0x40; i++) {
         if (SMW_B(m, vdc.regs[i]) < 0) {
@@ -208,24 +208,24 @@ int vdc_snapshot_read_module(snapshot_t *s)
 
     if (0
         || SMR_W_INT(m, &vdc.update_reg) < 0
-        
+
         || SMR_W_UINT(m, &vdc.screen_adr) < 0
         || SMR_W_UINT(m, &vdc.cursor_adr) < 0
         || SMR_W_UINT(m, &vdc.update_adr) < 0
         || SMR_W_UINT(m, &vdc.attribute_adr) < 0
         || SMR_W_UINT(m, &vdc.chargen_adr) < 0
-        
+
         || SMR_W_UINT(m, &vdc.mem_counter) < 0
-        || SMR_W_UINT(m, &vdc.bitmap_counter) < 0        
+        || SMR_W_UINT(m, &vdc.bitmap_counter) < 0
         || SMR_W_UINT(m, &vdc.bytes_per_char) < 0
         || SMR_W_UINT(m, &vdc.charwidth) < 0
-        
+
         || SMR_W_UINT(m, &vdc.skip_after_line) < 0
-        
+
         || SMR_CLOCK(m, &qw) < 0
-        
+
         || SMR_W_INT(m, &vdc.frame_counter) < 0
-        
+
         || SMR_W_UINT(m, &vdc.row_counter) < 0
         || SMR_W_UINT(m, &vdc.row_counter_y) < 0
         || SMR_W_UINT(m, &vdc.row_counter_latch) < 0
@@ -259,7 +259,7 @@ int vdc_snapshot_read_module(snapshot_t *s)
     if (SMR_BA(m, vdc.ram, 0x10000) < 0) {
         goto fail;
     }
-    
+
     /* VDC Raster */
     if (raster_snapshot_read(m, &vdc.raster)) {
         goto fail;
@@ -269,7 +269,7 @@ int vdc_snapshot_read_module(snapshot_t *s)
     vdc.update_geometry = 1;
     vdc.force_repaint = 1;
     vdc.force_resize = 1;
-    
+
     /* Reset the border colour, for some reason this doesn't get restored in the raster_snapshot_read */
     vdc.raster.border_color = (vdc.regs[26] & 0x0F);
 
@@ -278,7 +278,7 @@ int vdc_snapshot_read_module(snapshot_t *s)
 
     /* Reset the draw alarm handler so the vdc doesn't freeze up due to a clock mismatch */
     alarm_set(vdc.raster_draw_alarm, maincpu_clk + qw);
-    
+
     snapshot_module_close(m);
     return 0;
 
