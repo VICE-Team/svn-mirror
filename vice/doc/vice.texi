@@ -20083,6 +20083,9 @@ The modules in the x128 emulator are:
 @item SID
 @tab 6581
 @tab The SID sound chip of the C64/C128
+@item VDC
+@tab 8563
+@tab The 80 column video chip of the C128
 @item ACIA1
 @tab 6551
 @tab An ACIA at $DE00 (optional)
@@ -20098,8 +20101,7 @@ Some of the modules are optional and are only saved if the specific
 feature is enabled at save-time.  If the module is found when restoring
 the state the optional features are enabled, and disabled otherwise.
 
-Not yet supported are the 80 column video chip, cartridges and
-RAM expansion unit.
+Not yet supported are cartridges and the RAM expansion unit.
 
 @node xvic modules, xpet modules, x128 modules, Emulator modules
 @subsubsection xvic modules

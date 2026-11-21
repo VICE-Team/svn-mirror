@@ -50,13 +50,13 @@
 #include "userport.h"
 #include "vice-event.h"
 #include "vicii.h"
-
+#include "vdc-snapshot.h"
 #include "c128-snapshot.h"
 
 
 #define SNAP_MACHINE_NAME "C128"
 #define SNAP_MAJOR        1
-#define SNAP_MINOR        0
+#define SNAP_MINOR        1
 
 int c128_snapshot_write(const char *name, int save_roms, int save_disks, int event_mode)
 {
@@ -82,7 +82,8 @@ int c128_snapshot_write(const char *name, int save_roms, int save_disks, int eve
         || keyboard_snapshot_write_module(s) < 0
         || joyport_snapshot_write_module(s, JOYPORT_1) < 0
         || joyport_snapshot_write_module(s, JOYPORT_2) < 0
-        || userport_snapshot_write_module(s) < 0) {
+        || userport_snapshot_write_module(s) < 0
+        || vdc_snapshot_write_module(s) < 0) {
         snapshot_close(s);
         archdep_remove(name);
         return -1;
@@ -125,7 +126,8 @@ int c128_snapshot_read(const char *name, int event_mode)
         || keyboard_snapshot_read_module(s) < 0
         || joyport_snapshot_read_module(s, JOYPORT_1) < 0
         || joyport_snapshot_read_module(s, JOYPORT_2) < 0
-        || userport_snapshot_read_module(s) < 0) {
+        || userport_snapshot_read_module(s) < 0
+        || vdc_snapshot_read_module(s) < 0) {
         goto fail;
     }
 
