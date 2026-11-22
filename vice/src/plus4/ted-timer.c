@@ -63,7 +63,7 @@ static void ted_t1_alarm_handler(CLOCK offset, void *data)
 {
     alarm_set(ted_t1_alarm, maincpu_clk
               + (ted.t1_start == 0 ? 65536 : ted.t1_start) * 2 - offset);
-    t1_value = (ted.t1_start == 0 ? 65536 : ted.t1_start) * 2 - offset;
+    t1_value = (ted.t1_start == 0 ? 65536 : ted.t1_start) * 2;
 #ifdef DEBUG_TIMER
     log_debug(LOG_DEFAULT, "TI1 ALARM %x", maincpu_clk);
 #endif
@@ -75,7 +75,7 @@ static void ted_t2_alarm_handler(CLOCK offset, void *data)
 {
     alarm_set(ted_t2_alarm, maincpu_clk + 65536 * 2 - offset);
     t2_start = 0;
-    t2_value = 65536 * 2 - offset;
+    t2_value = 65536 * 2;
 #ifdef DEBUG_TIMER
     log_debug(LOG_DEFAULT, "TI2 ALARM %x", maincpu_clk);
 #endif
@@ -87,7 +87,7 @@ static void ted_t3_alarm_handler(CLOCK offset, void *data)
 {
     alarm_set(ted_t3_alarm, maincpu_clk + 65536 * 2 - offset);
     t3_start = 0;
-    t3_value = 65536 * 2 - offset;
+    t3_value = 65536 * 2;
 #ifdef DEBUG_TIMER
     log_debug(LOG_DEFAULT, "TI3 ALARM %x", maincpu_clk);
 #endif
