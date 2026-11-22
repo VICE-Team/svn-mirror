@@ -249,7 +249,11 @@ static void calculate_draw_masks(void)
             d2mask = 0x00;  /* this shouldn't matter as it shouldn't try to render the interchar gap because there isn't one, but setting it to be thorough */
         }
     }
-    semi_gfx_mask = semigfxmask[displayedpixels - 1];   /* mask for any extra pixels to turn on if semigrfx mode is active */
+    if (displayedpixels > 0) {
+        semi_gfx_mask = semigfxmask[displayedpixels - 1];   /* mask for any extra pixels to turn on if semigrfx mode is active */
+    } else {
+        semi_gfx_mask = 0x00;   /* do not access semigfxmask[-1] if we are not displaying any pixels */
+    }
 
 }
 
