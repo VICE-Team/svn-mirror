@@ -131,6 +131,7 @@ int snapshot_module_read_qword_into_int64(snapshot_module_t *m, int64_t *value_r
 snapshot_module_t *snapshot_module_create(snapshot_t *s, const char *name, uint8_t major_version, uint8_t minor_version);
 snapshot_module_t *snapshot_module_open(snapshot_t *s, const char *name, uint8_t *major_version_return, uint8_t *minor_version_return);
 int snapshot_module_close(snapshot_module_t *m);
+uint32_t snapshot_module_get_remaining(snapshot_module_t *m);
 
 snapshot_t *snapshot_create(const char *filename, uint8_t major_version, uint8_t minor_version, const char *snapshot_machine_name);
 snapshot_t *snapshot_open(const char *filename, uint8_t *major_version_return, uint8_t *minor_version_return, const char *snapshot_machine_name);

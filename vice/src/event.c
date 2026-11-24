@@ -1095,6 +1095,12 @@ int event_snapshot_read_module(struct snapshot_s *s, int event_mode)
             }
         } while (type == EVENT_TIMESTAMP);
 
+        /* size is untrusted data from the snapshot, validate against remaining byte count */
+        if (size > snapshot_module_get_remaining(m)) {
+            snapshot_module_close(m);
+            return -1;
+        }
+
         if (size > 0) {
             data = lib_malloc(size);
             if (SMR_BA(m, data, size) < 0) {
