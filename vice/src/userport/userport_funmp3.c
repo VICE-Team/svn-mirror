@@ -270,9 +270,14 @@ static void funmp3_start(uint8_t val)
         snprintf(fn, ARCHDEP_PATH_MAX, "%05d*", val);
     }
     archdep_expand_path(&fn_abs, fn);
-    if ((archdep_glob(fn_abs, 0, NULL, &results) != 0) ||
-        (results.gl_pathc < 1)) {
+    if (archdep_glob(fn_abs, 0, NULL, &results) != 0) {
         log_message(lh, "can't open '%s'", fn_abs);
+        lib_free(fn_abs);
+        return;
+    }
+    if (results.gl_pathc < 1) {
+        log_message(lh, "can't open '%s'", fn_abs);
+        archdep_globfree(&results);
         lib_free(fn_abs);
         return;
     }
