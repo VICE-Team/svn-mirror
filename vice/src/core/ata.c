@@ -532,13 +532,13 @@ static void ata_standby_alarm_handler(CLOCK offset, void *data)
 ata_drive_t *ata_init(int drive)
 {
     char *name;
-    ata_drive_t *drv = lib_malloc(sizeof(ata_drive_t));
+    ata_drive_t *drv = lib_calloc(1, sizeof(ata_drive_t));
 
     drv->myname = lib_msprintf("ATA%d", drive);
     drv->log = log_open(drv->myname);
     drv->file = NULL;
     drv->filename = NULL;
-    drv->buffer = lib_malloc(2048);
+    drv->buffer = lib_calloc(1, 2048);
     drv->slave = drive & 1;
     drv->cycles_1s = (CLOCK)1000000;
     ata_poweron(drv, ATA_DRIVE_NONE);

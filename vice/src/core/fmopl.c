@@ -1051,6 +1051,14 @@ static void OPLCloseTable( void )
     }
 }
 
+static UINT32 OPL_to_uint32(double value)
+{
+    if (value >= 4294967295.0) {
+        return 0xffffffffU;
+    }
+    return (UINT32)value;
+}
+
 static void OPL_initalize(FM_OPL *OPL)
 {
     int i;
@@ -1061,20 +1069,20 @@ static void OPL_initalize(FM_OPL *OPL)
     /* make fnumber -> increment counter table */
     for (i = 0; i < 1024; i++) {
         /* opn phase increment counter = 20bit */
-        OPL->fn_tab[i] = (UINT32)((double)i * 64 * OPL->freqbase * (1 << (FREQ_SH - 10))); /* -10 because chip works with 10.10 fixed point, while we use 16.16 */
+        OPL->fn_tab[i] = OPL_to_uint32((double)i * 64 * OPL->freqbase * (1 << (FREQ_SH - 10))); /* -10 because chip works with 10.10 fixed point, while we use 16.16 */
     }
 
     /* Amplitude modulation: 27 output levels (triangle waveform); 1 level takes one of: 192, 256 or 448 samples */
     /* One entry from LFO_AM_TABLE lasts for 64 samples */
-    OPL->lfo_am_inc = (UINT32)((1.0 / 64.0) * (1 << LFO_SH) * OPL->freqbase);
+    OPL->lfo_am_inc = OPL_to_uint32((1.0 / 64.0) * (1 << LFO_SH) * OPL->freqbase);
 
     /* Vibrato: 8 output levels (triangle waveform); 1 level takes 1024 samples */
-    OPL->lfo_pm_inc = (UINT32)((1.0 / 1024.0) * (1 << LFO_SH) * OPL->freqbase);
+    OPL->lfo_pm_inc = OPL_to_uint32((1.0 / 1024.0) * (1 << LFO_SH) * OPL->freqbase);
 
     /* Noise generator: a step takes 1 sample */
-    OPL->noise_f = (UINT32)((1.0 / 1.0) * (1 << FREQ_SH) * OPL->freqbase);
+    OPL->noise_f = OPL_to_uint32((1.0 / 1.0) * (1 << FREQ_SH) * OPL->freqbase);
 
-    OPL->eg_timer_add = (UINT32)((1 << EG_SH) * OPL->freqbase);
+    OPL->eg_timer_add = OPL_to_uint32((1 << EG_SH) * OPL->freqbase);
     OPL->eg_timer_overflow = (1) * (1 << EG_SH);
 }
 

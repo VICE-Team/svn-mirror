@@ -335,7 +335,8 @@ static unsigned char *write_string(uint8_t length, unsigned char *input, unsigne
 
 /*! \internal \brief Read 32bit little endian value from buffer to uint32 value */
 static uint32_t little_endian_to_uint32(unsigned char *input) {
-    return (input[3] << 24) + (input[2] << 16) + (input[1] << 8) + input[0];
+    return ((uint32_t)input[3] << 24) + ((uint32_t)input[2] << 16)
+           + ((uint32_t)input[1] << 8) + input[0];
 }
 
 /*! \internal \brief Read 16bit little endian value from buffer to uint16 value */

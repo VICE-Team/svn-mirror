@@ -418,6 +418,7 @@ int fsdrive_snapshot_read_module(struct snapshot_s *s)
     uint8_t snapshot_serial_buffer[SERIAL_NAMELENGTH + 1];
     uint8_t major_version, minor_version;
     snapshot_module_t *m;
+    int serial_ptr;
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);
@@ -437,11 +438,19 @@ int fsdrive_snapshot_read_module(struct snapshot_s *s)
 
     if (0
         || SMR_BA(m, snapshot_serial_buffer, sizeof(snapshot_serial_buffer)) < 0
-        || SMR_W_INT(m, &SerialPtr) < 0) {
+        || SMR_W_INT(m, &serial_ptr) < 0) {
+        goto fail;
+    }
+
+    if (serial_ptr > SERIAL_NAMELENGTH) {
+        log_error(fsdrive_log, "Invalid serial buffer position %d in snapshot.",
+                  serial_ptr);
+        snapshot_set_error(SNAPSHOT_MODULE_INCOMPATIBLE);
         goto fail;
     }
 
     memcpy(SerialBuffer, snapshot_serial_buffer, sizeof(snapshot_serial_buffer));
+    SerialPtr = serial_ptr;
 
     snapshot_module_close(m);
     return 0;

@@ -645,7 +645,8 @@ uint32_t util_le_buf_to_dword(uint8_t *buf)
 {
     uint32_t data;
 
-    data = buf[0] | (buf[1] << 8) | (buf[2] << 16) | (buf[3] << 24);
+    data = buf[0] | ((uint32_t)buf[1] << 8) | ((uint32_t)buf[2] << 16)
+           | ((uint32_t)buf[3] << 24);
 
     return data;
 }
@@ -654,7 +655,8 @@ uint32_t util_be_buf_to_dword(uint8_t *buf)
 {
     uint32_t data;
 
-    data = buf[3] | (buf[2] << 8) | (buf[1] << 16) | (buf[0] << 24);
+    data = buf[3] | ((uint32_t)buf[2] << 8) | ((uint32_t)buf[1] << 16)
+           | ((uint32_t)buf[0] << 24);
 
     return data;
 }
