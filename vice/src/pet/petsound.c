@@ -312,9 +312,13 @@ static float pet_makesample(void)
 
 #if HIGHPASS
         /* The highpass value is scaled with the same factor
-         * as the sample. */
-        snd.highpass_prev += (snd.highpass_alpha * (sample - snd.highpass_prev))
-                             / ALPHA_SCALE;
+         * as the sample.
+         * 64 bit product: at the very low sample rates used at extreme
+         * emulation speeds the alpha approaches ALPHA_SCALE, and the
+         * product no longer fits in an int. */
+        snd.highpass_prev += (int)(((big_sample_diff_t)snd.highpass_alpha
+                                    * (sample - snd.highpass_prev))
+                                   / ALPHA_SCALE);
         /* Subtract highpass value here, so it gets scaled with the
          * already low-passed sample.
          * A high-pass filter is like taking the signal and subtracting lower
@@ -354,9 +358,13 @@ static sample_t pet_makesample(void)
 
 #if HIGHPASS
         /* The highpass value is scaled with the same factor
-         * as the sample. */
-        snd.highpass_prev += (snd.highpass_alpha * (sample - snd.highpass_prev))
-                             / ALPHA_SCALE;
+         * as the sample.
+         * 64 bit product: at the very low sample rates used at extreme
+         * emulation speeds the alpha approaches ALPHA_SCALE, and the
+         * product no longer fits in an int. */
+        snd.highpass_prev += (int)(((big_sample_diff_t)snd.highpass_alpha
+                                    * (sample - snd.highpass_prev))
+                                   / ALPHA_SCALE);
         /* Subtract highpass value here, so it gets scaled with the
          * already low-passed sample.
          * A high-pass filter is like taking the signal and subtracting lower
