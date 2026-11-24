@@ -178,6 +178,8 @@ void drivecpu65c02_reset_clk(diskunit_context_t *drv)
     drv->cpu->last_clk = maincpu_clk;
     drv->cpu->last_exc_cycles = 0;
     drv->cpu->stop_clk = 0;
+    rotation_reset(drv->drives[0]);
+    rotation_reset(drv->drives[1]);
 }
 
 void drivecpu65c02_reset(diskunit_context_t *drv)

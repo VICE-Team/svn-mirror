@@ -203,6 +203,8 @@ void drivecpu_reset_clk(diskunit_context_t *drv)
     drv->cpu->last_clk = maincpu_clk;
     drv->cpu->last_exc_cycles = 0;
     drv->cpu->stop_clk = 0;
+    rotation_reset(drv->drives[0]);
+    rotation_reset(drv->drives[1]);
 }
 
 /* called by drive_reset() (via machine_specific_reset()) */
@@ -210,6 +212,11 @@ void drivecpu_reset(diskunit_context_t *drv)
 {
     int preserve_monitor;
 
+    /* FIXME: we should not really mess with any cpu clock values from the UI
+     * thread; interrupt_trigger_reset() essentially is async because it sets
+     * IK_RESET.  All clock changing should happen in the emulation thread when
+     * it detects IK_RESET. For the drive that is above in cpu_reset().
+     */
     *(drv->clk_ptr) = 0;
     drivecpu_reset_clk(drv);
 
