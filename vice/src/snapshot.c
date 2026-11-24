@@ -814,6 +814,33 @@ int snapshot_module_close(snapshot_module_t *m)
     return 0;
 }
 
+/* Get the number of bytes that can still be read from a module */
+uint32_t snapshot_module_get_remaining(snapshot_module_t *m)
+{
+    long pos;
+    long end;
+    long file_end;
+
+    /* check remaining bytes in file */
+    pos = ftell(m->file);
+    if (pos < 0 || fseek(m->file, 0, SEEK_END) < 0) {
+        return 0;
+    }
+    file_end = ftell(m->file);
+    if (fseek(m->file, pos, SEEK_SET) < 0) {
+        return 0;
+    }
+
+    end = m->offset + (long)m->size;
+
+    /* m->size comes from the snapshot, so clamp instead of trusting blindly */
+    if (file_end < end) {
+        end = file_end;
+    }
+
+    return (end > pos) ? (uint32_t)(end - pos) : 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 snapshot_t *snapshot_create(const char *filename, uint8_t major_version, uint8_t minor_version, const char *snapshot_machine_name)
