@@ -318,6 +318,12 @@ int vicii_snapshot_read_module(snapshot_t *s)
         }
     }
 
+    /* Restore fast mode (2Mhz) state on c128 */
+    /* FIXME this works but not always _immediately_ for some reason. */
+    if (vicii.viciie) {
+        vicii.fastmode = vicii.regs[0x30] & 1;
+    }
+
     if (0
         /* SbCollMask */
         || SMR_B(m, &vicii.sprite_background_collisions) < 0
